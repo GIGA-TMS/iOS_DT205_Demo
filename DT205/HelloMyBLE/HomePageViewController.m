@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UIView *statusView;
 @property (weak, nonatomic) IBOutlet UIButton *bindButton;
 @property (weak, nonatomic) IBOutlet UIButton *cashDrawerButton;
+@property (weak, nonatomic) IBOutlet UILabel *deviceVersionLabel;
+@property (weak, nonatomic) IBOutlet UISlider *sliderRSSI;
 
 @end
 
@@ -29,23 +31,34 @@
     
     NSMutableData* recieveBuffer;
     BOOL isHeaderExist;
+    
+    GNTCommad* command;
+    NSTimer* scanTimer;
+    
+    int peripheralRSSI;
+    float rssi;
+    
+    NSTimer* getRSSI;
+    int sumReadRSSI;
+    int sumTarget;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     NSLog(@"我出現了");
     UILongPressGestureRecognizer* longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(bindPasswordAlert)];
-    longPress.minimumPressDuration = 2;
+    longPress.minimumPressDuration = 1.0;
+    
     [self.bindButton addGestureRecognizer:longPress];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ROOTVIEWCONTROLLER];
-    
+    command = [GNTCommad new];
+    sumReadRSSI = 0;
+    sumTarget = 0;
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    
-    [self.statusView.layer setMasksToBounds:YES];
-    [self.statusView.layer setCornerRadius:20.0f];
     self.statusView.backgroundColor = [UIColor redColor];
+    self.statusLabel.text = @"Disconnect";
     
     manager = [[CBCentralManager alloc]initWithDelegate:self queue:nil];
     isHeaderExist = false;
@@ -56,22 +69,41 @@
         characteristicBM100 = nil;
     }
 }
--(void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:YES];
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    [scanTimer invalidate];
+    scanTimer = nil;
     if (peripheralBM100 != nil) {
         [peripheralBM100 setNotifyValue:NO forCharacteristic:characteristicBM100];
         [manager cancelPeripheralConnection:peripheralBM100];
     }
-    
 }
 
+-(void)scanPeripheral{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:DEVICE_ISCONNECT]) {
+        NSUUID* uuidBM100 = [[NSUUID UUID]initWithUUIDString:[[NSUserDefaults standardUserDefaults] objectForKey:DEVICE_UUID_KEY]];
+        NSArray* peripheralArray = [manager retrievePeripheralsWithIdentifiers:[NSArray arrayWithObject:uuidBM100]];
+        if (peripheralArray.count>0) {
+            peripheralBM100 = [peripheralArray objectAtIndex:0];
+            NSLog(@"%@",peripheralBM100);
+            [manager connectPeripheral:peripheralBM100 options:nil];
+        }else{
+            NSLog(@"Fail");
+        }
+    }
+}
 -(void) showAlertWithMessage:(NSString*) message{
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [alert addAction:ok];
     [self presentViewController:alert animated:true completion:nil];
-    
 }
+
+- (IBAction)controllRSSI:(UISlider *)sender {
+    rssi = self.sliderRSSI.value;
+}
+
+
 #pragma mark - CBCentralManagerDelegate
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central{
     CBManagerState state = central.state;
@@ -79,17 +111,7 @@
         NSString* message = [NSString stringWithFormat:@"BLE is not ready(error%ld)",(long)state];
         [self showAlertWithMessage:message];
     }else{
-        if ([[NSUserDefaults standardUserDefaults] objectForKey:DEVICE_ISCONNECT]) {
-            NSUUID* uuidBM100 = [[NSUUID UUID]initWithUUIDString:[[NSUserDefaults standardUserDefaults] objectForKey:DEVICE_UUID_KEY]];
-            NSArray* peripheralArray = [manager retrievePeripheralsWithIdentifiers:[NSArray arrayWithObject:uuidBM100]];
-            if (peripheralArray.count>0) {
-                peripheralBM100 = [peripheralArray objectAtIndex:0];
-                NSLog(@"%@",peripheralBM100);
-                [manager connectPeripheral:peripheralBM100 options:nil];
-            }else{
-                NSLog(@"Fail");
-            }
-        }
+        [self scanPeripheral];
     }
 }
 
@@ -97,13 +119,18 @@
     
     NSLog(@"Peripheral connected: %@",peripheral.name);
     
-    [self.statusView.layer setMasksToBounds:YES];
-    [self.statusView.layer setCornerRadius:20.0f];
-    self.statusView.backgroundColor = [UIColor greenColor];
-    
+    [scanTimer invalidate];
+    scanTimer = nil;
     //Start to discover services
     peripheral.delegate = self;
     [peripheral discoverServices:@[[CBUUID UUIDWithString:UUID_COMMUNICATE_SERVICE]]];
+}
+
+-(void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
+    self.statusView.backgroundColor = [UIColor redColor];
+    self.statusLabel.text = @"Disconnect";
+    
+    scanTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(scanPeripheral) userInfo:nil repeats:YES];
 }
 #pragma mark - CBPeripheralDelegate Methods
 -(void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error{
@@ -113,7 +140,6 @@
         [manager cancelPeripheralConnection:peripheral];
         return;
     }
-    
     for (CBService* service in peripheral.services) {
         //NSLog(@"service.UUID = ------ = %@",service.UUID.UUIDString);
         if ([service.UUID isEqual:[CBUUID UUIDWithString:UUID_COMMUNICATE_SERVICE]]) {
@@ -138,6 +164,11 @@
             [peripheralBM100 setNotifyValue:true forCharacteristic:tmp];
         }else if([tmp.UUID isEqual:[CBUUID UUIDWithString:UUID_COMMUNICATE_SEND_CHARACTERISTIC]]){
             characteristicBM100 = tmp;
+            self.statusView.backgroundColor = [UIColor greenColor];
+            self.statusLabel.text = @"Connect";
+            [peripheralBM100 writeValue:[command sendCommed:DEVICE_GET_NAME] forCharacteristic:characteristicBM100 type:CBCharacteristicWriteWithResponse];
+            [peripheralBM100 writeValue:[command sendCommed:DEVICE_GET_STATUS Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER] forCharacteristic:characteristicBM100 type:CBCharacteristicWriteWithResponse];
+            [peripheralBM100 writeValue:[command sendCommed:DEVICE_GET_VERSION] forCharacteristic:characteristicBM100 type:CBCharacteristicWriteWithResponse];
         }
     }
 }
@@ -154,6 +185,15 @@
     }else{
         NSLog(@"Send Fail");
     }
+}
+-(void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error{
+    
+    sumReadRSSI+=[RSSI intValue];
+    sumTarget++;
+
+    peripheralRSSI = sumReadRSSI/sumTarget;
+    
+    NSLog(@"%d",peripheralRSSI);
 }
 
 -(void)bindPasswordAlert{
@@ -177,7 +217,6 @@
             [self showAlertWithMessage:@"密碼錯誤"];
         }
         
-        
     }];
     [alert addAction:cancel];
     [alert addAction:comfirm];
@@ -200,14 +239,37 @@
     
 }
 - (IBAction)openCashDrawer:(id)sender {
-    [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
     
-    GNTCommad* command = [GNTCommad new];
+    [peripheralBM100 readRSSI];
     
-    [peripheralBM100 writeValue:[command sendCommed:DEVICE_GET_NAME] forCharacteristic:characteristicBM100 type:CBCharacteristicWriteWithResponse];
+    NSLog(@"value:%d",(int)(rssi*-30));
+
+        if (characteristicBM100!=nil && ((int)(rssi*-30) < peripheralRSSI)) {
+            [peripheralBM100 writeValue:[command sendCommed:DEVICE_OPENCASHDRAWER Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER] forCharacteristic:characteristicBM100 type:CBCharacteristicWriteWithResponse];
+        }else{
+            [self showAlertWithMessage: @"Distance Far"];
+        }
+    
+    
+    
+    
+    
+    sumReadRSSI = 0;
+    sumTarget = 0;
+    [getRSSI invalidate];
+    getRSSI = nil;
+    
+}
+-(void)getPeripheralRSSI{
+    if (peripheralBM100!=nil) {
+        getRSSI = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(readRSSI) userInfo:nil repeats:YES];
+    }
+}
+-(void)readRSSI{
+    [peripheralBM100 readRSSI];
 }
 
-#pragma mark - SendCommad Metods
+#pragma mark - HandleData Metods
 -(void)handleCallbackData:(NSData*) data{
     NSUInteger len = [data length];
     const unsigned char* pcBuffer = [data bytes];
@@ -228,47 +290,30 @@
     }
 }
 
-
-//-(NSData*)creatCommandData:(char)commend Parameter:(char*)parameter{
-//    
-//    NSMutableData* data = [[NSMutableData alloc]init];
-//    
-//    const char header = (char)DEVICE_COMMAND_HEAD;
-//    NSLog(@"%c",header);
-//    [data appendBytes:&header length:1];
-//    
-//    [data appendBytes:&commend length:1];
-//    NSLog(@"%c",commend);
-//    if (parameter != nil) {
-//        [data appendBytes:&parameter length:1];
-//    }
-//    
-//    const char endValue = (char)DEVICE_COMMAND_END;
-//    [data appendBytes:&endValue length:1];
-//    
-//    return data;
-//}
-//
-//-(NSData*)sendCommed:(char)commend Parameter:(char*)parameter{
-//    
-//    return [self creatCommandData:commend  Parameter:parameter];
-//}
-//
-//-(NSData*)sendCommed:(char)commend
-//{
-//    return [self sendCommed:commend Parameter:nil];
-//}
-
 -(void)recieveUpdateValueFromCharacteristic{
     
     NSLog(@"%@",recieveBuffer);
     
     NSString* displayLabel = [[NSString alloc]initWithData:recieveBuffer encoding:NSUTF8StringEncoding];
     
-    self.deviceNameLabel.text = displayLabel;
-    
-    [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Close"] forState:UIControlStateNormal];
+    if ([displayLabel isEqualToString:@"A,00"]) {
+        [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Close"] forState:UIControlStateNormal];
+        return;
+    }else if ([displayLabel isEqualToString:@"A,01"]){
+        [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
+        return;
+    }else if ([displayLabel containsString:@"A,ROM"]) {
+        NSString* display = [displayLabel substringFromIndex:2];
+        NSString* version = [NSString stringWithFormat:@"F/W Version:%@",display];
+        self.deviceVersionLabel.text = version;
+        return;
+    }else if ([displayLabel containsString:@"A,"]){
+        NSString* name = [displayLabel substringFromIndex:2];
+        self.deviceNameLabel.text = name;
+        return;
+    }
 }
+
 
 
 

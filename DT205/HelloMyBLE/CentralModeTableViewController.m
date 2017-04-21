@@ -20,7 +20,7 @@
     NSDate* lastTableViewReloadDate;
     
     CBPeripheral* peripheralBM100;
-
+    NSIndexPath* indexPath1;
 }
 @end
 
@@ -37,7 +37,7 @@
     // queue設定nil 會在main queue
     manager = [[CBCentralManager alloc]initWithDelegate:self queue:nil];
     allItems = [NSMutableDictionary new];
-    
+    indexPath1 = [NSIndexPath new];
     //isHeaderExist = false;
     
 //    const char cTestPackage1s[]="\0020123456789ABCDEF1234";
@@ -102,10 +102,10 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    indexPath1 = indexPath;
     [self settingPasswordAlert];
-    //[self connectWithIndexPath:indexPath];
 }
+
 
 //-(void)connectWithIndexPath:(NSIndexPath*)indexPath{
 //    [self settingPasswordAlert];
@@ -132,7 +132,8 @@
 
 -(void) startToScan{
     // 指定掃描特定service
-    CBUUID* uuid = [CBUUID UUIDWithString:@"FEE7"];
+    [self.tableView reloadData];
+    CBUUID* uuid = [CBUUID UUIDWithString:TARGET_UUID_PREFIX];
     NSArray* services = @[uuid]; //@[uuid];
     //是否允許重複
     NSDictionary* options = @{CBCentralManagerScanOptionAllowDuplicatesKey:@(true)};
@@ -172,7 +173,7 @@
             [[NSUserDefaults standardUserDefaults] setObject:password forKey:PASSWORD];
             
             NSArray* allKeys = allItems.allKeys;
-            NSString* uuidKey = allKeys[self.tableView.indexPathForSelectedRow.row];
+            NSString* uuidKey = allKeys[indexPath1.row];
             PeripheralItem* item = allItems[uuidKey];
             [manager connectPeripheral:item.peripheral options:nil];
             
