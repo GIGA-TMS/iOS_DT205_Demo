@@ -69,7 +69,7 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="Bxf-At-vkO">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minValue="2" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="Bxf-At-vkO">
                                 <rect key="frame" x="132" y="224.5" width="229" height="7.5"/>
                                 <color key="tintColor" red="1" green="0.35323030183818527" blue="0.16111762587875034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
@@ -128,7 +128,7 @@
             </objects>
             <point key="canvasLocation" x="1570.4000000000001" y="-1253.5232383808097"/>
         </scene>
-        <!--Connect-->
+        <!--Device Scan-->
         <scene sceneID="vQS-wB-YNE">
             <objects>
                 <tableViewController id="dtH-bv-gGF" customClass="CentralModeTableViewController" sceneMemberID="viewController">
@@ -170,7 +170,7 @@
                             <outlet property="delegate" destination="dtH-bv-gGF" id="Ia0-dd-CH8"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Connect" id="UiG-fd-BiU">
+                    <navigationItem key="navigationItem" title="Device Scan" id="UiG-fd-BiU">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="eeR-Kj-3Jq">
                             <switch key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="LAY-gR-9j7">
                                 <rect key="frame" x="310" y="6" width="51" height="31"/>

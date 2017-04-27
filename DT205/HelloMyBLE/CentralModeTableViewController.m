@@ -104,17 +104,18 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     indexPath1 = indexPath;
     [self settingPasswordAlert];
+  
 }
 
 
 //-(void)connectWithIndexPath:(NSIndexPath*)indexPath{
 //    [self settingPasswordAlert];
 //    
-////    NSArray* allKeys = allItems.allKeys;
-////    NSString* uuidKey = allKeys[indexPath.row];
-////    PeripheralItem* item = allItems[uuidKey];
-////    
-////    [manager connectPeripheral:item.peripheral options:nil];
+//    NSArray* allKeys = allItems.allKeys;
+//    NSString* uuidKey = allKeys[indexPath.row];
+//    PeripheralItem* item = allItems[uuidKey];
+//    
+//    [manager connectPeripheral:item.peripheral options:nil];
 //    
 //}
 
@@ -142,6 +143,8 @@
 }
 -(void) stopScanning{
     [manager stopScan];
+    allItems = [NSMutableDictionary new];
+    [self.tableView reloadData];
 }
 -(void) showAlertWithMessage:(NSString*) message{
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
@@ -151,19 +154,19 @@
 }
 -(void)settingPasswordAlert{
     
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"注意" message:@"請輸入密碼以綁定" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Please enter bonding PIN code" preferredStyle:UIAlertControllerStyleAlert];
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull pinPassword) {
         pinPassword.secureTextEntry = YES;
-        pinPassword.placeholder = @"請輸入密碼";
+        pinPassword.placeholder = @"Please enter bonding PIN code";
     }];
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull checkPinPassword) {
         checkPinPassword.secureTextEntry = YES;
-        checkPinPassword.placeholder = @"再次輸入密碼";
+        checkPinPassword.placeholder = @"Enter bonding PIN code again";
     }];
     
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:nil];
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style: UIAlertActionStyleCancel handler:nil];
     
-    UIAlertAction* comfirm = [UIAlertAction actionWithTitle:@"確認" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction* comfirm = [UIAlertAction actionWithTitle:@"Comfirm" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         UITextField* passwordTextField = alert.textFields[0];
         UITextField* checkPasswordTextField = alert.textFields[1];
         NSString* password = passwordTextField.text;
@@ -178,7 +181,7 @@
             [manager connectPeripheral:item.peripheral options:nil];
             
         }else{
-            [self showAlertWithMessage:@"密碼不一致"];
+            [self showAlertWithMessage:@"Incorrect bonding PIN code"];
         }
     }];
     
@@ -228,6 +231,8 @@
     
     peripheralBM100 = peripheral;
     [self stopScanning];
+    
+    
     
     [manager cancelPeripheralConnection:peripheral];
     

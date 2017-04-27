@@ -198,15 +198,15 @@
 
 -(void)bindPasswordAlert{
     
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"注意" message:@"請輸入密碼解除綁定" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Please enter PIN code to exit" preferredStyle:UIAlertControllerStyleAlert];
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull pinPassword) {
         pinPassword.secureTextEntry = YES;
-        pinPassword.placeholder = @"請輸入密碼";
+        pinPassword.placeholder = @"Please entet bonding PIN code";
     }];
     
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:nil];
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style: UIAlertActionStyleCancel handler:nil];
     
-    UIAlertAction* comfirm = [UIAlertAction actionWithTitle:@"確認" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction* comfirm = [UIAlertAction actionWithTitle:@"Comfirm" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         UITextField* passwordTextField = alert.textFields[0];
         NSString* password = passwordTextField.text;
         
@@ -214,7 +214,7 @@
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:PASSWORD];
             [self gotoScanVC];
         }else{
-            [self showAlertWithMessage:@"密碼錯誤"];
+            [self showAlertWithMessage:@"Wrong bonding PIN code"];
         }
         
     }];
@@ -247,13 +247,10 @@
         if (characteristicBM100!=nil && ((int)(rssi*-30) < peripheralRSSI)) {
             [peripheralBM100 writeValue:[command sendCommed:DEVICE_OPENCASHDRAWER Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER] forCharacteristic:characteristicBM100 type:CBCharacteristicWriteWithResponse];
         }else{
-            [self showAlertWithMessage: @"Distance Far"];
+            [self showAlertWithMessage: @"Distance is too far"];
         }
     
-    
-    
-    
-    
+
     sumReadRSSI = 0;
     sumTarget = 0;
     [getRSSI invalidate];
