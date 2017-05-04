@@ -26,8 +26,8 @@
 {
     CBCentralManager* manager;
     
-    CBPeripheral* peripheralBM100;
-    CBCharacteristic* characteristicBM100;
+    CBPeripheral* peripheralDT205;
+    CBCharacteristic* characteristicDT205;
     
     NSMutableData* recieveBuffer;
     BOOL isHeaderExist;
@@ -38,13 +38,17 @@
     int peripheralRSSI;
     float rssi;
     
-    NSTimer* getRSSI;
+  //  NSTimer* getRSSI;
     int sumReadRSSI;
     int sumTarget;
+    
+    BOOL isCommand;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSUUID* uuid =[[UIDevice currentDevice] identifierForVendor];
+    NSLog(@"%@",uuid);
     NSLog(@"我出現了");
     UILongPressGestureRecognizer* longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(bindPasswordAlert)];
     longPress.minimumPressDuration = 1.0;
@@ -54,28 +58,38 @@
     command = [GNTCommad new];
     sumReadRSSI = 0;
     sumTarget = 0;
+    
+    isCommand = false;
+    
+    
+    
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     self.statusView.backgroundColor = [UIColor redColor];
     self.statusLabel.text = @"Disconnect";
     
+    [[self.cashDrawerButton layer] setMasksToBounds:YES];
+    [[self.cashDrawerButton layer] setBorderWidth:6.0f];
+    [[self.cashDrawerButton layer] setCornerRadius:150.0f];
+    [[self.cashDrawerButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
     manager = [[CBCentralManager alloc]initWithDelegate:self queue:nil];
     isHeaderExist = false;
     //Handle clean-up after return from TalkingViewController.
-    if (peripheralBM100 != nil) {
-        [manager cancelPeripheralConnection:peripheralBM100];
-        peripheralBM100 = nil;
-        characteristicBM100 = nil;
+    if (peripheralDT205 != nil) {
+        [manager cancelPeripheralConnection:peripheralDT205];
+        peripheralDT205 = nil;
+        characteristicDT205 = nil;
     }
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     [scanTimer invalidate];
     scanTimer = nil;
-    if (peripheralBM100 != nil) {
-        [peripheralBM100 setNotifyValue:NO forCharacteristic:characteristicBM100];
-        [manager cancelPeripheralConnection:peripheralBM100];
+    if (peripheralDT205 != nil) {
+        [peripheralDT205 setNotifyValue:NO forCharacteristic:characteristicDT205];
+        [manager cancelPeripheralConnection:peripheralDT205];
     }
 }
 
@@ -84,9 +98,9 @@
         NSUUID* uuidBM100 = [[NSUUID UUID]initWithUUIDString:[[NSUserDefaults standardUserDefaults] objectForKey:DEVICE_UUID_KEY]];
         NSArray* peripheralArray = [manager retrievePeripheralsWithIdentifiers:[NSArray arrayWithObject:uuidBM100]];
         if (peripheralArray.count>0) {
-            peripheralBM100 = [peripheralArray objectAtIndex:0];
-            NSLog(@"%@",peripheralBM100);
-            [manager connectPeripheral:peripheralBM100 options:nil];
+            peripheralDT205 = [peripheralArray objectAtIndex:0];
+            NSLog(@"%@",peripheralDT205);
+            [manager connectPeripheral:peripheralDT205 options:nil];
         }else{
             NSLog(@"Fail");
         }
@@ -160,15 +174,15 @@
         NSLog(@"%@",tmp.UUID);
         //Check if it is the one that is matched With target UUID
         if ([tmp.UUID isEqual:[CBUUID UUIDWithString:UUID_COMMUNICATE_RECIEVE_CHARACTERISTIC]]) {
-            peripheralBM100 = peripheral;
-            [peripheralBM100 setNotifyValue:true forCharacteristic:tmp];
+            peripheralDT205 = peripheral;
+            [peripheralDT205 setNotifyValue:true forCharacteristic:tmp];
         }else if([tmp.UUID isEqual:[CBUUID UUIDWithString:UUID_COMMUNICATE_SEND_CHARACTERISTIC]]){
-            characteristicBM100 = tmp;
+            characteristicDT205 = tmp;
             self.statusView.backgroundColor = [UIColor greenColor];
             self.statusLabel.text = @"Connect";
-            [peripheralBM100 writeValue:[command sendCommed:DEVICE_GET_NAME] forCharacteristic:characteristicBM100 type:CBCharacteristicWriteWithResponse];
-            [peripheralBM100 writeValue:[command sendCommed:DEVICE_GET_STATUS Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER] forCharacteristic:characteristicBM100 type:CBCharacteristicWriteWithResponse];
-            [peripheralBM100 writeValue:[command sendCommed:DEVICE_GET_VERSION] forCharacteristic:characteristicBM100 type:CBCharacteristicWriteWithResponse];
+            [peripheralDT205 writeValue:[command sendCommed:DEVICE_GET_NAME] forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
+            [peripheralDT205 writeValue:[command sendCommed:DEVICE_GET_STATUS Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER] forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
+            [peripheralDT205 writeValue:[command sendCommed:DEVICE_GET_VERSION] forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
         }
     }
 }
@@ -229,8 +243,8 @@
     
     CentralModeTableViewController* scanVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CentralModeTableViewController"];
     
-    if (peripheralBM100!=nil) {
-        [manager cancelPeripheralConnection:peripheralBM100];
+    if (peripheralDT205!=nil) {
+        [manager cancelPeripheralConnection:peripheralDT205];
     }
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:DEVICE_UUID_KEY];
     [[NSUserDefaults standardUserDefaults] setObject:false forKey:DEVICE_ISCONNECT];
@@ -240,31 +254,29 @@
 }
 - (IBAction)openCashDrawer:(id)sender {
     
-    [peripheralBM100 readRSSI];
-    
+    isCommand = YES;
+    [peripheralDT205 readRSSI];
     NSLog(@"value:%d",(int)(rssi*-30));
-
-        if (characteristicBM100!=nil && ((int)(rssi*-30) < peripheralRSSI)) {
-            [peripheralBM100 writeValue:[command sendCommed:DEVICE_OPENCASHDRAWER Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER] forCharacteristic:characteristicBM100 type:CBCharacteristicWriteWithResponse];
+        if (characteristicDT205!=nil && ((int)(rssi*-30) < peripheralRSSI)) {
+            [peripheralDT205 writeValue:[command sendCommed:DEVICE_OPENCASHDRAWER Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER] forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
         }else{
             [self showAlertWithMessage: @"Distance is too far"];
         }
-    
-
     sumReadRSSI = 0;
     sumTarget = 0;
-    [getRSSI invalidate];
-    getRSSI = nil;
+    
+//    [getRSSI invalidate];
+//    getRSSI = nil;
     
 }
--(void)getPeripheralRSSI{
-    if (peripheralBM100!=nil) {
-        getRSSI = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(readRSSI) userInfo:nil repeats:YES];
-    }
-}
--(void)readRSSI{
-    [peripheralBM100 readRSSI];
-}
+//-(void)getPeripheralRSSI{
+//    if (peripheralBM100!=nil) {
+//        getRSSI = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(readRSSI) userInfo:nil repeats:YES];
+//    }
+//}
+//-(void)readRSSI{
+//    [peripheralBM100 readRSSI];
+//}
 
 #pragma mark - HandleData Metods
 -(void)handleCallbackData:(NSData*) data{
@@ -288,16 +300,23 @@
 }
 
 -(void)recieveUpdateValueFromCharacteristic{
-    
     NSLog(@"%@",recieveBuffer);
     
     NSString* displayLabel = [[NSString alloc]initWithData:recieveBuffer encoding:NSUTF8StringEncoding];
     
     if ([displayLabel isEqualToString:@"A,00"]) {
+        [self.cashDrawerButton.layer removeAllAnimations];
         [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Close"] forState:UIControlStateNormal];
+        [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
+        isCommand = false;
         return;
     }else if ([displayLabel isEqualToString:@"A,01"]){
         [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
+        if (!isCommand) {
+            [self doAlarmAnimation]; 
+        }else{
+            [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
+        }
         return;
     }else if ([displayLabel containsString:@"A,ROM"]) {
         NSString* display = [displayLabel substringFromIndex:2];
@@ -310,7 +329,15 @@
         return;
     }
 }
-
+-(void)doAlarmAnimation{
+    CABasicAnimation* borderColorAnimation = [CABasicAnimation animationWithKeyPath:@"borderColor"];
+    borderColorAnimation.fromValue = (id)[UIColor clearColor].CGColor;
+    borderColorAnimation.toValue = (id)[UIColor redColor].CGColor;
+    borderColorAnimation.duration = 0.5;
+    borderColorAnimation.autoreverses = true;
+    borderColorAnimation.repeatCount = INFINITY;
+    [self.cashDrawerButton.layer addAnimation:borderColorAnimation forKey:@"color and width"];
+}
 
 
 

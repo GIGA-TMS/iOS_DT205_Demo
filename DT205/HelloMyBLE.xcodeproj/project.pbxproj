@@ -17,6 +17,8 @@
 		BFB8AB451E4C1F4000315B7B /* PeripheralItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */; };
 		C8BE56021EA05F79000734DC /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BE56011EA05F79000734DC /* HomePageViewController.m */; };
 		C8BE56051EA5F8F9000734DC /* GNTCommad.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BE56041EA5F8F9000734DC /* GNTCommad.m */; };
+		C8BE560A1EBB0DC5000734DC /* 警報.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C8BE56091EBB0DC5000734DC /* 警報.mp3 */; };
+		C8BE560C1EBB0DCC000734DC /* 收銀機.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C8BE560B1EBB0DCC000734DC /* 收銀機.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		C8BE56031EA5F8F9000734DC /* GNTCommad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTCommad.h; sourceTree = "<group>"; };
 		C8BE56041EA5F8F9000734DC /* GNTCommad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTCommad.m; sourceTree = "<group>"; };
 		C8BE56061EA5FD76000734DC /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		C8BE56091EBB0DC5000734DC /* 警報.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "警報.mp3"; sourceTree = "<group>"; };
+		C8BE560B1EBB0DCC000734DC /* 收銀機.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "收銀機.mp3"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,7 @@
 				C8BE56011EA05F79000734DC /* HomePageViewController.m */,
 				BFB8AB401E4C0E0C00315B7B /* CentralModeTableViewController.h */,
 				BFB8AB411E4C0E0C00315B7B /* CentralModeTableViewController.m */,
+				C8BE560D1EBB0DD4000734DC /* Sounds */,
 				C8BE56031EA5F8F9000734DC /* GNTCommad.h */,
 				C8BE56041EA5F8F9000734DC /* GNTCommad.m */,
 				BFB8AB431E4C1F4000315B7B /* PeripheralItem.h */,
@@ -106,6 +111,15 @@
 				BFB8AB3E1E4C0C8000315B7B /* CoreBluetooth.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C8BE560D1EBB0DD4000734DC /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				C8BE560B1EBB0DCC000734DC /* 收銀機.mp3 */,
+				C8BE56091EBB0DC5000734DC /* 警報.mp3 */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,6 +189,8 @@
 				BFB8AB361E4C0C5E00315B7B /* LaunchScreen.storyboard in Resources */,
 				BFB8AB331E4C0C5E00315B7B /* Assets.xcassets in Resources */,
 				BFB8AB311E4C0C5E00315B7B /* Main.storyboard in Resources */,
+				C8BE560C1EBB0DCC000734DC /* 收銀機.mp3 in Resources */,
+				C8BE560A1EBB0DC5000734DC /* 警報.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

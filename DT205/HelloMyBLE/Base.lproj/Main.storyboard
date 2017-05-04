@@ -34,8 +34,12 @@
                                 <gestureRecognizers/>
                                 <state key="normal" image="lock"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xig-Bo-wzQ">
-                                <rect key="frame" x="36" y="300" width="303" height="267"/>
+                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xig-Bo-wzQ">
+                                <rect key="frame" x="37.5" y="293" width="300" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="EGE-tD-nDz"/>
+                                    <constraint firstAttribute="height" constant="300" id="YaG-k9-Fvi"/>
+                                </constraints>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <state key="normal" image="CashDrawer Close">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -88,27 +92,24 @@
                             <constraint firstItem="4rz-gK-uP6" firstAttribute="top" secondItem="IbX-xd-aqL" secondAttribute="bottom" id="2qY-IU-DNm"/>
                             <constraint firstItem="4rz-gK-uP6" firstAttribute="leading" secondItem="low-ca-cYs" secondAttribute="trailing" id="9Ei-mr-9ih"/>
                             <constraint firstItem="Bxf-At-vkO" firstAttribute="top" secondItem="7WN-Db-naX" secondAttribute="bottom" constant="30" id="B2Z-ju-bDO"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="xig-Bo-wzQ" secondAttribute="trailing" constant="20" id="IHt-hf-fQC"/>
+                            <constraint firstItem="xig-Bo-wzQ" firstAttribute="centerX" secondItem="ijm-gM-rwY" secondAttribute="centerX" id="FT3-Qn-b6A"/>
                             <constraint firstItem="7WN-Db-naX" firstAttribute="height" secondItem="ijm-gM-rwY" secondAttribute="height" multiplier="0.08" id="JBH-B2-3Yc"/>
                             <constraint firstItem="low-ca-cYs" firstAttribute="height" secondItem="ijm-gM-rwY" secondAttribute="height" multiplier="0.1" id="Jef-S0-had"/>
                             <constraint firstItem="3zs-4B-11i" firstAttribute="top" secondItem="7WN-Db-naX" secondAttribute="bottom" constant="-1" id="KCx-7G-6iA"/>
                             <constraint firstItem="Bxf-At-vkO" firstAttribute="width" secondItem="ijm-gM-rwY" secondAttribute="width" multiplier="0.6" id="L6R-Uq-h0q"/>
                             <constraint firstItem="7WN-Db-naX" firstAttribute="width" secondItem="ijm-gM-rwY" secondAttribute="width" id="L9v-mo-lEi"/>
                             <constraint firstItem="Nqt-OR-Na1" firstAttribute="top" secondItem="TGC-Tc-Sgd" secondAttribute="bottom" constant="10" id="NIP-BM-NBo"/>
-                            <constraint firstItem="xig-Bo-wzQ" firstAttribute="top" secondItem="Bxf-At-vkO" secondAttribute="bottom" constant="69" id="XUj-IE-4So"/>
                             <constraint firstItem="4rz-gK-uP6" firstAttribute="width" secondItem="ijm-gM-rwY" secondAttribute="width" multiplier="0.3" id="YBF-4H-brF"/>
-                            <constraint firstItem="xig-Bo-wzQ" firstAttribute="height" secondItem="ijm-gM-rwY" secondAttribute="height" multiplier="0.4" id="ZCb-VC-m6D"/>
                             <constraint firstItem="3zs-4B-11i" firstAttribute="height" secondItem="ijm-gM-rwY" secondAttribute="height" multiplier="0.1" id="Zfp-93-kub"/>
                             <constraint firstItem="low-ca-cYs" firstAttribute="top" secondItem="IbX-xd-aqL" secondAttribute="bottom" id="Zto-tE-t41"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Bxf-At-vkO" secondAttribute="trailing" id="aNa-el-a5j"/>
                             <constraint firstItem="Bxf-At-vkO" firstAttribute="height" secondItem="ijm-gM-rwY" secondAttribute="height" multiplier="0.01" id="aOd-yN-ysz"/>
                             <constraint firstItem="4rz-gK-uP6" firstAttribute="height" secondItem="ijm-gM-rwY" secondAttribute="height" multiplier="0.1" id="bg7-wl-XfA"/>
                             <constraint firstItem="7WN-Db-naX" firstAttribute="centerX" secondItem="ijm-gM-rwY" secondAttribute="centerX" id="bil-dk-fUk"/>
-                            <constraint firstItem="Nqt-OR-Na1" firstAttribute="top" secondItem="xig-Bo-wzQ" secondAttribute="bottom" constant="100" id="d84-D6-2VL"/>
+                            <constraint firstItem="xig-Bo-wzQ" firstAttribute="top" secondItem="3zs-4B-11i" secondAttribute="bottom" constant="32.5" id="dDF-S6-hg3"/>
                             <constraint firstItem="7WN-Db-naX" firstAttribute="top" secondItem="4rz-gK-uP6" secondAttribute="bottom" constant="10.5" id="j5u-wx-csE"/>
                             <constraint firstItem="low-ca-cYs" firstAttribute="leading" secondItem="ijm-gM-rwY" secondAttribute="leadingMargin" id="jce-Yp-vgF"/>
                             <constraint firstItem="3zs-4B-11i" firstAttribute="leading" secondItem="ijm-gM-rwY" secondAttribute="leadingMargin" id="keq-21-6Iy"/>
-                            <constraint firstItem="xig-Bo-wzQ" firstAttribute="leading" secondItem="ijm-gM-rwY" secondAttribute="leadingMargin" constant="20" id="mYF-Bs-M1m"/>
                             <constraint firstItem="TGC-Tc-Sgd" firstAttribute="centerX" secondItem="ijm-gM-rwY" secondAttribute="centerX" id="oBO-Io-W7q"/>
                             <constraint firstItem="low-ca-cYs" firstAttribute="width" secondItem="ijm-gM-rwY" secondAttribute="width" multiplier="0.65" id="ywn-kB-jHp"/>
                         </constraints>
@@ -191,7 +192,7 @@
             <objects>
                 <navigationController storyboardIdentifier="HomePageViewController" automaticallyAdjustsScrollViewInsets="NO" id="BlW-gz-fNc" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="tfE-eS-uft">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="tfE-eS-uft">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.42745098040000001" green="0.77647058820000003" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -213,7 +214,7 @@
             <objects>
                 <navigationController storyboardIdentifier="CentralModeTableViewController" automaticallyAdjustsScrollViewInsets="NO" id="TuQ-3u-lsJ" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Slg-bL-YOV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Slg-bL-YOV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.42745098040000001" green="0.77647058820000003" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -232,7 +233,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="CashDrawer Close" width="221" height="160"/>
+        <image name="CashDrawer Close" width="1280" height="960"/>
         <image name="lock" width="37" height="50"/>
     </resources>
 </document>
