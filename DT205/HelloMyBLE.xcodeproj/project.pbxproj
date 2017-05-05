@@ -15,10 +15,11 @@
 		BFB8AB3F1E4C0C8000315B7B /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFB8AB3E1E4C0C8000315B7B /* CoreBluetooth.framework */; };
 		BFB8AB421E4C0E0C00315B7B /* CentralModeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB411E4C0E0C00315B7B /* CentralModeTableViewController.m */; };
 		BFB8AB451E4C1F4000315B7B /* PeripheralItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */; };
+		C854CE781EBC5CDC00770AF9 /* Alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */; };
+		C854CE7C1EBC6DEC00770AF9 /* CashDrawerOpen.wav in Resources */ = {isa = PBXBuildFile; fileRef = C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */; };
 		C8BE56021EA05F79000734DC /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BE56011EA05F79000734DC /* HomePageViewController.m */; };
 		C8BE56051EA5F8F9000734DC /* GNTCommad.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BE56041EA5F8F9000734DC /* GNTCommad.m */; };
-		C8BE560A1EBB0DC5000734DC /* 警報.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C8BE56091EBB0DC5000734DC /* 警報.mp3 */; };
-		C8BE560C1EBB0DCC000734DC /* 收銀機.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C8BE560B1EBB0DCC000734DC /* 收銀機.mp3 */; };
+		C8BE560F1EBB2000000734DC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8BE560E1EBB2000000734DC /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,13 +36,14 @@
 		BFB8AB411E4C0E0C00315B7B /* CentralModeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CentralModeTableViewController.m; sourceTree = "<group>"; };
 		BFB8AB431E4C1F4000315B7B /* PeripheralItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralItem.h; sourceTree = "<group>"; };
 		BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeripheralItem.m; sourceTree = "<group>"; };
+		C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Alarm.mp3; sourceTree = "<group>"; };
+		C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CashDrawerOpen.wav; sourceTree = "<group>"; };
 		C8BE56001EA05F79000734DC /* HomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageViewController.h; sourceTree = "<group>"; };
 		C8BE56011EA05F79000734DC /* HomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageViewController.m; sourceTree = "<group>"; };
 		C8BE56031EA5F8F9000734DC /* GNTCommad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTCommad.h; sourceTree = "<group>"; };
 		C8BE56041EA5F8F9000734DC /* GNTCommad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTCommad.m; sourceTree = "<group>"; };
 		C8BE56061EA5FD76000734DC /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
-		C8BE56091EBB0DC5000734DC /* 警報.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "警報.mp3"; sourceTree = "<group>"; };
-		C8BE560B1EBB0DCC000734DC /* 收銀機.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "收銀機.mp3"; sourceTree = "<group>"; };
+		C8BE560E1EBB2000000734DC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8BE560F1EBB2000000734DC /* AVFoundation.framework in Frameworks */,
 				BFB8AB3F1E4C0C8000315B7B /* CoreBluetooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -84,7 +87,8 @@
 				C8BE56011EA05F79000734DC /* HomePageViewController.m */,
 				BFB8AB401E4C0E0C00315B7B /* CentralModeTableViewController.h */,
 				BFB8AB411E4C0E0C00315B7B /* CentralModeTableViewController.m */,
-				C8BE560D1EBB0DD4000734DC /* Sounds */,
+				C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */,
+				C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */,
 				C8BE56031EA5F8F9000734DC /* GNTCommad.h */,
 				C8BE56041EA5F8F9000734DC /* GNTCommad.m */,
 				BFB8AB431E4C1F4000315B7B /* PeripheralItem.h */,
@@ -108,18 +112,10 @@
 		BFB8AB3D1E4C0C8000315B7B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C8BE560E1EBB2000000734DC /* AVFoundation.framework */,
 				BFB8AB3E1E4C0C8000315B7B /* CoreBluetooth.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C8BE560D1EBB0DD4000734DC /* Sounds */ = {
-			isa = PBXGroup;
-			children = (
-				C8BE560B1EBB0DCC000734DC /* 收銀機.mp3 */,
-				C8BE56091EBB0DC5000734DC /* 警報.mp3 */,
-			);
-			name = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,11 +182,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C854CE781EBC5CDC00770AF9 /* Alarm.mp3 in Resources */,
 				BFB8AB361E4C0C5E00315B7B /* LaunchScreen.storyboard in Resources */,
+				C854CE7C1EBC6DEC00770AF9 /* CashDrawerOpen.wav in Resources */,
 				BFB8AB331E4C0C5E00315B7B /* Assets.xcassets in Resources */,
 				BFB8AB311E4C0C5E00315B7B /* Main.storyboard in Resources */,
-				C8BE560C1EBB0DCC000734DC /* 收銀機.mp3 in Resources */,
-				C8BE560A1EBB0DC5000734DC /* 警報.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

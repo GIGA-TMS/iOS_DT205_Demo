@@ -10,6 +10,7 @@
 #import "CentralModeTableViewController.h"
 #import "GNTCommad.h"
 #import "Header.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface HomePageViewController ()<CBPeripheralDelegate,CBCentralManagerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *deviceNameLabel;
@@ -24,29 +25,35 @@
 
 @implementation HomePageViewController
 {
+    //BLE
     CBCentralManager* manager;
-    
     CBPeripheral* peripheralDT205;
     CBCharacteristic* characteristicDT205;
-    
-    NSMutableData* recieveBuffer;
-    BOOL isHeaderExist;
-    
-    GNTCommad* command;
     NSTimer* scanTimer;
-    
     int peripheralRSSI;
     float rssi;
-    
-  //  NSTimer* getRSSI;
     int sumReadRSSI;
     int sumTarget;
     
-    BOOL isCommand;
+    //CallBackData
+    NSMutableData* recieveBuffer;
+    BOOL isHeaderExist;
+    GNTCommad* command;
+    BOOL isCommandOpenCashDrawer;
+    
+    //AVAudioPlayer
+    AVAudioPlayer* soundsPlayer;
+    
+    
+    
+  //  NSTimer* getRSSI;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+   // soundsPlayer = [AVAudioPlayer new];
+    
     NSUUID* uuid =[[UIDevice currentDevice] identifierForVendor];
     NSLog(@"%@",uuid);
     NSLog(@"我出現了");
@@ -59,10 +66,7 @@
     sumReadRSSI = 0;
     sumTarget = 0;
     
-    isCommand = false;
-    
-    
-    
+    isCommandOpenCashDrawer = false;
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -183,6 +187,7 @@
             [peripheralDT205 writeValue:[command sendCommed:DEVICE_GET_NAME] forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
             [peripheralDT205 writeValue:[command sendCommed:DEVICE_GET_STATUS Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER] forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
             [peripheralDT205 writeValue:[command sendCommed:DEVICE_GET_VERSION] forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
+            
         }
     }
 }
@@ -254,7 +259,7 @@
 }
 - (IBAction)openCashDrawer:(id)sender {
     
-    isCommand = YES;
+    isCommandOpenCashDrawer = YES;
     [peripheralDT205 readRSSI];
     NSLog(@"value:%d",(int)(rssi*-30));
         if (characteristicDT205!=nil && ((int)(rssi*-30) < peripheralRSSI)) {
@@ -308,14 +313,20 @@
         [self.cashDrawerButton.layer removeAllAnimations];
         [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Close"] forState:UIControlStateNormal];
         [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
-        isCommand = false;
+        isCommandOpenCashDrawer = false;
+        
+        if (soundsPlayer != nil) {
+            [soundsPlayer stop];
+        }
         return;
     }else if ([displayLabel isEqualToString:@"A,01"]){
         [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
-        if (!isCommand) {
-            [self doAlarmAnimation]; 
+        if (!isCommandOpenCashDrawer) {
+            [self doAlarmAnimation];
+            [self playSoundsName:@"Alarm.mp3" Repeat:0];
         }else{
             [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
+            [self playSoundsName:@"CashDrawerOpen.wav" Repeat:1];
         }
         return;
     }else if ([displayLabel containsString:@"A,ROM"]) {
@@ -338,7 +349,27 @@
     borderColorAnimation.repeatCount = INFINITY;
     [self.cashDrawerButton.layer addAnimation:borderColorAnimation forKey:@"color and width"];
 }
+-(void)playSoundsName:(NSString*)soundName Repeat:(int)repeat{
+    
+    NSURL* fileURL = [[NSBundle mainBundle] URLForResource:soundName withExtension:nil];
+    
+    if (fileURL != nil) {
+          NSError* error;
+        soundsPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:fileURL error:&error];
+        NSLog(@"%@",soundsPlayer);
+        if (repeat == 0) {
+            //無限次
+            soundsPlayer.numberOfLoops = -1;
+        }else{
+            soundsPlayer.numberOfLoops = 0;
+        }
 
+        [soundsPlayer prepareToPlay];
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+        
+        [soundsPlayer play];
+    }
+}
 
 
 @end
