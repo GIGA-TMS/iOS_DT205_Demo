@@ -323,7 +323,7 @@
         [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
         if (!isCommandOpenCashDrawer) {
             [self doAlarmAnimation];
-            [self playSoundsName:@"Alarm.mp3" Repeat:0];
+            //[soundsPlayer play];
         }else{
             [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
             [self playSoundsName:@"CashDrawerOpen.wav" Repeat:1];
@@ -347,6 +347,9 @@
     borderColorAnimation.duration = 0.5;
     borderColorAnimation.autoreverses = true;
     borderColorAnimation.repeatCount = INFINITY;
+    // 動畫結束後 不刪除動畫 --- 背景回來動畫還會繼續
+    borderColorAnimation.removedOnCompletion = false;
+    [self playSoundsName:@"Alarm.mp3" Repeat:0];
     [self.cashDrawerButton.layer addAnimation:borderColorAnimation forKey:@"color and width"];
 }
 -(void)playSoundsName:(NSString*)soundName Repeat:(int)repeat{
@@ -361,11 +364,13 @@
             //無限次
             soundsPlayer.numberOfLoops = -1;
         }else{
-            soundsPlayer.numberOfLoops = 0;
+            soundsPlayer.numberOfLoops = repeat - 1;
         }
 
         [soundsPlayer prepareToPlay];
         [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+        [[AVAudioSession sharedInstance] setActive:YES error:nil];
+        [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
         
         [soundsPlayer play];
     }
