@@ -232,8 +232,6 @@
     peripheralBM100 = peripheral;
     [self stopScanning];
     
-    
-    
     [manager cancelPeripheralConnection:peripheral];
     
     

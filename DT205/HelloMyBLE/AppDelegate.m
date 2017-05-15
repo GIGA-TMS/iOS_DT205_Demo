@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "Header.h"
-
+#import "LocalNotificationHelper.h"
 //#define ROOTVIEWCONTROLLER @"HomePage"
 
 @interface AppDelegate ()
@@ -22,12 +22,21 @@
     [[NSUserDefaults standardUserDefaults] setBool:false forKey:ROOTVIEWCONTROLLER];
     
     // Override point for customization after application launch.
-    if ([[NSUserDefaults standardUserDefaults]boolForKey:@"isConnect"]) {
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:DEVICE_ISCONNECT]) {
         UINavigationController* navigationController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"HomePageViewController"];
         self.window.rootViewController = navigationController;
-        
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ROOTVIEWCONTROLLER];
     }
+    
+    [LocalNotificationHelper registeredLocalNotification];
+    
+//    UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
+//    [UNUserNotificationCenter.currentNotificationCenter requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
+//        if (!granted) {
+//            NSLog(@"使用者不同意");
+//        }
+//    }];
+    
     return YES;
 }
 

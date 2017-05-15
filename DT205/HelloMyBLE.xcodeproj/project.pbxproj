@@ -17,6 +17,9 @@
 		BFB8AB451E4C1F4000315B7B /* PeripheralItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */; };
 		C854CE781EBC5CDC00770AF9 /* Alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */; };
 		C854CE7C1EBC6DEC00770AF9 /* CashDrawerOpen.wav in Resources */ = {isa = PBXBuildFile; fileRef = C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */; };
+		C8B9AB5E1EC2B884009953A1 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B9AB5D1EC2B884009953A1 /* UserNotifications.framework */; };
+		C8B9AB611EC56004009953A1 /* AVAudioPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B9AB601EC56004009953A1 /* AVAudioPlayerManager.m */; };
+		C8B9AB671EC5A964009953A1 /* LocalNotificationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B9AB661EC5A964009953A1 /* LocalNotificationHelper.m */; };
 		C8BE56021EA05F79000734DC /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BE56011EA05F79000734DC /* HomePageViewController.m */; };
 		C8BE56051EA5F8F9000734DC /* GNTCommad.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BE56041EA5F8F9000734DC /* GNTCommad.m */; };
 		C8BE560F1EBB2000000734DC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8BE560E1EBB2000000734DC /* AVFoundation.framework */; };
@@ -38,6 +41,11 @@
 		BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeripheralItem.m; sourceTree = "<group>"; };
 		C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Alarm.mp3; sourceTree = "<group>"; };
 		C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CashDrawerOpen.wav; sourceTree = "<group>"; };
+		C8B9AB5D1EC2B884009953A1 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		C8B9AB5F1EC56004009953A1 /* AVAudioPlayerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAudioPlayerManager.h; sourceTree = "<group>"; };
+		C8B9AB601EC56004009953A1 /* AVAudioPlayerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAudioPlayerManager.m; sourceTree = "<group>"; };
+		C8B9AB651EC5A964009953A1 /* LocalNotificationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNotificationHelper.h; sourceTree = "<group>"; };
+		C8B9AB661EC5A964009953A1 /* LocalNotificationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalNotificationHelper.m; sourceTree = "<group>"; };
 		C8BE56001EA05F79000734DC /* HomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageViewController.h; sourceTree = "<group>"; };
 		C8BE56011EA05F79000734DC /* HomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageViewController.m; sourceTree = "<group>"; };
 		C8BE56031EA5F8F9000734DC /* GNTCommad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTCommad.h; sourceTree = "<group>"; };
@@ -51,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8B9AB5E1EC2B884009953A1 /* UserNotifications.framework in Frameworks */,
 				C8BE560F1EBB2000000734DC /* AVFoundation.framework in Frameworks */,
 				BFB8AB3F1E4C0C8000315B7B /* CoreBluetooth.framework in Frameworks */,
 			);
@@ -83,16 +92,11 @@
 				BFB8AB271E4C0C5E00315B7B /* AppDelegate.m */,
 				BFB8AB2F1E4C0C5E00315B7B /* Main.storyboard */,
 				C8BE56061EA5FD76000734DC /* Header.h */,
-				C8BE56001EA05F79000734DC /* HomePageViewController.h */,
-				C8BE56011EA05F79000734DC /* HomePageViewController.m */,
-				BFB8AB401E4C0E0C00315B7B /* CentralModeTableViewController.h */,
-				BFB8AB411E4C0E0C00315B7B /* CentralModeTableViewController.m */,
 				C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */,
 				C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */,
-				C8BE56031EA5F8F9000734DC /* GNTCommad.h */,
-				C8BE56041EA5F8F9000734DC /* GNTCommad.m */,
-				BFB8AB431E4C1F4000315B7B /* PeripheralItem.h */,
-				BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */,
+				C8B9AB641EC59B0F009953A1 /* ViewController */,
+				C8B9AB631EC565A8009953A1 /* Model */,
+				C8B9AB621EC56572009953A1 /* Class */,
 				BFB8AB321E4C0C5E00315B7B /* Assets.xcassets */,
 				BFB8AB341E4C0C5E00315B7B /* LaunchScreen.storyboard */,
 				BFB8AB371E4C0C5E00315B7B /* Info.plist */,
@@ -112,10 +116,44 @@
 		BFB8AB3D1E4C0C8000315B7B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C8B9AB5D1EC2B884009953A1 /* UserNotifications.framework */,
 				C8BE560E1EBB2000000734DC /* AVFoundation.framework */,
 				BFB8AB3E1E4C0C8000315B7B /* CoreBluetooth.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C8B9AB621EC56572009953A1 /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				C8B9AB651EC5A964009953A1 /* LocalNotificationHelper.h */,
+				C8B9AB661EC5A964009953A1 /* LocalNotificationHelper.m */,
+				C8B9AB5F1EC56004009953A1 /* AVAudioPlayerManager.h */,
+				C8B9AB601EC56004009953A1 /* AVAudioPlayerManager.m */,
+			);
+			name = Class;
+			sourceTree = "<group>";
+		};
+		C8B9AB631EC565A8009953A1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C8BE56031EA5F8F9000734DC /* GNTCommad.h */,
+				C8BE56041EA5F8F9000734DC /* GNTCommad.m */,
+				BFB8AB431E4C1F4000315B7B /* PeripheralItem.h */,
+				BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		C8B9AB641EC59B0F009953A1 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C8BE56001EA05F79000734DC /* HomePageViewController.h */,
+				C8BE56011EA05F79000734DC /* HomePageViewController.m */,
+				BFB8AB401E4C0E0C00315B7B /* CentralModeTableViewController.h */,
+				BFB8AB411E4C0E0C00315B7B /* CentralModeTableViewController.m */,
+			);
+			name = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,10 +236,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFB8AB281E4C0C5E00315B7B /* AppDelegate.m in Sources */,
+				C8B9AB611EC56004009953A1 /* AVAudioPlayerManager.m in Sources */,
 				BFB8AB451E4C1F4000315B7B /* PeripheralItem.m in Sources */,
 				C8BE56051EA5F8F9000734DC /* GNTCommad.m in Sources */,
 				C8BE56021EA05F79000734DC /* HomePageViewController.m in Sources */,
 				BFB8AB421E4C0E0C00315B7B /* CentralModeTableViewController.m in Sources */,
+				C8B9AB671EC5A964009953A1 /* LocalNotificationHelper.m in Sources */,
 				BFB8AB251E4C0C5E00315B7B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

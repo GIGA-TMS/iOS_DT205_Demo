@@ -10,7 +10,9 @@
 #import "CentralModeTableViewController.h"
 #import "GNTCommad.h"
 #import "Header.h"
-#import <AVFoundation/AVFoundation.h>
+#import "AVAudioPlayerManager.h"
+#import "LocalNotificationHelper.h"
+#import <UserNotifications/UserNotifications.h>
 
 @interface HomePageViewController ()<CBPeripheralDelegate,CBCentralManagerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *deviceNameLabel;
@@ -42,21 +44,22 @@
     BOOL isCommandOpenCashDrawer;
     
     //AVAudioPlayer
-    AVAudioPlayer* soundsPlayer;
+    //AVAudioPlayer* soundsPlayer;
+    AVAudioPlayerManager* audioPlayerManager;
     
-    
-    
-  //  NSTimer* getRSSI;
+    //Push LocalNotificationMessage
+    LocalNotificationHelper* localNotificationHelper;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-   // soundsPlayer = [AVAudioPlayer new];
+    audioPlayerManager = [AVAudioPlayerManager new];
+    localNotificationHelper = [LocalNotificationHelper new];
+   
     
     NSUUID* uuid =[[UIDevice currentDevice] identifierForVendor];
     NSLog(@"%@",uuid);
-    NSLog(@"我出現了");
     UILongPressGestureRecognizer* longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(bindPasswordAlert)];
     longPress.minimumPressDuration = 1.0;
     
@@ -136,7 +139,6 @@
 -(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
     
     NSLog(@"Peripheral connected: %@",peripheral.name);
-    
     [scanTimer invalidate];
     scanTimer = nil;
     //Start to discover services
@@ -147,7 +149,6 @@
 -(void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
     self.statusView.backgroundColor = [UIColor redColor];
     self.statusLabel.text = @"Disconnect";
-    
     scanTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(scanPeripheral) userInfo:nil repeats:YES];
 }
 #pragma mark - CBPeripheralDelegate Methods
@@ -172,7 +173,6 @@
         [manager cancelPeripheralConnection:peripheral];
         return;
     }
-    
     //Prepare for characteristics part
     for (CBCharacteristic* tmp in service.characteristics) {
         NSLog(@"%@",tmp.UUID);
@@ -192,7 +192,6 @@
     }
 }
 -(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
-    
     NSData* callbackData = characteristic.value;
     NSLog(@"%@",callbackData);
     [self handleCallbackData:callbackData];
@@ -206,17 +205,12 @@
     }
 }
 -(void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error{
-    
     sumReadRSSI+=[RSSI intValue];
     sumTarget++;
-
     peripheralRSSI = sumReadRSSI/sumTarget;
-    
     NSLog(@"%d",peripheralRSSI);
 }
-
 -(void)bindPasswordAlert{
-    
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Please enter PIN code to exit" preferredStyle:UIAlertControllerStyleAlert];
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull pinPassword) {
         pinPassword.secureTextEntry = YES;
@@ -224,11 +218,9 @@
     }];
     
     UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style: UIAlertActionStyleCancel handler:nil];
-    
     UIAlertAction* comfirm = [UIAlertAction actionWithTitle:@"Comfirm" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         UITextField* passwordTextField = alert.textFields[0];
         NSString* password = passwordTextField.text;
-        
         if ([password isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:PASSWORD]]) {
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:PASSWORD];
             [self gotoScanVC];
@@ -245,20 +237,15 @@
 }
 
 - (void)gotoScanVC {
-    
     CentralModeTableViewController* scanVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CentralModeTableViewController"];
-    
     if (peripheralDT205!=nil) {
         [manager cancelPeripheralConnection:peripheralDT205];
     }
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:DEVICE_UUID_KEY];
     [[NSUserDefaults standardUserDefaults] setObject:false forKey:DEVICE_ISCONNECT];
-    
     [self presentViewController:scanVC animated:YES completion:nil];
-    
 }
 - (IBAction)openCashDrawer:(id)sender {
-    
     isCommandOpenCashDrawer = YES;
     [peripheralDT205 readRSSI];
     NSLog(@"value:%d",(int)(rssi*-30));
@@ -270,18 +257,7 @@
     sumReadRSSI = 0;
     sumTarget = 0;
     
-//    [getRSSI invalidate];
-//    getRSSI = nil;
-    
 }
-//-(void)getPeripheralRSSI{
-//    if (peripheralBM100!=nil) {
-//        getRSSI = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(readRSSI) userInfo:nil repeats:YES];
-//    }
-//}
-//-(void)readRSSI{
-//    [peripheralBM100 readRSSI];
-//}
 
 #pragma mark - HandleData Metods
 -(void)handleCallbackData:(NSData*) data{
@@ -306,27 +282,47 @@
 
 -(void)recieveUpdateValueFromCharacteristic{
     NSLog(@"%@",recieveBuffer);
-    
     NSString* displayLabel = [[NSString alloc]initWithData:recieveBuffer encoding:NSUTF8StringEncoding];
-    
-    if ([displayLabel isEqualToString:@"A,00"]) {
+    if ([displayLabel isEqualToString:@"*,00"]) {
         [self.cashDrawerButton.layer removeAllAnimations];
         [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Close"] forState:UIControlStateNormal];
         [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
         isCommandOpenCashDrawer = false;
-        
-        if (soundsPlayer != nil) {
-            [soundsPlayer stop];
+        if (audioPlayerManager != nil) {
+            [audioPlayerManager stop];
+        }
+        return;
+    }else if ([displayLabel isEqualToString:@"*,01"]){
+        [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
+        if (!isCommandOpenCashDrawer) {
+            [self doAlarmAnimation];
+            //[self createLocalNotificationMessage];
+            [localNotificationHelper pushLocalNotificationMessageTitle:@"Notice" Body:@"Cash drawer is opened illegal"];
+      }else{
+            [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
+           // [self playSoundsName:@"CashDrawerOpen.wav" Repeat:1];
+            [audioPlayerManager playSoundsName:@"CashDrawerOpen.wav" Repeat:1];
+        }
+        return;
+    }else if ([displayLabel isEqualToString:@"A,00"]){
+        [self.cashDrawerButton.layer removeAllAnimations];
+        [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Close"] forState:UIControlStateNormal];
+        [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
+        isCommandOpenCashDrawer = false;
+        if (audioPlayerManager != nil) {
+            [audioPlayerManager stop];
         }
         return;
     }else if ([displayLabel isEqualToString:@"A,01"]){
         [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
         if (!isCommandOpenCashDrawer) {
             [self doAlarmAnimation];
-            //[soundsPlayer play];
+            //[self createLocalNotificationMessage];
+            [localNotificationHelper pushLocalNotificationMessageTitle:@"Notice" Body:@"Cash drawer is opened illegal"];
         }else{
             [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
-            [self playSoundsName:@"CashDrawerOpen.wav" Repeat:1];
+           // [self playSoundsName:@"CashDrawerOpen.wav" Repeat:1];
+            [audioPlayerManager playSoundsName:@"CashDrawerOpen.wav" Repeat:1];
         }
         return;
     }else if ([displayLabel containsString:@"A,ROM"]) {
@@ -334,7 +330,7 @@
         NSString* version = [NSString stringWithFormat:@"F/W Version:%@",display];
         self.deviceVersionLabel.text = version;
         return;
-    }else if ([displayLabel containsString:@"A,"]){
+    }else if ([displayLabel containsString:@"A,DT"]){
         NSString* name = [displayLabel substringFromIndex:2];
         self.deviceNameLabel.text = name;
         return;
@@ -349,32 +345,40 @@
     borderColorAnimation.repeatCount = INFINITY;
     // 動畫結束後 不刪除動畫 --- 背景回來動畫還會繼續
     borderColorAnimation.removedOnCompletion = false;
-    [self playSoundsName:@"Alarm.mp3" Repeat:0];
+   // [self playSoundsName:@"Alarm.mp3" Repeat:0];
+    [audioPlayerManager playSoundsName:@"Alarm.mp3" Repeat:0];
     [self.cashDrawerButton.layer addAnimation:borderColorAnimation forKey:@"color and width"];
 }
--(void)playSoundsName:(NSString*)soundName Repeat:(int)repeat{
-    
-    NSURL* fileURL = [[NSBundle mainBundle] URLForResource:soundName withExtension:nil];
-    
-    if (fileURL != nil) {
-          NSError* error;
-        soundsPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:fileURL error:&error];
-        NSLog(@"%@",soundsPlayer);
-        if (repeat == 0) {
-            //無限次
-            soundsPlayer.numberOfLoops = -1;
-        }else{
-            soundsPlayer.numberOfLoops = repeat - 1;
-        }
-
-        [soundsPlayer prepareToPlay];
-        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-        [[AVAudioSession sharedInstance] setActive:YES error:nil];
-        [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-        
-        [soundsPlayer play];
-    }
-}
+//-(void)playSoundsName:(NSString*)soundName Repeat:(int)repeat{
+//    NSURL* fileURL = [[NSBundle mainBundle] URLForResource:soundName withExtension:nil];
+//    if (fileURL != nil) {
+//          NSError* error;
+//        soundsPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:fileURL error:&error];
+//        NSLog(@"%@",soundsPlayer);
+//        if (repeat == 0) {
+//            //無限次
+//            soundsPlayer.numberOfLoops = -1;
+//        }else{
+//            soundsPlayer.numberOfLoops = repeat - 1;
+//        }
+//        [soundsPlayer prepareToPlay];
+//        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+//        [[AVAudioSession sharedInstance] setActive:YES error:nil];
+//        [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+//        
+//        [soundsPlayer play];
+//    }
+//}
+//-(void) createLocalNotificationMessage{
+//    UNMutableNotificationContent* content = [UNMutableNotificationContent new];
+//    content.title = @"Notice";
+//    content.body = @"Cash drawer is opened illegal";
+//    content.sound = [UNNotificationSound defaultSound];
+//    
+//    UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats:false];
+//    UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:@"notification1" content:content trigger:trigger];
+//    [UNUserNotificationCenter.currentNotificationCenter addNotificationRequest:request withCompletionHandler:nil];
+//}
 
 
 @end
