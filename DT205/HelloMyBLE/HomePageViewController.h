@@ -10,5 +10,4 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 @interface HomePageViewController : UIViewController
 
-
 @end

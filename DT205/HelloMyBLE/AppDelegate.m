@@ -19,6 +19,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     [[NSUserDefaults standardUserDefaults] setBool:false forKey:ROOTVIEWCONTROLLER];
     
     // Override point for customization after application launch.

@@ -32,26 +32,25 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gigatms" translatesAutoresizingMaskIntoConstraints="NO" id="Dhh-gI-1S9">
                                 <rect key="frame" x="36" y="555.5" width="75" height="66.5"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CashDrawer Close" translatesAutoresizingMaskIntoConstraints="NO" id="wOp-RO-z3X">
-                                <rect key="frame" x="67" y="200" width="240" height="200"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CashDrawer Close" translatesAutoresizingMaskIntoConstraints="NO" id="Gwx-ME-aNK">
+                                <rect key="frame" x="37" y="183.5" width="300" height="300"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="iFT-Su-Xl8"/>
-                                    <constraint firstAttribute="height" constant="200" id="zFs-Nc-dlv"/>
+                                    <constraint firstAttribute="width" constant="300" id="AQq-Fv-Qfb"/>
+                                    <constraint firstAttribute="height" constant="300" id="EJt-4a-ERF"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.0039215686269999999" green="0.60784313729999995" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="Dhh-gI-1S9" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.2" id="2ek-mD-dNl"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="wOp-RO-z3X" secondAttribute="trailing" constant="52" id="3Em-4X-qFZ"/>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Dhh-gI-1S9" secondAttribute="bottom" constant="45" id="7ue-AI-zAb"/>
-                            <constraint firstItem="wOp-RO-z3X" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="180" id="8Eh-7r-GZy"/>
                             <constraint firstItem="PMC-ZG-R0Q" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="0.1" id="9sf-7q-zks"/>
                             <constraint firstItem="PMC-ZG-R0Q" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.5" id="A6R-AQ-dX5"/>
-                            <constraint firstItem="wOp-RO-z3X" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="51" id="DNA-7k-zxU"/>
+                            <constraint firstItem="Dhh-gI-1S9" firstAttribute="top" secondItem="Gwx-ME-aNK" secondAttribute="bottom" constant="72" id="IWl-zk-OWS"/>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="PMC-ZG-R0Q" secondAttribute="bottom" constant="45" id="Npe-X5-gau"/>
                             <constraint firstItem="Dhh-gI-1S9" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="0.1" id="O2M-O8-Vds"/>
                             <constraint firstItem="PMC-ZG-R0Q" firstAttribute="leading" secondItem="Dhh-gI-1S9" secondAttribute="trailing" constant="20" id="eh3-Of-JzP"/>
+                            <constraint firstItem="Gwx-ME-aNK" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="21" id="fWd-RV-kwS"/>
                             <constraint firstItem="Dhh-gI-1S9" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="20" id="pCq-UY-t8H"/>
                         </constraints>
                     </view>
@@ -62,7 +61,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="CashDrawer Close" width="221" height="160"/>
+        <image name="CashDrawer Close" width="1280" height="960"/>
         <image name="gigatms" width="242" height="241"/>
     </resources>
 </document>

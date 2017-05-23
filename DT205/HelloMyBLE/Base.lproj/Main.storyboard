@@ -233,7 +233,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="CashDrawer Close" width="1280" height="960"/>
+        <image name="CashDrawer Close" width="128" height="96"/>
         <image name="lock" width="37" height="50"/>
     </resources>
 </document>
