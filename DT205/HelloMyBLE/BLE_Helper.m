@@ -16,18 +16,12 @@
     CBCentralManager* manager;
     CBPeripheral* peripheralDT205;
     CBCharacteristic* characteristicDT205;
-    
-    //Callback Data
-    //NSMutableData* recieveBuffer;
     BOOL isHeaderExist;
-    
     NSMutableDictionary* allItems;
-    
     int peripheralRSSI;
     float rssi;
     int sumReadRSSI;
     int sumTarget;
-    
 }
 static BLE_Helper* _singletonBLE_Helper = nil;
 +(instancetype)sharedInstance{
@@ -39,6 +33,7 @@ static BLE_Helper* _singletonBLE_Helper = nil;
 -(instancetype)init{
     self = [super init];
     if (self) {
+        // queue設定nil 會在main queue
         manager = [[CBCentralManager alloc]initWithDelegate:self queue:nil];
     }
     return self;
@@ -81,15 +76,12 @@ static BLE_Helper* _singletonBLE_Helper = nil;
 }
 -(int)readRSSI{
     [peripheralDT205 readRSSI];
-    
     return peripheralRSSI;
 }
 #pragma mark - CBCentralManagerDelegate Methods
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central{
     CBManagerState state = central.state;
     if (state != CBManagerStatePoweredOn) {
-       // NSString* message = [NSString stringWithFormat:@"BLE is not ready(error%ld)",(long)state];
-       // [self showAlertWithMessage:message];
         [[NSNotificationCenter defaultCenter]postNotificationName:@"BLE_PowerOff" object:nil];
     }else{
         if ([[NSUserDefaults standardUserDefaults] objectForKey:DEVICE_ISCONNECT]) {
@@ -122,7 +114,6 @@ static BLE_Helper* _singletonBLE_Helper = nil;
 -(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
     //連上設備後 先把掃描停止
     
-//    if (![[NSUserDefaults standardUserDefaults] objectForKey:DEVICE_ISCONNECT]) {}
     [[NSUserDefaults standardUserDefaults] setObject: peripheral.identifier.UUIDString forKey:DEVICE_UUID_KEY];
     [[NSUserDefaults standardUserDefaults] setBool: true forKey:DEVICE_ISCONNECT];
     
@@ -135,11 +126,6 @@ static BLE_Helper* _singletonBLE_Helper = nil;
     [peripheral discoverServices:@[[CBUUID UUIDWithString:UUID_COMMUNICATE_SERVICE]]];
 }
 -(void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
-    
-    //[[NSUserDefaults standardUserDefaults] setObject:nil forKey:PASSWORD];
-    //[[NSUserDefaults standardUserDefaults] setObject:nil forKey:DEVICE_UUID_KEY];
-    //[[NSUserDefaults standardUserDefaults] setObject:false forKey:DEVICE_ISCONNECT];
-    
     if ([[NSUserDefaults standardUserDefaults]boolForKey:DEVICE_ISCONNECT]) {
         [self startToScan];
     }
@@ -200,10 +186,6 @@ static BLE_Helper* _singletonBLE_Helper = nil;
             isHeaderExist = true;
         }else if(data == (char)DEVICE_COMMAND_END){
             if (_callBackDataBuffer.length > 0) {
-                // ＊＊＊＊＊＊這邊要做個ＢＬＯＣＫ把資料回船回去＊＊＊＊＊＊＊
-               // [self recieveUpdateValueFromCharacteristic];
-//                HomePageViewController* homePageVC = [HomePageViewController new];
-//                homePageVC.recieveData = recieveBuffer;
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"CallbackData" object:nil];
             }
             _callBackDataBuffer = [NSMutableData new];

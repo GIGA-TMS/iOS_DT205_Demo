@@ -15,15 +15,14 @@
 
 @interface CentralModeTableViewController ()
 {
-//    CBCentralManager* manager;
+    //BLE
+    BLE_Helper* ble_helper;
     
     NSMutableDictionary* allItems;
     NSDate* lastTableViewReloadDate;
-    
-  //  CBPeripheral* peripheralBM100;
     NSIndexPath* indexPath1;
     
-    BLE_Helper* ble_helper;
+   
 }
 @end
 
@@ -31,62 +30,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // queue設定nil 會在main queue
-    
+
     ble_helper = [BLE_Helper sharedInstance];
-    //  manager = [[CBCentralManager alloc]initWithDelegate:self queue:nil];
     allItems = [NSMutableDictionary new];
     indexPath1 = [NSIndexPath new];
-    
-    
-    
-    
-    
-//    const char cTestPackage1s[]="\0020123456789ABCDEF1234";
-//    const char cTestPackage2s[]="0123456789ABCDEF12345";
-//    const char cTestPackage3s[]="0123456789ABCDEF1234\r";
-//    NSData* dataTest = [NSData dataWithBytes:cTestPackage1s length:sizeof(cTestPackage1s)-1];
-//    [self handleCallbackData:dataTest];
-//    dataTest = [NSData dataWithBytes:cTestPackage2s length:sizeof(cTestPackage2s)-1];
-//    [self handleCallbackData:dataTest];
-//    dataTest = [NSData dataWithBytes:cTestPackage3s length:sizeof(cTestPackage3s)-1];
-//    [self handleCallbackData:dataTest];
-    
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refresh) name:@"DiscorverPeripheral" object:nil];
 }
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:YES];
-//    if (peripheralBM100 != nil) {
-//        [manager cancelPeripheralConnection:peripheralBM100];
-//        peripheralBM100 = nil;
-//    }
-    
-}
+
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
-//    if (peripheralBM100 != nil) {
-//        [manager cancelPeripheralConnection:peripheralBM100];
-//        peripheralBM100 = nil;
-//    }
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DiscorverPeripheral" object:nil];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return allItems.count;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -96,7 +63,6 @@
     NSArray* allKeys = allItems.allKeys;
     NSString* uuidKey = allKeys[indexPath.row];
     PeripheralItem* item = allItems[uuidKey];
-    
     NSString* line1String = [NSString stringWithFormat:@"%@ RSSI: %ld",item.peripheral.name,(long)item.rssi];
     NSString* line2String = [NSString stringWithFormat:@"Last seen: %.2f seconds ago.",[[NSDate date] timeIntervalSinceDate:item.seenDate]];
     
@@ -118,31 +84,13 @@
 #pragma mark - Methods
 - (IBAction)enableScanValueChanged:(id)sender {
     if ([sender isOn]) {
-        //[self startToScan];
         [ble_helper startToScan];
     }else{
-        //[self stopScanning];
         [ble_helper stopScanning];
         allItems = [NSMutableDictionary new];
         [self.tableView reloadData];
     }
 }
-
-//-(void) startToScan{
-//    // 指定掃描特定service
-//    [self.tableView reloadData];
-//    CBUUID* uuid = [CBUUID UUIDWithString:TARGET_UUID_PREFIX];
-//    NSArray* services = @[uuid]; //@[uuid];
-//    //是否允許重複
-//    NSDictionary* options = @{CBCentralManagerScanOptionAllowDuplicatesKey:@(true)};
-//    //帶空陣列 或 nil 可以做無差別掃描
-//    [manager scanForPeripheralsWithServices:services options:options];
-//}
-//-(void) stopScanning{
-//    [manager stopScan];
-//    allItems = [NSMutableDictionary new];
-//    [self.tableView reloadData];
-//}
 -(void) showAlertWithMessage:(NSString*) message{
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
@@ -155,7 +103,6 @@
     NSString* uuidKey = allKeys[indexPath1.row];
     PeripheralItem* item = allItems[uuidKey];
     [ble_helper connectPeripheral:item.peripheral];
-    //[manager connectPeripheral:item.peripheral options:nil];
     
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Please enter bonding PIN code" preferredStyle:UIAlertControllerStyleAlert];
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull pinPassword) {
@@ -177,13 +124,6 @@
         
         if ([password isEqualToString:checkPassword]) {
             [[NSUserDefaults standardUserDefaults] setObject:password forKey:PASSWORD];
-            
-//            NSArray* allKeys = allItems.allKeys;
-//            NSString* uuidKey = allKeys[indexPath1.row];
-//            PeripheralItem* item = allItems[uuidKey];
-//            [ble_helper connectPeripheral:item.peripheral];
-            //[manager connectPeripheral:item.peripheral options:nil];
-            
             if ([[NSUserDefaults standardUserDefaults]boolForKey:DEVICE_ISCONNECT]) {
                 if (![[NSUserDefaults standardUserDefaults]boolForKey:ROOTVIEWCONTROLLER]) {
                     HomePageViewController* pageVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageViewController"];
@@ -195,7 +135,6 @@
         }else{
             [self showAlertWithMessage:@"Incorrect bonding PIN code"];
             [ble_helper cancelPeripheral];
-            //[ble_helper startToScan];
         }
     }];
     [alert addAction:cancel];
@@ -203,63 +142,4 @@
     
     [self presentViewController:alert animated:YES completion:nil];
 }
-//#pragma mark - CBCentralManagerDelegate Methods
-//-(void)centralManagerDidUpdateState:(CBCentralManager *)central{
-//    CBManagerState state = central.state;
-//    if (state != CBManagerStatePoweredOn) {
-//        NSString* message = [NSString stringWithFormat:@"BLE is not ready(error%ld)",(long)state];
-//        [self showAlertWithMessage:message];
-//    }
-//}
-//
-//-(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI{
-//    
-//    PeripheralItem* existItem = allItems[peripheral.identifier.UUIDString];
-//    
-//    if (existItem == nil) {
-//        NSLog(@"Discorver %@,RSSI: %ld,UUID: %@\n,AdvData: %@",peripheral.name,(long)RSSI.integerValue,peripheral.identifier.UUIDString,advertisementData.description);
-//    }
-//    
-//    PeripheralItem* newItem = [PeripheralItem new];
-//    newItem.peripheral = peripheral;
-//    newItem.rssi = RSSI.integerValue;
-//    newItem.seenDate = [NSDate date]; 
-//    [allItems setObject:newItem forKey:peripheral.identifier.UUIDString];
-//    
-//    // check if we should reload tableView or not.
-//    NSDate* now = [NSDate date];
-//    // 可以控制多久更新tableView
-//    if (existItem == nil || [now timeIntervalSinceDate:lastTableViewReloadDate] > RELOAD_TIME_INTERVAL) {
-//        lastTableViewReloadDate = now;
-//        [self.tableView reloadData];
-//    }
-//}
-//-(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
-//    //連上設備後 先把掃描停止
-//    
-//    NSLog(@"Peripheral connected: %@",peripheral.name);
-//    [[NSUserDefaults standardUserDefaults] setObject: peripheral.identifier.UUIDString forKey:DEVICE_UUID_KEY];
-//    [[NSUserDefaults standardUserDefaults] setBool: true forKey:DEVICE_ISCONNECT];
-//    
-//    peripheralBM100 = peripheral;
-//    [self stopScanning];
-//    
-//    [manager cancelPeripheralConnection:peripheral];
-//    
-//    if (![[NSUserDefaults standardUserDefaults]boolForKey:ROOTVIEWCONTROLLER]) {
-//        HomePageViewController* pageVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageViewController"];
-//        [self presentViewController:pageVC animated:YES completion:nil];
-//    }else{
-//        [self dismissViewControllerAnimated:YES completion:nil];
-//    }
-//    
-//}
-//-(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
-//    NSString* message = [NSString stringWithFormat:@"Fail to connect: %@",error];
-//    [self showAlertWithMessage:message];
-//}
-
-
-
-
 @end

@@ -8,7 +8,7 @@
 
 #import "GNTCommad.h"
 #import "Header.h"
-
+#import <netdb.h>
 @implementation GNTCommad
 
 -(NSData*)sendCommed:(char)commend{
@@ -33,12 +33,14 @@
     if (parameter != nil) {
         [data appendBytes:&parameter length:1];
     }
-    
+
     const char endValue = (char)DEVICE_COMMAND_END;
     [data appendBytes:&endValue length:1];
     
     return data;
 }
-
+-(void)test{
+    int socketFile = socket(AF_INET,SOCK_STREAM,0);
+}
 
 @end
