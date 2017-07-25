@@ -32,7 +32,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gigatms" translatesAutoresizingMaskIntoConstraints="NO" id="Dhh-gI-1S9">
                                 <rect key="frame" x="36.000000000000007" y="595.33333333333348" width="82.666666666666686" height="73.666666666666629"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CashDrawer Close" translatesAutoresizingMaskIntoConstraints="NO" id="Gwx-ME-aNK">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gigatms" translatesAutoresizingMaskIntoConstraints="NO" id="Gwx-ME-aNK">
                                 <rect key="frame" x="51.666666666666657" y="220.66666666666663" width="310.66666666666663" height="294.66666666666674"/>
                             </imageView>
                         </subviews>
@@ -59,7 +59,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="CashDrawer Close" width="1280" height="960"/>
         <image name="gigatms" width="242" height="241"/>
     </resources>
 </document>
