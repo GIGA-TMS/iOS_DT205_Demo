@@ -10,8 +10,12 @@
 
 @interface GNTCommad : NSObject
 
+@property (nonatomic,strong) NSMutableData* callBackDataBuffer;
+
+
 -(NSData*)sendCommed:(char)commend;
 
 -(NSData*)sendCommed:(char)commend Parameter:(char*)parameter;
 
+-(void)handleCallbackData:(NSData*) data;
 @end

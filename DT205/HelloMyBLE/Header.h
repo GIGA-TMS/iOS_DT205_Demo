@@ -21,9 +21,9 @@
 #define DEVICE_COMMAND_END                      0x0D //CR
 #define DEVICE_GET_NAME                         'D'  //D
 #define DEVICE_GET_VERSION                      'F'  //F
-#define DEVICE_OPENCASHDRAWER                   'K' //J
+#define DEVICE_OPENCASHDRAWER                   'K' //K
 #define DEVICE_OPENCASHDRAWER_PARAMETER         'c' //c
-#define DEVICE_GET_STATUS                       'J' //K
+#define DEVICE_GET_STATUS                       'J' //J
 #define DEVICE_GET_STATUS_PARAMETER             'c' //c
 // Device Local Setting Key
 #define DEVICE_UUID_KEY @"uuid"

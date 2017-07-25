@@ -31,13 +31,6 @@
     
     [LocalNotificationHelper registeredLocalNotification];
     
-//    UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
-//    [UNUserNotificationCenter.currentNotificationCenter requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
-//        if (!granted) {
-//            NSLog(@"使用者不同意");
-//        }
-//    }];
-    
     return YES;
 }
 

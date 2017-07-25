@@ -12,7 +12,8 @@
 #import "HomePageViewController.h"
 #import "Header.h"
 #import "BLE_Helper.h"
-
+#import "UdpSocket.h"
+#import "DeviceItem.h"
 @interface CentralModeTableViewController ()
 {
     //BLE
@@ -22,27 +23,39 @@
     NSDate* lastTableViewReloadDate;
     NSIndexPath* indexPath1;
     
-   
+    BOOL use_Wifi;
+    UdpSocket* udpSocket;
 }
 @end
 
 @implementation CentralModeTableViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    ble_helper = [BLE_Helper sharedInstance];
+    
+    use_Wifi = [[NSUserDefaults standardUserDefaults]boolForKey:@"Use_Wifi"];
     allItems = [NSMutableDictionary new];
     indexPath1 = [NSIndexPath new];
+    
+    if (use_Wifi) {
+        udpSocket = [[UdpSocket alloc]init];
+    }else{
+        ble_helper = [BLE_Helper sharedInstance];
+    }
+    
+    
+    
+    
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refresh) name:@"DiscorverPeripheral" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refresh) name:@"DiscoverDevice" object:nil];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DiscorverPeripheral" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DiscoverDevice" object:nil];
 }
 
 #pragma mark - Table view data source
@@ -62,9 +75,17 @@
     // Configure the cell...
     NSArray* allKeys = allItems.allKeys;
     NSString* uuidKey = allKeys[indexPath.row];
-    PeripheralItem* item = allItems[uuidKey];
-    NSString* line1String = [NSString stringWithFormat:@"%@ RSSI: %ld",item.peripheral.name,(long)item.rssi];
-    NSString* line2String = [NSString stringWithFormat:@"Last seen: %.2f seconds ago.",[[NSDate date] timeIntervalSinceDate:item.seenDate]];
+    NSString* line1String = [NSString new];
+    NSString* line2String = [NSString new];
+    if (use_Wifi) {
+        DeviceItem* item = allItems[uuidKey];
+        line1String = [NSString stringWithFormat:@"%@",item.deviecName];
+        line2String = [NSString stringWithFormat:@"Last seen: %.2f seconds ago.",[[NSDate date] timeIntervalSinceDate:item.seenDate]];
+    }else{
+        PeripheralItem* item = allItems[uuidKey];
+        line1String = [NSString stringWithFormat:@"%@ RSSI: %ld",item.peripheral.name,(long)item.rssi];
+        line2String = [NSString stringWithFormat:@"Last seen: %.2f seconds ago.",[[NSDate date] timeIntervalSinceDate:item.seenDate]];
+    }
     
     cell.textLabel.text = line1String;
     cell.detailTextLabel.text = line2String;
@@ -78,15 +99,30 @@
   
 }
 -(void)refresh{
-    allItems = ble_helper.allPeripheralItems;
+    
+    if (use_Wifi) {
+        allItems = udpSocket.allDeviceItems;
+    }else{
+        allItems = ble_helper.allPeripheralItems;
+    }
     [self.tableView reloadData];
 }
 #pragma mark - Methods
 - (IBAction)enableScanValueChanged:(id)sender {
     if ([sender isOn]) {
-        [ble_helper startToScan];
+        if (use_Wifi) {
+            NSString* command = @"Y";
+            NSData* commandData = [command dataUsingEncoding:NSUTF8StringEncoding];
+            [udpSocket sendData:commandData toHost:@"255.255.255.255" port:65535 withTimeout:-1 tag:1];
+        }else{
+            [ble_helper startToScan];
+        }
+        
     }else{
-        [ble_helper stopScanning];
+        
+        if (!use_Wifi) {
+            [ble_helper stopScanning];
+        }
         allItems = [NSMutableDictionary new];
         [self.tableView reloadData];
     }
@@ -101,8 +137,18 @@
     
     NSArray* allKeys = allItems.allKeys;
     NSString* uuidKey = allKeys[indexPath1.row];
-    PeripheralItem* item = allItems[uuidKey];
-    [ble_helper connectPeripheral:item.peripheral];
+    if (use_Wifi) {
+        DeviceItem* item = allItems[uuidKey];
+        HomePageViewController* pageVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageViewController"];
+        [[NSUserDefaults standardUserDefaults] setObject:item.deviecName forKey:@"SelectedDeviceName"];
+        pageVC.device_IP = item.deviecIP;
+        pageVC.device_Port = item.deviecPort;
+        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:DEVICE_ISCONNECT];
+    }else{
+        PeripheralItem* item = allItems[uuidKey];
+        [ble_helper connectPeripheral:item.peripheral];
+    }
+    
     
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Please enter bonding PIN code" preferredStyle:UIAlertControllerStyleAlert];
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull pinPassword) {
@@ -127,14 +173,17 @@
             if ([[NSUserDefaults standardUserDefaults]boolForKey:DEVICE_ISCONNECT]) {
                 if (![[NSUserDefaults standardUserDefaults]boolForKey:ROOTVIEWCONTROLLER]) {
                     HomePageViewController* pageVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageViewController"];
-                    [self presentViewController:pageVC animated:YES completion:nil];
+                   [self presentViewController:pageVC animated:YES completion:nil];
                 }else{
                     [self dismissViewControllerAnimated:YES completion:nil];
                 }
             }
         }else{
             [self showAlertWithMessage:@"Incorrect bonding PIN code"];
-            [ble_helper cancelPeripheral];
+            if (!use_Wifi) {
+                [ble_helper cancelPeripheral];
+            }
+           
         }
     }];
     [alert addAction:cancel];

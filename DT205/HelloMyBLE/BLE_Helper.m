@@ -10,6 +10,11 @@
 #import "Header.h"
 #import "PeripheralItem.h"
 #import "HomePageViewController.h"
+#import "GNTCommad.h"
+
+
+#import <CommonCrypto/CommonCryptor.h>
+#import "NSData+AES.h"
 @implementation BLE_Helper
 
 {
@@ -22,6 +27,9 @@
     float rssi;
     int sumReadRSSI;
     int sumTarget;
+    
+    
+    
 }
 static BLE_Helper* _singletonBLE_Helper = nil;
 +(instancetype)sharedInstance{
@@ -71,7 +79,15 @@ static BLE_Helper* _singletonBLE_Helper = nil;
 }
 -(void)writeValue:(NSData *)data{
     if (peripheralDT205 != nil && characteristicDT205 != nil) {
+        if (data.length > 20) {
+            NSData* one = [data subdataWithRange:NSMakeRange(0, 20)];
+            NSData* two = [data subdataWithRange:NSMakeRange(20, data.length-20)];
+            [peripheralDT205 writeValue:one forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
+            sleep(0.5);
+            [peripheralDT205 writeValue:two forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
+        }else{
         [peripheralDT205 writeValue:data forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
+        }
     }
 }
 -(int)readRSSI{
@@ -173,9 +189,10 @@ static BLE_Helper* _singletonBLE_Helper = nil;
 -(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
     NSData* callbackData = characteristic.value;
     NSLog(@"%@",callbackData);
+   // GNTCommad* gntCommand = [GNTCommad new];
+   // [gntCommand handleCallbackData:callbackData];
     [self handleCallbackData:callbackData];
 }
-
 -(void)handleCallbackData:(NSData*) data{
     NSUInteger len = [data length];
     const unsigned char* pcBuffer = [data bytes];
@@ -186,6 +203,122 @@ static BLE_Helper* _singletonBLE_Helper = nil;
             isHeaderExist = true;
         }else if(data == (char)DEVICE_COMMAND_END){
             if (_callBackDataBuffer.length > 0) {
+                
+                NSString* callBackDataString = [[NSString alloc]initWithData:_callBackDataBuffer encoding:NSUTF8StringEncoding];
+                
+                if ([callBackDataString containsString:@"DT205"]) {
+                    NSArray* separatedRandomString = [callBackDataString componentsSeparatedByString:@","];
+                    NSString* randomString = separatedRandomString[3];
+                    unsigned char aBuffer[100];
+                    unsigned char* bBuffer =(unsigned char*)[randomString UTF8String];
+                    int j=0;
+                    for (int i = 0; i<16; i=i+2) {
+                        unsigned char data1=bBuffer[i];
+                        unsigned char data2=bBuffer[i+1];
+                        printf(" %02X%02X ", data1, data2);
+                        if(data1 >='0' && data1 <='9')
+                        {
+                            data1-='0';
+                        }
+                        else if(data1 >='A' && data1<='F')
+                        {
+                            data1=data1-'A';
+                            data1=data1+0xA;
+                        }
+                        if(data2 >='0' && data2 <='9')
+                        {
+                            data2-='0';
+                        }
+                        else if(data2 >='A' && data2<='F')
+                        {
+                            data2=data2-'A';
+                            data2=data2+0xA;
+                        }
+                        
+                        aBuffer[j]=(data1<<4) | data2;
+                        j++;
+                    }
+                    printf("\n\n");
+                    for(int i=0; i<16; i++)
+                        printf("0x%02X ", aBuffer[i]);
+                    aBuffer[8] = ~(aBuffer[0]) + (aBuffer[7]);
+                    aBuffer[9] = ~(aBuffer[3]) ^ (aBuffer[4]);
+                    aBuffer[10] = ~(aBuffer[5]) + (aBuffer[1]);
+                    aBuffer[11] = ~(aBuffer[2]) ^ aBuffer[6];
+                    aBuffer[12] = ~(aBuffer[8]) ^ aBuffer[9];
+                    aBuffer[13] = ~(aBuffer[10]) + aBuffer[11];
+                    aBuffer[14] = aBuffer[0] ^ aBuffer[1] + aBuffer[2] + aBuffer[3] + aBuffer[4] ^ aBuffer[5] + aBuffer[6] ^ aBuffer[7];
+                    aBuffer[15] = aBuffer[8] + aBuffer[9] + aBuffer[10] + aBuffer[11] + aBuffer[12] + aBuffer[13] + aBuffer[14] + 0x57;
+                    
+                    printf("\n\n");
+                    
+                    //AES KEY
+                    NSData* aes_Key = [[NSData alloc]initWithBytes:aBuffer length:16];
+                    
+                    NSString* uuidString = [[UIDevice currentDevice].identifierForVendor UUIDString];
+                    NSArray* separatedUUID = [uuidString componentsSeparatedByString:@"-"];
+                    NSMutableData* mobileDevicePlaintext = [[NSMutableData alloc]init];
+                    
+                    NSString* uuidStringSub = [NSString stringWithFormat:@"%@%@%@",separatedUUID[0],separatedUUID[1],separatedUUID[2]];
+                    for (int i = 0; i<16; i+=2) {
+                        unsigned result = 0;
+                        NSScanner* scanner = [NSScanner scannerWithString:[uuidStringSub substringWithRange:NSMakeRange(i, 2)]];
+                        [scanner setScanLocation:0];
+                        [scanner scanHexInt:&result];
+                        [mobileDevicePlaintext appendBytes:&result length:1];
+                    }
+//                    const char *separatedUUID0 = [separatedUUID[0] UTF8String];
+//                    const char *separatedUUID1 = [separatedUUID[1] UTF8String];
+//                    const char *separatedUUID2 = [separatedUUID[2] UTF8String];
+//                    [mobileDevicePlaintext appendBytes:separatedUUID0 length:8];
+//                    [mobileDevicePlaintext appendBytes:separatedUUID1 length:4];
+//                    [mobileDevicePlaintext appendBytes:separatedUUID2 length:4];
+                    
+                    
+                    NSString* password = [[NSUserDefaults standardUserDefaults]objectForKey:PASSWORD];
+                    for (int i=0; i<12; i+=2) {
+                        unsigned result = 0;
+                        NSScanner* scanner = [NSScanner scannerWithString:[password substringWithRange:NSMakeRange(i, 2)]];
+                        [scanner setScanLocation:0];
+                        [scanner scanHexInt:&result];
+                        [mobileDevicePlaintext appendBytes:&result length:1];
+                    }
+                   
+                    NSLog(@"crc16 %hu",[self crc16:mobileDevicePlaintext Len:14]);
+                    
+                    uint16_t aaa = [self crc16:mobileDevicePlaintext Len:14];
+                    [mobileDevicePlaintext appendBytes:&aaa length:2];
+                    
+                    
+                   
+                    NSLog(@"加密前plan:%@",mobileDevicePlaintext);
+                   
+                    
+                    NSUInteger capacity = aes_Key.length *2;
+                    NSMutableString* key = [NSMutableString stringWithCapacity:capacity];
+                    const unsigned char *sub = [aes_Key bytes];
+                    NSInteger i;
+                    for (i=0; i<aes_Key.length; i++) {
+                        [key appendFormat:@"%02X",sub[i]];
+                    }
+                   
+                   
+                    
+                    
+                    NSLog(@"key:%@",key);
+                    //printf("%s \n ", key);
+                    NSData* mobileDevicePlaintext1 =  [mobileDevicePlaintext AES128DecryptedDataWithKey:key];
+                    
+                    NSLog(@"解密完：%@",mobileDevicePlaintext1);
+                    
+                    NSData* ccc = [mobileDevicePlaintext1 AES128EncryptedDataWithKey:key];
+                    NSLog(@"加密回去: %@",ccc);
+                    
+                    _callBackDataBuffer = mobileDevicePlaintext1;
+                    NSLog(@"%@",_callBackDataBuffer);
+                    
+              }
+                
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"CallbackData" object:nil];
             }
             _callBackDataBuffer = [NSMutableData new];
@@ -195,4 +328,46 @@ static BLE_Helper* _singletonBLE_Helper = nil;
         }
     }
 }
+//-(void)handleCallbackData:(NSData*) data{
+//    NSUInteger len = [data length];
+//    const unsigned char* pcBuffer = [data bytes];
+//    for (int i = 0 ; i<len; i++) {
+//        char data = pcBuffer[i];
+//        if (data == (char)DEVICE_COMMAND_HEAD) {
+//            _callBackDataBuffer = [NSMutableData new];
+//            isHeaderExist = true;
+//        }else if(data == (char)DEVICE_COMMAND_END){
+//            if (_callBackDataBuffer.length > 0) {
+//                [[NSNotificationCenter defaultCenter]postNotificationName:@"CallbackData" object:nil];
+//            }
+//            _callBackDataBuffer = [NSMutableData new];
+//            isHeaderExist = false;
+//        }else if(isHeaderExist){
+//            [_callBackDataBuffer appendBytes:&data length:1];
+//        }
+//    }
+//}
+-(uint16_t)crc16:(NSMutableData*)data Len:(int)len {
+    const char *byte = (const char*)[data bytes];
+    return gNETPlusCRC16Buffer(byte, len);
+}
+uint16_t gNETPlusCRC16Buffer(const char *buffer ,int iDataLen){
+    const CRC_PRESET = 0xFFFF;
+    const CRC_POLYNOM = 0xA001;
+    unsigned short nCRC16 = CRC_PRESET;
+    while (iDataLen--) {
+        nCRC16 ^= *buffer;
+        buffer++;
+        for (int i=0; i<8; i++) {
+            if ((nCRC16 & 1)==1) {
+                nCRC16 = (nCRC16>>1)^CRC_POLYNOM;
+            }else{
+                nCRC16 = (nCRC16>>1);
+            }
+        }
+    }
+    return nCRC16;
+}
+
+
 @end

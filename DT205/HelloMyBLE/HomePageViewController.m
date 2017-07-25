@@ -14,6 +14,9 @@
 #import "LocalNotificationHelper.h"
 
 #import "BLE_Helper.h"
+#import "TcpSocket.h"
+#import "UdpSocket.h"
+
 
 @interface HomePageViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *deviceNameLabel;
@@ -38,18 +41,26 @@
     AVAudioPlayerManager* audioPlayerManager;
     //Push LocalNotificationMessage
     LocalNotificationHelper* localNotificationHelper;
+    
+    TcpSocket* tcpScoket;
+    UdpSocket* udpSocket;
+    BOOL use_Wifi;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    use_Wifi = [[NSUserDefaults standardUserDefaults]boolForKey:@"Use_Wifi"];
+    if (use_Wifi) {
+        tcpScoket = [[TcpSocket alloc]init];
+        udpSocket = [[UdpSocket alloc]init];
+    }else{
+        ble_Helper = [BLE_Helper sharedInstance];
+    }
     audioPlayerManager = [AVAudioPlayerManager new];
     localNotificationHelper = [LocalNotificationHelper new];
-    ble_Helper = [BLE_Helper sharedInstance];
     command = [GNTCommad new];
     isCommandOpenCashDrawer = false;
     
-    NSUUID* uuid =[[UIDevice currentDevice] identifierForVendor];
-    NSLog(@"%@",uuid);
+    
     UILongPressGestureRecognizer* longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(bindPasswordAlert)];
     longPress.minimumPressDuration = 1.0;
     [self.bindButton addGestureRecognizer:longPress];
@@ -58,13 +69,15 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(recieveUpdateValueFromCharacteristic) name:@"CallbackData" object:nil];
+    
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(recieveUpdateValueFromCharacteristic) name:@"CallbackData" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(aaaaaa) name:@"CallbackData" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(handleViewController) name:@"NotifyCharacteristic" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(powerOff_BLE) name:@"BLE_PowerOff" object:nil];
     
     self.statusView.backgroundColor = [UIColor redColor];
     self.statusLabel.text = @"Disconnect";
-    [self handleViewController];
+   // [self handleViewController];
     
     [[self.cashDrawerButton layer] setMasksToBounds:YES];
     [[self.cashDrawerButton layer] setBorderWidth:6.0f];
@@ -77,7 +90,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NotifyCharacteristic" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BLE_PowerOff" object:nil];
     
-    [ble_Helper cancelPeripheral];
+    if (!use_Wifi) {
+        [ble_Helper cancelPeripheral];
+    }
+    
 }
 
 -(void)powerOff_BLE{
@@ -109,7 +125,6 @@
         UITextField* passwordTextField = alert.textFields[0];
         NSString* password = passwordTextField.text;
         if ([password isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:PASSWORD]]) {
-            
             [self gotoScanVC];
         }else{
             [self showAlertWithMessage:@"Wrong bonding PIN code"];
@@ -123,33 +138,80 @@
     
 }
 - (void)gotoScanVC {
+    if (!use_Wifi) {
+        [ble_Helper cancelPeripheral];
+    }
     CentralModeTableViewController* scanVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CentralModeTableViewController"];
-    [ble_Helper cancelPeripheral];
-
+    
+    
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:PASSWORD];
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:DEVICE_UUID_KEY];
     [[NSUserDefaults standardUserDefaults] setObject:false forKey:DEVICE_ISCONNECT];
+    //[self dismissViewControllerAnimated:YES completion:nil];
     [self presentViewController:scanVC animated:YES completion:nil];
 }
 - (IBAction)openCashDrawer:(id)sender {
     isCommandOpenCashDrawer = YES;
-    if (((int)(rssi*-30) < [ble_Helper readRSSI])) {
-        [ble_Helper writeValue:[command sendCommed:DEVICE_OPENCASHDRAWER Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER]];
+    if (use_Wifi) {
+        [tcpScoket writeData:[command sendCommed:DEVICE_OPENCASHDRAWER Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER]];
     }else{
-        [self showAlertWithMessage: @"Distance is too far"];
+        if (((int)(rssi*-30) < [ble_Helper readRSSI])) {
+            [ble_Helper writeValue:[command sendCommed:DEVICE_OPENCASHDRAWER Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER]];
+        }else{
+            [self showAlertWithMessage: @"Distance is too far"];
+        }
     }
+    
 }
 #pragma mark - HandleData Metods
+
+-(void)aaaaaa{
+    
+    NSLog(@"%@",ble_Helper.callBackDataBuffer);
+    NSString* aaa = [NSString stringWithFormat:@"%@",ble_Helper.callBackDataBuffer];
+    unsigned char *cccc = (unsigned char*)[aaa UTF8String];
+    
+    
+    [ble_Helper writeValue:[command sendCommed:'P' Parameter:cccc]];
+    
+}
+
+
+
 -(void)handleViewController{
     self.statusView.backgroundColor = [UIColor greenColor];
     self.statusLabel.text = @"Connect";
-    [ble_Helper writeValue:[command sendCommed:DEVICE_GET_NAME]];
-    [ble_Helper writeValue:[command sendCommed:DEVICE_GET_STATUS Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER]];
-    [ble_Helper writeValue:[command sendCommed:DEVICE_GET_VERSION]];
+    if (use_Wifi) {
+        
+        NSString* udpbracoast = @"Y";
+        NSData* commandData = [udpbracoast dataUsingEncoding:NSUTF8StringEncoding];
+        [udpSocket sendData:commandData toHost:@"255.255.255.255" port:65535 withTimeout:-1 tag:1];
+        
+        [tcpScoket connectToHost:self.device_IP Port:self.device_Port];
+        [tcpScoket writeData:[command sendCommed:DEVICE_GET_NAME]];
+        //[tcpScoket writeData:[command sendCommed:DEVICE_GET_STATUS Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER]];
+      //  [tcpScoket writeData:[command sendCommed:DEVICE_GET_VERSION]];
+    }else{
+//        NSString* aaa = @"ffeowifjweoifjweoifjweoijfeowi";
+//        NSData * sddsadas = [[NSData alloc]initWithBase64EncodedString:aaa options:NSDataBase64DecodingIgnoreUnknownCharacters];
+//        [ble_Helper writeValue:sddsadas];
+        [ble_Helper writeValue:[command sendCommed:DEVICE_GET_NAME]];
+      
+      //  [ble_Helper writeValue:[command sendCommed:DEVICE_GET_STATUS Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER]];
+    // [ble_Helper writeValue:[command sendCommed:DEVICE_GET_VERSION]];
+    }
+    
 }
 -(void)recieveUpdateValueFromCharacteristic{
-    NSLog(@"%@",ble_Helper.callBackDataBuffer);
-    NSString* displayLabel = [[NSString alloc]initWithData:ble_Helper.callBackDataBuffer encoding:NSUTF8StringEncoding];
+    
+    NSString* displayLabel;
+
+    if (use_Wifi) {
+        displayLabel = [[NSString alloc]initWithData:command.callBackDataBuffer encoding:NSUTF8StringEncoding];
+    }else{
+        displayLabel = [[NSString alloc]initWithData:ble_Helper.callBackDataBuffer encoding:NSUTF8StringEncoding];
+    }
+    
     if ([displayLabel isEqualToString:@"*,00"]) {
         [self.cashDrawerButton.layer removeAllAnimations];
         [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Close"] forState:UIControlStateNormal];
@@ -211,4 +273,5 @@
     [audioPlayerManager playSoundsName:@"Alarm.mp3" Repeat:0];
     [self.cashDrawerButton.layer addAnimation:borderColorAnimation forKey:@"color and width"];
 }
+
 @end

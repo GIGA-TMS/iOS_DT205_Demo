@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A75E8C74B667FCB3DD2178E4 /* libPods-HelloMyBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA003EC100959CB275A072 /* libPods-HelloMyBLE.a */; };
 		BFB8AB251E4C0C5E00315B7B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB241E4C0C5E00315B7B /* main.m */; };
 		BFB8AB281E4C0C5E00315B7B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB271E4C0C5E00315B7B /* AppDelegate.m */; };
 		BFB8AB311E4C0C5E00315B7B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFB8AB2F1E4C0C5E00315B7B /* Main.storyboard */; };
@@ -17,6 +18,11 @@
 		BFB8AB451E4C1F4000315B7B /* PeripheralItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */; };
 		C854CE781EBC5CDC00770AF9 /* Alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */; };
 		C854CE7C1EBC6DEC00770AF9 /* CashDrawerOpen.wav in Resources */ = {isa = PBXBuildFile; fileRef = C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */; };
+		C867EA511F02405600B255A9 /* OptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C867EA501F02405600B255A9 /* OptionViewController.m */; };
+		C867EA561F05FA3200B255A9 /* TcpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C867EA531F05FA3200B255A9 /* TcpSocket.m */; };
+		C867EA571F05FA3200B255A9 /* UdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C867EA551F05FA3200B255A9 /* UdpSocket.m */; };
+		C867EA5A1F062F8600B255A9 /* WifiSettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C867EA591F062F8600B255A9 /* WifiSettingTableViewController.m */; };
+		C867EA5D1F0C855600B255A9 /* DeviceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C867EA5C1F0C855600B255A9 /* DeviceItem.m */; };
 		C8B9AB5E1EC2B884009953A1 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B9AB5D1EC2B884009953A1 /* UserNotifications.framework */; };
 		C8B9AB611EC56004009953A1 /* AVAudioPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B9AB601EC56004009953A1 /* AVAudioPlayerManager.m */; };
 		C8B9AB671EC5A964009953A1 /* LocalNotificationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B9AB661EC5A964009953A1 /* LocalNotificationHelper.m */; };
@@ -24,9 +30,13 @@
 		C8BE56021EA05F79000734DC /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BE56011EA05F79000734DC /* HomePageViewController.m */; };
 		C8BE56051EA5F8F9000734DC /* GNTCommad.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BE56041EA5F8F9000734DC /* GNTCommad.m */; };
 		C8BE560F1EBB2000000734DC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8BE560E1EBB2000000734DC /* AVFoundation.framework */; };
+		C8E24D881F220E4200AA89EE /* NSData+AES.m in Sources */ = {isa = PBXBuildFile; fileRef = C8E24D871F220E4200AA89EE /* NSData+AES.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0FB3022985F29875DFFC20D2 /* Pods-HelloMyBLE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloMyBLE.release.xcconfig"; path = "Pods/Target Support Files/Pods-HelloMyBLE/Pods-HelloMyBLE.release.xcconfig"; sourceTree = "<group>"; };
+		96DA003EC100959CB275A072 /* libPods-HelloMyBLE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HelloMyBLE.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABA5A3E4B3D6B9A14AD438A6 /* Pods-HelloMyBLE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloMyBLE.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HelloMyBLE/Pods-HelloMyBLE.debug.xcconfig"; sourceTree = "<group>"; };
 		BFB8AB201E4C0C5E00315B7B /* HelloMyBLE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloMyBLE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFB8AB241E4C0C5E00315B7B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BFB8AB261E4C0C5E00315B7B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -42,6 +52,16 @@
 		BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeripheralItem.m; sourceTree = "<group>"; };
 		C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Alarm.mp3; sourceTree = "<group>"; };
 		C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CashDrawerOpen.wav; sourceTree = "<group>"; };
+		C867EA4F1F02405600B255A9 /* OptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionViewController.h; sourceTree = "<group>"; };
+		C867EA501F02405600B255A9 /* OptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionViewController.m; sourceTree = "<group>"; };
+		C867EA521F05FA3200B255A9 /* TcpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TcpSocket.h; sourceTree = "<group>"; };
+		C867EA531F05FA3200B255A9 /* TcpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TcpSocket.m; sourceTree = "<group>"; };
+		C867EA541F05FA3200B255A9 /* UdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UdpSocket.h; sourceTree = "<group>"; };
+		C867EA551F05FA3200B255A9 /* UdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UdpSocket.m; sourceTree = "<group>"; };
+		C867EA581F062F8600B255A9 /* WifiSettingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiSettingTableViewController.h; sourceTree = "<group>"; };
+		C867EA591F062F8600B255A9 /* WifiSettingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WifiSettingTableViewController.m; sourceTree = "<group>"; };
+		C867EA5B1F0C855600B255A9 /* DeviceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceItem.h; sourceTree = "<group>"; };
+		C867EA5C1F0C855600B255A9 /* DeviceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceItem.m; sourceTree = "<group>"; };
 		C8B9AB5D1EC2B884009953A1 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		C8B9AB5F1EC56004009953A1 /* AVAudioPlayerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAudioPlayerManager.h; sourceTree = "<group>"; };
 		C8B9AB601EC56004009953A1 /* AVAudioPlayerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAudioPlayerManager.m; sourceTree = "<group>"; };
@@ -55,6 +75,8 @@
 		C8BE56041EA5F8F9000734DC /* GNTCommad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTCommad.m; sourceTree = "<group>"; };
 		C8BE56061EA5FD76000734DC /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		C8BE560E1EBB2000000734DC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		C8E24D861F220E4100AA89EE /* NSData+AES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AES.h"; sourceTree = "<group>"; };
+		C8E24D871F220E4200AA89EE /* NSData+AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,18 +87,29 @@
 				C8B9AB5E1EC2B884009953A1 /* UserNotifications.framework in Frameworks */,
 				C8BE560F1EBB2000000734DC /* AVFoundation.framework in Frameworks */,
 				BFB8AB3F1E4C0C8000315B7B /* CoreBluetooth.framework in Frameworks */,
+				A75E8C74B667FCB3DD2178E4 /* libPods-HelloMyBLE.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5EFA78D92034A547E3B33984 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				ABA5A3E4B3D6B9A14AD438A6 /* Pods-HelloMyBLE.debug.xcconfig */,
+				0FB3022985F29875DFFC20D2 /* Pods-HelloMyBLE.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		BFB8AB171E4C0C5E00315B7B = {
 			isa = PBXGroup;
 			children = (
 				BFB8AB221E4C0C5E00315B7B /* HelloMyBLE */,
 				BFB8AB211E4C0C5E00315B7B /* Products */,
 				BFB8AB3D1E4C0C8000315B7B /* Frameworks */,
+				5EFA78D92034A547E3B33984 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,6 +155,7 @@
 				C8B9AB5D1EC2B884009953A1 /* UserNotifications.framework */,
 				C8BE560E1EBB2000000734DC /* AVFoundation.framework */,
 				BFB8AB3E1E4C0C8000315B7B /* CoreBluetooth.framework */,
+				96DA003EC100959CB275A072 /* libPods-HelloMyBLE.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -129,12 +163,20 @@
 		C8B9AB621EC56572009953A1 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				C867EA521F05FA3200B255A9 /* TcpSocket.h */,
+				C867EA531F05FA3200B255A9 /* TcpSocket.m */,
+				C867EA541F05FA3200B255A9 /* UdpSocket.h */,
+				C867EA551F05FA3200B255A9 /* UdpSocket.m */,
 				C8B9AB681EC98F98009953A1 /* BLE_Helper.h */,
 				C8B9AB691EC98F98009953A1 /* BLE_Helper.m */,
+				C8E24D861F220E4100AA89EE /* NSData+AES.h */,
+				C8E24D871F220E4200AA89EE /* NSData+AES.m */,
 				C8B9AB651EC5A964009953A1 /* LocalNotificationHelper.h */,
 				C8B9AB661EC5A964009953A1 /* LocalNotificationHelper.m */,
 				C8B9AB5F1EC56004009953A1 /* AVAudioPlayerManager.h */,
 				C8B9AB601EC56004009953A1 /* AVAudioPlayerManager.m */,
+				C8BE56031EA5F8F9000734DC /* GNTCommad.h */,
+				C8BE56041EA5F8F9000734DC /* GNTCommad.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -142,10 +184,10 @@
 		C8B9AB631EC565A8009953A1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C8BE56031EA5F8F9000734DC /* GNTCommad.h */,
-				C8BE56041EA5F8F9000734DC /* GNTCommad.m */,
 				BFB8AB431E4C1F4000315B7B /* PeripheralItem.h */,
 				BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */,
+				C867EA5B1F0C855600B255A9 /* DeviceItem.h */,
+				C867EA5C1F0C855600B255A9 /* DeviceItem.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -153,10 +195,14 @@
 		C8B9AB641EC59B0F009953A1 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				C867EA4F1F02405600B255A9 /* OptionViewController.h */,
+				C867EA501F02405600B255A9 /* OptionViewController.m */,
 				C8BE56001EA05F79000734DC /* HomePageViewController.h */,
 				C8BE56011EA05F79000734DC /* HomePageViewController.m */,
 				BFB8AB401E4C0E0C00315B7B /* CentralModeTableViewController.h */,
 				BFB8AB411E4C0E0C00315B7B /* CentralModeTableViewController.m */,
+				C867EA581F062F8600B255A9 /* WifiSettingTableViewController.h */,
+				C867EA591F062F8600B255A9 /* WifiSettingTableViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -168,9 +214,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BFB8AB3A1E4C0C5E00315B7B /* Build configuration list for PBXNativeTarget "HelloMyBLE" */;
 			buildPhases = (
+				99A05368CCF688CBA185DEF5 /* [CP] Check Pods Manifest.lock */,
 				BFB8AB1C1E4C0C5E00315B7B /* Sources */,
 				BFB8AB1D1E4C0C5E00315B7B /* Frameworks */,
 				BFB8AB1E1E4C0C5E00315B7B /* Resources */,
+				95E4232220D0D75596B599B8 /* [CP] Embed Pods Frameworks */,
+				65BDDF67F0247523A28F0CC8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -235,20 +284,74 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		65BDDF67F0247523A28F0CC8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HelloMyBLE/Pods-HelloMyBLE-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		95E4232220D0D75596B599B8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HelloMyBLE/Pods-HelloMyBLE-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		99A05368CCF688CBA185DEF5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		BFB8AB1C1E4C0C5E00315B7B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C867EA571F05FA3200B255A9 /* UdpSocket.m in Sources */,
 				BFB8AB281E4C0C5E00315B7B /* AppDelegate.m in Sources */,
 				C8B9AB611EC56004009953A1 /* AVAudioPlayerManager.m in Sources */,
 				BFB8AB451E4C1F4000315B7B /* PeripheralItem.m in Sources */,
 				C8BE56051EA5F8F9000734DC /* GNTCommad.m in Sources */,
+				C8E24D881F220E4200AA89EE /* NSData+AES.m in Sources */,
 				C8BE56021EA05F79000734DC /* HomePageViewController.m in Sources */,
 				BFB8AB421E4C0E0C00315B7B /* CentralModeTableViewController.m in Sources */,
 				C8B9AB671EC5A964009953A1 /* LocalNotificationHelper.m in Sources */,
 				BFB8AB251E4C0C5E00315B7B /* main.m in Sources */,
 				C8B9AB6A1EC98F98009953A1 /* BLE_Helper.m in Sources */,
+				C867EA5A1F062F8600B255A9 /* WifiSettingTableViewController.m in Sources */,
+				C867EA561F05FA3200B255A9 /* TcpSocket.m in Sources */,
+				C867EA5D1F0C855600B255A9 /* DeviceItem.m in Sources */,
+				C867EA511F02405600B255A9 /* OptionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,12 +469,13 @@
 		};
 		BFB8AB3B1E4C0C5E00315B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ABA5A3E4B3D6B9A14AD438A6 /* Pods-HelloMyBLE.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = Y4P36BD9UV;
 				INFOPLIST_FILE = HelloMyBLE/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.WilsonChen.HelloMyBLE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -381,12 +485,13 @@
 		};
 		BFB8AB3C1E4C0C5E00315B7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0FB3022985F29875DFFC20D2 /* Pods-HelloMyBLE.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = Y4P36BD9UV;
 				INFOPLIST_FILE = HelloMyBLE/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.WilsonChen.HelloMyBLE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
