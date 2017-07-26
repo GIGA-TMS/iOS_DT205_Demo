@@ -169,7 +169,10 @@
     
     NSLog(@"%@",ble_Helper.callBackDataBuffer);
     NSString* aaa = [NSString stringWithFormat:@"%@",ble_Helper.callBackDataBuffer];
-    unsigned char *cccc = (unsigned char*)[aaa UTF8String];
+    NSString* bbb = [aaa stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    NSString* ccc = [bbb stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    unsigned char *cccc = (unsigned char*)[[ccc uppercaseString] UTF8String];
     
     
     [ble_Helper writeValue:[command sendCommed:'P' Parameter:cccc]];

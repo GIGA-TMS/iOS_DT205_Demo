@@ -80,6 +80,7 @@ static BLE_Helper* _singletonBLE_Helper = nil;
 -(void)writeValue:(NSData *)data{
     if (peripheralDT205 != nil && characteristicDT205 != nil) {
         if (data.length > 20) {
+            
             NSData* one = [data subdataWithRange:NSMakeRange(0, 20)];
             NSData* two = [data subdataWithRange:NSMakeRange(20, data.length-20)];
             [peripheralDT205 writeValue:one forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
@@ -208,7 +209,7 @@ static BLE_Helper* _singletonBLE_Helper = nil;
                 
                 if ([callBackDataString containsString:@"DT205"]) {
                     NSArray* separatedRandomString = [callBackDataString componentsSeparatedByString:@","];
-                    NSString* randomString = separatedRandomString[3];
+                    NSString* randomString = separatedRandomString[2];
                     unsigned char aBuffer[100];
                     unsigned char* bBuffer =(unsigned char*)[randomString UTF8String];
                     int j=0;
@@ -238,9 +239,7 @@ static BLE_Helper* _singletonBLE_Helper = nil;
                         aBuffer[j]=(data1<<4) | data2;
                         j++;
                     }
-                    printf("\n\n");
-                    for(int i=0; i<16; i++)
-                        printf("0x%02X ", aBuffer[i]);
+                    
                     aBuffer[8] = ~(aBuffer[0]) + (aBuffer[7]);
                     aBuffer[9] = ~(aBuffer[3]) ^ (aBuffer[4]);
                     aBuffer[10] = ~(aBuffer[5]) + (aBuffer[1]);
@@ -251,15 +250,21 @@ static BLE_Helper* _singletonBLE_Helper = nil;
                     aBuffer[15] = aBuffer[8] + aBuffer[9] + aBuffer[10] + aBuffer[11] + aBuffer[12] + aBuffer[13] + aBuffer[14] + 0x57;
                     
                     printf("\n\n");
+                    for(int i=0; i<16; i++)
+                        printf("0x%02X ", aBuffer[i]);
+                    printf("\n\n");
                     
                     //AES KEY
                     NSData* aes_Key = [[NSData alloc]initWithBytes:aBuffer length:16];
+                    
                     
                     NSString* uuidString = [[UIDevice currentDevice].identifierForVendor UUIDString];
                     NSArray* separatedUUID = [uuidString componentsSeparatedByString:@"-"];
                     NSMutableData* mobileDevicePlaintext = [[NSMutableData alloc]init];
                     
                     NSString* uuidStringSub = [NSString stringWithFormat:@"%@%@%@",separatedUUID[0],separatedUUID[1],separatedUUID[2]];
+                    NSData* test =[uuidStringSub dataUsingEncoding:NSUTF8StringEncoding];
+                    
                     for (int i = 0; i<16; i+=2) {
                         unsigned result = 0;
                         NSScanner* scanner = [NSScanner scannerWithString:[uuidStringSub substringWithRange:NSMakeRange(i, 2)]];
@@ -267,13 +272,6 @@ static BLE_Helper* _singletonBLE_Helper = nil;
                         [scanner scanHexInt:&result];
                         [mobileDevicePlaintext appendBytes:&result length:1];
                     }
-//                    const char *separatedUUID0 = [separatedUUID[0] UTF8String];
-//                    const char *separatedUUID1 = [separatedUUID[1] UTF8String];
-//                    const char *separatedUUID2 = [separatedUUID[2] UTF8String];
-//                    [mobileDevicePlaintext appendBytes:separatedUUID0 length:8];
-//                    [mobileDevicePlaintext appendBytes:separatedUUID1 length:4];
-//                    [mobileDevicePlaintext appendBytes:separatedUUID2 length:4];
-                    
                     
                     NSString* password = [[NSUserDefaults standardUserDefaults]objectForKey:PASSWORD];
                     for (int i=0; i<12; i+=2) {
@@ -288,33 +286,29 @@ static BLE_Helper* _singletonBLE_Helper = nil;
                     
                     uint16_t aaa = [self crc16:mobileDevicePlaintext Len:14];
                     [mobileDevicePlaintext appendBytes:&aaa length:2];
-                    
-                    
-                   
                     NSLog(@"加密前plan:%@",mobileDevicePlaintext);
-                   
                     
-                    NSUInteger capacity = aes_Key.length *2;
-                    NSMutableString* key = [NSMutableString stringWithCapacity:capacity];
-                    const unsigned char *sub = [aes_Key bytes];
-                    NSInteger i;
-                    for (i=0; i<aes_Key.length; i++) {
-                        [key appendFormat:@"%02X",sub[i]];
+                    {
+                        size_t outLength;
+                        NSMutableData* decryptedData = [NSMutableData dataWithLength:mobileDevicePlaintext.length + kCCBlockSizeAES128];
+                        
+                        CCCryptorStatus result = CCCrypt(kCCDecrypt,
+                                                         kCCAlgorithmAES128,
+                                                         kCCOptionPKCS7Padding,
+                                                         aes_Key.bytes,
+                                                         kCCKeySizeAES128,
+                                                         nil,
+                                                         mobileDevicePlaintext.bytes,
+                                                         mobileDevicePlaintext.length,
+                                                         decryptedData.mutableBytes,
+                                                         decryptedData.length,
+                                                         &outLength);
+                        if (result == kCCSuccess) {
+                            decryptedData.length = outLength;
+                            NSLog(@"%@",decryptedData);
+                            _callBackDataBuffer = decryptedData;
+                        }
                     }
-                   
-                   
-                    
-                    
-                    NSLog(@"key:%@",key);
-                    //printf("%s \n ", key);
-                    NSData* mobileDevicePlaintext1 =  [mobileDevicePlaintext AES128DecryptedDataWithKey:key];
-                    
-                    NSLog(@"解密完：%@",mobileDevicePlaintext1);
-                    
-                    NSData* ccc = [mobileDevicePlaintext1 AES128EncryptedDataWithKey:key];
-                    NSLog(@"加密回去: %@",ccc);
-                    
-                    _callBackDataBuffer = mobileDevicePlaintext1;
                     NSLog(@"%@",_callBackDataBuffer);
                     
               }

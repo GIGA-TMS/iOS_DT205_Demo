@@ -34,7 +34,7 @@
     //NSLog(@"%c",commend);
     
     if (parameter != nil) {
-        [data appendBytes:parameter length:34];
+        [data appendBytes:parameter length:32];
     }
     const char endValue = (char)DEVICE_COMMAND_END;
     [data appendBytes:&endValue length:1];
