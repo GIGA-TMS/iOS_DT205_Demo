@@ -77,7 +77,7 @@
     
     self.statusView.backgroundColor = [UIColor redColor];
     self.statusLabel.text = @"Disconnect";
-   // [self handleViewController];
+    [self handleViewController];
     
     [[self.cashDrawerButton layer] setMasksToBounds:YES];
     [[self.cashDrawerButton layer] setBorderWidth:6.0f];

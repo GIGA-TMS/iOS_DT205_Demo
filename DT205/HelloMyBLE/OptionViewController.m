@@ -38,7 +38,7 @@
         
         
         NSData* commandData = [command dataUsingEncoding:NSUTF8StringEncoding];
-        [tcpSocket connectToHost:@"192.169.4.1" Port:@"1002"];
+        [tcpSocket connectToHost:@"192.168.4.1" Port:@"1002"];
         [tcpSocket writeData:commandData];
         
         [self showViewController:centralModeTVC sender:self];
