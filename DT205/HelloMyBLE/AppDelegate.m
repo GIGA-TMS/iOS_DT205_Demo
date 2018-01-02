@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "Header.h"
 #import "LocalNotificationHelper.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 //#define ROOTVIEWCONTROLLER @"HomePage"
 
 @interface AppDelegate ()
@@ -20,6 +22,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    [Fabric with:@[[Crashlytics class]]];
     [[NSUserDefaults standardUserDefaults] setBool:false forKey:ROOTVIEWCONTROLLER];
     
     // Override point for customization after application launch.
