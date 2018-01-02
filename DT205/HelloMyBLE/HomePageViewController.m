@@ -167,7 +167,7 @@
 
 -(void)aaaaaa{
     
-    NSLog(@"%@",ble_Helper.callBackDataBuffer);
+    NSLog(@"aaaaaa %@",ble_Helper.callBackDataBuffer);
     NSString* aaa = [NSString stringWithFormat:@"%@",ble_Helper.callBackDataBuffer];
     NSString* bbb = [aaa stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     NSString* ccc = [bbb stringByReplacingOccurrencesOfString:@" " withString:@""];

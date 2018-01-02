@@ -275,11 +275,14 @@ static BLE_Helper* _singletonBLE_Helper = nil;
                     
                     NSString* password = [[NSUserDefaults standardUserDefaults]objectForKey:PASSWORD];
                     for (int i=0; i<12; i+=2) {
-                        unsigned result = 0;
-                        NSScanner* scanner = [NSScanner scannerWithString:[password substringWithRange:NSMakeRange(i, 2)]];
-                        [scanner setScanLocation:0];
-                        [scanner scanHexInt:&result];
-                        [mobileDevicePlaintext appendBytes:&result length:1];
+                        if (password.length > 2) {
+                            unsigned result = 0;
+                            NSScanner* scanner = [NSScanner scannerWithString:[password substringWithRange:NSMakeRange(i, 2)]];
+                            [scanner setScanLocation:0];
+                            [scanner scanHexInt:&result];
+                            [mobileDevicePlaintext appendBytes:&result length:1];
+                        }
+                        
                     }
                    
                     NSLog(@"crc16 %hu",[self crc16:mobileDevicePlaintext Len:14]);
