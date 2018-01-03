@@ -66,12 +66,38 @@
     [self.bindButton addGestureRecognizer:longPress];
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ROOTVIEWCONTROLLER];
+    
+    [self getVersion];
 }
+
+
+- (void)getVersion {
+    //To get the version number
+    NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSString * versionBuildString = [NSString stringWithFormat:@"Version: %@.%@", appVersionString, appBuildString];
+    NSLog(@"Gianni appVersionString: %@ , appBuildString: %@",appVersionString,appBuildString);
+    
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    //    CGRectMake(10,(screenHeight - height - 10),width,height);
+    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(10,(screenHeight - 100 - 10),200,50)];
+    
+    
+    [lbl setText:versionBuildString];
+    [lbl setBackgroundColor:[UIColor clearColor]];
+    [[self view] addSubview:lbl];
+    [lbl sizeToFit];
+}
+
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(recieveUpdateValueFromCharacteristic) name:@"CallbackData" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(aaaaaa) name:@"CallbackData" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(recieveUpdateValueFromCharacteristic) name:@"CallbackData" object:nil];
+    //    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(aaaaaa) name:@"CallbackData" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(handleViewController) name:@"NotifyCharacteristic" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(powerOff_BLE) name:@"BLE_PowerOff" object:nil];
     
@@ -153,10 +179,10 @@
 - (IBAction)openCashDrawer:(id)sender {
     isCommandOpenCashDrawer = YES;
     if (use_Wifi) {
-        [tcpScoket writeData:[command sendCommed:DEVICE_OPENCASHDRAWER Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER]];
+        [tcpScoket writeData:[command sendCommed:DEVICE_OPENCASHDRAWER Parameter:(char)DEVICE_OPENCASHDRAWER_PARAMETER]];
     }else{
         if (((int)(rssi*-30) < [ble_Helper readRSSI])) {
-            [ble_Helper writeValue:[command sendCommed:DEVICE_OPENCASHDRAWER Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER]];
+            [ble_Helper writeValue:[command sendCommed:DEVICE_OPENCASHDRAWER Parameter:(char)DEVICE_OPENCASHDRAWER_PARAMETER]];
         }else{
             [self showAlertWithMessage: @"Distance is too far"];
         }
@@ -193,29 +219,31 @@
         [tcpScoket connectToHost:self.device_IP Port:self.device_Port];
         [tcpScoket writeData:[command sendCommed:DEVICE_GET_NAME]];
         //[tcpScoket writeData:[command sendCommed:DEVICE_GET_STATUS Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER]];
-      //  [tcpScoket writeData:[command sendCommed:DEVICE_GET_VERSION]];
+        //  [tcpScoket writeData:[command sendCommed:DEVICE_GET_VERSION]];
     }else{
-//        NSString* aaa = @"ffeowifjweoifjweoifjweoijfeowi";
-//        NSData * sddsadas = [[NSData alloc]initWithBase64EncodedString:aaa options:NSDataBase64DecodingIgnoreUnknownCharacters];
-//        [ble_Helper writeValue:sddsadas];
+        //        NSString* aaa = @"ffeowifjweoifjweoifjweoijfeowi";
+        //        NSData * sddsadas = [[NSData alloc]initWithBase64EncodedString:aaa options:NSDataBase64DecodingIgnoreUnknownCharacters];
+        //        [ble_Helper writeValue:sddsadas];
         [ble_Helper writeValue:[command sendCommed:DEVICE_GET_NAME]];
-      
-      //  [ble_Helper writeValue:[command sendCommed:DEVICE_GET_STATUS Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER]];
-    // [ble_Helper writeValue:[command sendCommed:DEVICE_GET_VERSION]];
+        
+        //  [ble_Helper writeValue:[command sendCommed:DEVICE_GET_STATUS Parameter:(char*)DEVICE_OPENCASHDRAWER_PARAMETER]];
+        // [ble_Helper writeValue:[command sendCommed:DEVICE_GET_VERSION]];
     }
     
 }
 -(void)recieveUpdateValueFromCharacteristic{
     
     NSString* displayLabel;
-
+    
     if (use_Wifi) {
         displayLabel = [[NSString alloc]initWithData:command.callBackDataBuffer encoding:NSUTF8StringEncoding];
     }else{
         displayLabel = [[NSString alloc]initWithData:ble_Helper.callBackDataBuffer encoding:NSUTF8StringEncoding];
     }
     
-    if ([displayLabel isEqualToString:@"*,00"]) {
+    NSLog(@"Gianni recieveUpdateValueFromCharacteristic displayLabel: %@", displayLabel);
+    //
+    if ([displayLabel isEqualToString:@"*c00"]) {
         [self.cashDrawerButton.layer removeAllAnimations];
         [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Close"] forState:UIControlStateNormal];
         [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
@@ -224,12 +252,12 @@
             [audioPlayerManager stop];
         }
         return;
-    }else if ([displayLabel isEqualToString:@"*,01"]){
+    }else if ([displayLabel isEqualToString:@"*c01"]){
         [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
         if (!isCommandOpenCashDrawer) {
             [self doAlarmAnimation];
             [localNotificationHelper pushLocalNotificationMessageTitle:@"Notice" Body:@"Cash drawer is opened illegal"];
-      }else{
+        }else{
             [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
             [audioPlayerManager playSoundsName:@"CashDrawerOpen.wav" Repeat:1];
         }
@@ -252,6 +280,20 @@
             [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
             [audioPlayerManager playSoundsName:@"CashDrawerOpen.wav" Repeat:1];
         }
+        return;
+    }else if ([displayLabel isEqualToString:@"*r01"]){
+        [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
+        
+        [self doAlarmAnimation];
+        [localNotificationHelper pushLocalNotificationMessageTitle:@"Notice" Body:@"Cash drawer is opened illegal"];
+        
+        return;
+    }else if ([displayLabel isEqualToString:@"*a01"]){
+        [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
+        
+        [self doAlarmAnimation];
+        [localNotificationHelper pushLocalNotificationMessageTitle:@"Notice" Body:@"Cash drawer is opened illegal"];
+        
         return;
     }else if ([displayLabel containsString:@"A,ROM"]) {
         NSString* display = [displayLabel substringFromIndex:2];

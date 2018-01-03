@@ -77,8 +77,27 @@ static BLE_Helper* _singletonBLE_Helper = nil;
     [peripheralDT205 setNotifyValue:NO forCharacteristic:characteristicDT205];
     [manager cancelPeripheralConnection:peripheralDT205];
 }
+
+-(void)Glog:(NSString*) title data:(NSData *) cmdData {
+    
+    int nBuffLength = (int) [cmdData length];
+    const char* pBuff =  (unsigned char*) [cmdData bytes];
+    
+    NSString* strDbgString = @"Glog ";
+    strDbgString = [NSString stringWithFormat:@"( %d ) :", nBuffLength];
+    for( int a=0 ; a<nBuffLength ; a++ ) {
+        strDbgString = [NSString stringWithFormat:@"%@ 0x%02X", strDbgString, (pBuff[a]&0x0FF) ];
+    }
+    
+    
+    NSLog(@"%@ Gianni Glog :%@",title ,strDbgString);
+    
+}
+
+
 -(void)writeValue:(NSData *)data{
     if (peripheralDT205 != nil && characteristicDT205 != nil) {
+        [self Glog:@"writeValue" data:data];
         if (data.length > 20) {
             
             NSData* one = [data subdataWithRange:NSMakeRange(0, 20)];
@@ -87,7 +106,7 @@ static BLE_Helper* _singletonBLE_Helper = nil;
             sleep(0.5);
             [peripheralDT205 writeValue:two forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
         }else{
-        [peripheralDT205 writeValue:data forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
+            [peripheralDT205 writeValue:data forCharacteristic:characteristicDT205 type:CBCharacteristicWriteWithResponse];
         }
     }
 }
@@ -195,6 +214,7 @@ static BLE_Helper* _singletonBLE_Helper = nil;
     [self handleCallbackData:callbackData];
 }
 -(void)handleCallbackData:(NSData*) data{
+    [self Glog:@"handleCallbackData" data:data];
     NSUInteger len = [data length];
     const unsigned char* pcBuffer = [data bytes];
     for (int i = 0 ; i<len; i++) {

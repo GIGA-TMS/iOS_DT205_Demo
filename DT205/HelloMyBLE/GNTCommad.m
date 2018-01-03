@@ -18,12 +18,13 @@
     return [self sendCommed:commend Parameter:nil];
 }
 
--(NSData*)sendCommed:(char)commend Parameter:(char*)parameter{
+-(NSData*)sendCommed:(char)commend Parameter:(char)parameter{
     
+    NSLog(@"%c",parameter);
     return [self creatCommandData:commend  Parameter:parameter];
 }
 
--(NSData*)creatCommandData:(char)commend Parameter:(char*)parameter{
+-(NSData*)creatCommandData:(char)commend Parameter:(char)parameter{
     
     NSMutableData* data = [[NSMutableData alloc]init];
     const char header = (char)DEVICE_COMMAND_HEAD;
@@ -32,13 +33,13 @@
     
     [data appendBytes:&commend length:1];
     //NSLog(@"%c",commend);
-    
-    if (parameter != nil) {
+    NSLog(@"creatCommandData parameter : %c",parameter);
+    if (parameter != '\0' || parameter != NULL) {
         
         int lenght = sizeof(parameter);
-//        size_t lenght = strlen(parameter)
-        if (lenght == 32) {
-        [data appendBytes:parameter length:32];
+        
+        if (lenght > 0) {
+            [data appendBytes:&parameter length:lenght];
         }
         
     }
