@@ -74,8 +74,12 @@ static BLE_Helper* _singletonBLE_Helper = nil;
     [manager connectPeripheral:peripheral options:nil];
 }
 -(void)cancelPeripheral{
-    [peripheralDT205 setNotifyValue:NO forCharacteristic:characteristicDT205];
-    [manager cancelPeripheralConnection:peripheralDT205];
+    if (peripheralDT205 != nil) {
+        if (characteristicDT205 != nil) {
+            [peripheralDT205 setNotifyValue:NO forCharacteristic:characteristicDT205];
+            [manager cancelPeripheralConnection:peripheralDT205];
+        }
+    }
 }
 
 -(void)Glog:(NSString*) title data:(NSData *) cmdData {
