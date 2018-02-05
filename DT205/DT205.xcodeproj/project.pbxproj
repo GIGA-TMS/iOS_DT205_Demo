@@ -1,0 +1,546 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		41FFD1382020450900ADAA69 /* NSData+AES.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FFD1372020450800ADAA69 /* NSData+AES.m */; };
+		A75E8C74B667FCB3DD2178E4 /* libPods-HelloMyBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA003EC100959CB275A072 /* libPods-HelloMyBLE.a */; };
+		BFB8AB251E4C0C5E00315B7B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB241E4C0C5E00315B7B /* main.m */; };
+		BFB8AB281E4C0C5E00315B7B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB271E4C0C5E00315B7B /* AppDelegate.m */; };
+		BFB8AB311E4C0C5E00315B7B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFB8AB2F1E4C0C5E00315B7B /* Main.storyboard */; };
+		BFB8AB331E4C0C5E00315B7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFB8AB321E4C0C5E00315B7B /* Assets.xcassets */; };
+		BFB8AB361E4C0C5E00315B7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFB8AB341E4C0C5E00315B7B /* LaunchScreen.storyboard */; };
+		BFB8AB3F1E4C0C8000315B7B /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFB8AB3E1E4C0C8000315B7B /* CoreBluetooth.framework */; };
+		BFB8AB421E4C0E0C00315B7B /* CentralModeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB411E4C0E0C00315B7B /* CentralModeTableViewController.m */; };
+		BFB8AB451E4C1F4000315B7B /* PeripheralItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */; };
+		C854CE781EBC5CDC00770AF9 /* Alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */; };
+		C854CE7C1EBC6DEC00770AF9 /* CashDrawerOpen.wav in Resources */ = {isa = PBXBuildFile; fileRef = C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */; };
+		C867EA511F02405600B255A9 /* OptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C867EA501F02405600B255A9 /* OptionViewController.m */; };
+		C867EA561F05FA3200B255A9 /* TcpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C867EA531F05FA3200B255A9 /* TcpSocket.m */; };
+		C867EA571F05FA3200B255A9 /* UdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C867EA551F05FA3200B255A9 /* UdpSocket.m */; };
+		C867EA5A1F062F8600B255A9 /* WifiSettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C867EA591F062F8600B255A9 /* WifiSettingTableViewController.m */; };
+		C867EA5D1F0C855600B255A9 /* DeviceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C867EA5C1F0C855600B255A9 /* DeviceItem.m */; };
+		C8B9AB5E1EC2B884009953A1 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B9AB5D1EC2B884009953A1 /* UserNotifications.framework */; };
+		C8B9AB611EC56004009953A1 /* AVAudioPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B9AB601EC56004009953A1 /* AVAudioPlayerManager.m */; };
+		C8B9AB671EC5A964009953A1 /* LocalNotificationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B9AB661EC5A964009953A1 /* LocalNotificationHelper.m */; };
+		C8B9AB6A1EC98F98009953A1 /* BLE_Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B9AB691EC98F98009953A1 /* BLE_Helper.m */; };
+		C8BE56021EA05F79000734DC /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BE56011EA05F79000734DC /* HomePageViewController.m */; };
+		C8BE56051EA5F8F9000734DC /* GNTCommad.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BE56041EA5F8F9000734DC /* GNTCommad.m */; };
+		C8BE560F1EBB2000000734DC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8BE560E1EBB2000000734DC /* AVFoundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0FB3022985F29875DFFC20D2 /* Pods-HelloMyBLE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloMyBLE.release.xcconfig"; path = "Pods/Target Support Files/Pods-HelloMyBLE/Pods-HelloMyBLE.release.xcconfig"; sourceTree = "<group>"; };
+		41FFD1362020450800ADAA69 /* NSData+AES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AES.h"; sourceTree = "<group>"; };
+		41FFD1372020450800ADAA69 /* NSData+AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES.m"; sourceTree = "<group>"; };
+		96DA003EC100959CB275A072 /* libPods-HelloMyBLE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HelloMyBLE.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABA5A3E4B3D6B9A14AD438A6 /* Pods-HelloMyBLE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloMyBLE.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HelloMyBLE/Pods-HelloMyBLE.debug.xcconfig"; sourceTree = "<group>"; };
+		BFB8AB201E4C0C5E00315B7B /* DT205.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DT205.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFB8AB241E4C0C5E00315B7B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BFB8AB261E4C0C5E00315B7B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		BFB8AB271E4C0C5E00315B7B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		BFB8AB301E4C0C5E00315B7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BFB8AB321E4C0C5E00315B7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BFB8AB351E4C0C5E00315B7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BFB8AB371E4C0C5E00315B7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BFB8AB3E1E4C0C8000315B7B /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		BFB8AB401E4C0E0C00315B7B /* CentralModeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CentralModeTableViewController.h; sourceTree = "<group>"; };
+		BFB8AB411E4C0E0C00315B7B /* CentralModeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CentralModeTableViewController.m; sourceTree = "<group>"; };
+		BFB8AB431E4C1F4000315B7B /* PeripheralItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralItem.h; sourceTree = "<group>"; };
+		BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeripheralItem.m; sourceTree = "<group>"; };
+		C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Alarm.mp3; sourceTree = "<group>"; };
+		C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CashDrawerOpen.wav; sourceTree = "<group>"; };
+		C867EA4F1F02405600B255A9 /* OptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionViewController.h; sourceTree = "<group>"; };
+		C867EA501F02405600B255A9 /* OptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionViewController.m; sourceTree = "<group>"; };
+		C867EA521F05FA3200B255A9 /* TcpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TcpSocket.h; sourceTree = "<group>"; };
+		C867EA531F05FA3200B255A9 /* TcpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TcpSocket.m; sourceTree = "<group>"; };
+		C867EA541F05FA3200B255A9 /* UdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UdpSocket.h; sourceTree = "<group>"; };
+		C867EA551F05FA3200B255A9 /* UdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UdpSocket.m; sourceTree = "<group>"; };
+		C867EA581F062F8600B255A9 /* WifiSettingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiSettingTableViewController.h; sourceTree = "<group>"; };
+		C867EA591F062F8600B255A9 /* WifiSettingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WifiSettingTableViewController.m; sourceTree = "<group>"; };
+		C867EA5B1F0C855600B255A9 /* DeviceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceItem.h; sourceTree = "<group>"; };
+		C867EA5C1F0C855600B255A9 /* DeviceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceItem.m; sourceTree = "<group>"; };
+		C8B9AB5D1EC2B884009953A1 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		C8B9AB5F1EC56004009953A1 /* AVAudioPlayerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAudioPlayerManager.h; sourceTree = "<group>"; };
+		C8B9AB601EC56004009953A1 /* AVAudioPlayerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAudioPlayerManager.m; sourceTree = "<group>"; };
+		C8B9AB651EC5A964009953A1 /* LocalNotificationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNotificationHelper.h; sourceTree = "<group>"; };
+		C8B9AB661EC5A964009953A1 /* LocalNotificationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalNotificationHelper.m; sourceTree = "<group>"; };
+		C8B9AB681EC98F98009953A1 /* BLE_Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLE_Helper.h; sourceTree = "<group>"; };
+		C8B9AB691EC98F98009953A1 /* BLE_Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLE_Helper.m; sourceTree = "<group>"; };
+		C8BE56001EA05F79000734DC /* HomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageViewController.h; sourceTree = "<group>"; };
+		C8BE56011EA05F79000734DC /* HomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageViewController.m; sourceTree = "<group>"; };
+		C8BE56031EA5F8F9000734DC /* GNTCommad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTCommad.h; sourceTree = "<group>"; };
+		C8BE56041EA5F8F9000734DC /* GNTCommad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTCommad.m; sourceTree = "<group>"; };
+		C8BE56061EA5FD76000734DC /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		C8BE560E1EBB2000000734DC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BFB8AB1D1E4C0C5E00315B7B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C8B9AB5E1EC2B884009953A1 /* UserNotifications.framework in Frameworks */,
+				C8BE560F1EBB2000000734DC /* AVFoundation.framework in Frameworks */,
+				BFB8AB3F1E4C0C8000315B7B /* CoreBluetooth.framework in Frameworks */,
+				A75E8C74B667FCB3DD2178E4 /* libPods-HelloMyBLE.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5EFA78D92034A547E3B33984 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				ABA5A3E4B3D6B9A14AD438A6 /* Pods-HelloMyBLE.debug.xcconfig */,
+				0FB3022985F29875DFFC20D2 /* Pods-HelloMyBLE.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		BFB8AB171E4C0C5E00315B7B = {
+			isa = PBXGroup;
+			children = (
+				BFB8AB221E4C0C5E00315B7B /* DT205 */,
+				BFB8AB211E4C0C5E00315B7B /* Products */,
+				BFB8AB3D1E4C0C8000315B7B /* Frameworks */,
+				5EFA78D92034A547E3B33984 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		BFB8AB211E4C0C5E00315B7B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BFB8AB201E4C0C5E00315B7B /* DT205.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BFB8AB221E4C0C5E00315B7B /* DT205 */ = {
+			isa = PBXGroup;
+			children = (
+				41FFD1362020450800ADAA69 /* NSData+AES.h */,
+				41FFD1372020450800ADAA69 /* NSData+AES.m */,
+				BFB8AB261E4C0C5E00315B7B /* AppDelegate.h */,
+				BFB8AB271E4C0C5E00315B7B /* AppDelegate.m */,
+				BFB8AB2F1E4C0C5E00315B7B /* Main.storyboard */,
+				C8BE56061EA5FD76000734DC /* Header.h */,
+				C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */,
+				C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */,
+				C8B9AB641EC59B0F009953A1 /* ViewController */,
+				C8B9AB631EC565A8009953A1 /* Model */,
+				C8B9AB621EC56572009953A1 /* Class */,
+				BFB8AB321E4C0C5E00315B7B /* Assets.xcassets */,
+				BFB8AB341E4C0C5E00315B7B /* LaunchScreen.storyboard */,
+				BFB8AB371E4C0C5E00315B7B /* Info.plist */,
+				BFB8AB231E4C0C5E00315B7B /* Supporting Files */,
+			);
+			path = DT205;
+			sourceTree = "<group>";
+		};
+		BFB8AB231E4C0C5E00315B7B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BFB8AB241E4C0C5E00315B7B /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BFB8AB3D1E4C0C8000315B7B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C8B9AB5D1EC2B884009953A1 /* UserNotifications.framework */,
+				C8BE560E1EBB2000000734DC /* AVFoundation.framework */,
+				BFB8AB3E1E4C0C8000315B7B /* CoreBluetooth.framework */,
+				96DA003EC100959CB275A072 /* libPods-HelloMyBLE.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C8B9AB621EC56572009953A1 /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				C867EA521F05FA3200B255A9 /* TcpSocket.h */,
+				C867EA531F05FA3200B255A9 /* TcpSocket.m */,
+				C867EA541F05FA3200B255A9 /* UdpSocket.h */,
+				C867EA551F05FA3200B255A9 /* UdpSocket.m */,
+				C8B9AB681EC98F98009953A1 /* BLE_Helper.h */,
+				C8B9AB691EC98F98009953A1 /* BLE_Helper.m */,
+				C8B9AB651EC5A964009953A1 /* LocalNotificationHelper.h */,
+				C8B9AB661EC5A964009953A1 /* LocalNotificationHelper.m */,
+				C8B9AB5F1EC56004009953A1 /* AVAudioPlayerManager.h */,
+				C8B9AB601EC56004009953A1 /* AVAudioPlayerManager.m */,
+				C8BE56031EA5F8F9000734DC /* GNTCommad.h */,
+				C8BE56041EA5F8F9000734DC /* GNTCommad.m */,
+			);
+			name = Class;
+			sourceTree = "<group>";
+		};
+		C8B9AB631EC565A8009953A1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BFB8AB431E4C1F4000315B7B /* PeripheralItem.h */,
+				BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */,
+				C867EA5B1F0C855600B255A9 /* DeviceItem.h */,
+				C867EA5C1F0C855600B255A9 /* DeviceItem.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		C8B9AB641EC59B0F009953A1 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C867EA4F1F02405600B255A9 /* OptionViewController.h */,
+				C867EA501F02405600B255A9 /* OptionViewController.m */,
+				C8BE56001EA05F79000734DC /* HomePageViewController.h */,
+				C8BE56011EA05F79000734DC /* HomePageViewController.m */,
+				BFB8AB401E4C0E0C00315B7B /* CentralModeTableViewController.h */,
+				BFB8AB411E4C0E0C00315B7B /* CentralModeTableViewController.m */,
+				C867EA581F062F8600B255A9 /* WifiSettingTableViewController.h */,
+				C867EA591F062F8600B255A9 /* WifiSettingTableViewController.m */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BFB8AB1F1E4C0C5E00315B7B /* DT205 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BFB8AB3A1E4C0C5E00315B7B /* Build configuration list for PBXNativeTarget "DT205" */;
+			buildPhases = (
+				99A05368CCF688CBA185DEF5 /* [CP] Check Pods Manifest.lock */,
+				BFB8AB1C1E4C0C5E00315B7B /* Sources */,
+				BFB8AB1D1E4C0C5E00315B7B /* Frameworks */,
+				BFB8AB1E1E4C0C5E00315B7B /* Resources */,
+				95E4232220D0D75596B599B8 /* [CP] Embed Pods Frameworks */,
+				65BDDF67F0247523A28F0CC8 /* [CP] Copy Pods Resources */,
+				415D509D1F56A72C00A655DF /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DT205;
+			productName = HelloMyBLE;
+			productReference = BFB8AB201E4C0C5E00315B7B /* DT205.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFB8AB181E4C0C5E00315B7B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = WilsonChen;
+				TargetAttributes = {
+					BFB8AB1F1E4C0C5E00315B7B = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = SJGX2HQEE9;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = BFB8AB1B1E4C0C5E00315B7B /* Build configuration list for PBXProject "DT205" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BFB8AB171E4C0C5E00315B7B;
+			productRefGroup = BFB8AB211E4C0C5E00315B7B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BFB8AB1F1E4C0C5E00315B7B /* DT205 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BFB8AB1E1E4C0C5E00315B7B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C854CE781EBC5CDC00770AF9 /* Alarm.mp3 in Resources */,
+				BFB8AB361E4C0C5E00315B7B /* LaunchScreen.storyboard in Resources */,
+				C854CE7C1EBC6DEC00770AF9 /* CashDrawerOpen.wav in Resources */,
+				BFB8AB331E4C0C5E00315B7B /* Assets.xcassets in Resources */,
+				BFB8AB311E4C0C5E00315B7B /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		415D509D1F56A72C00A655DF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 74dbd095576795293334fd2ed0dfe4bb6c3fc085 44fb216eb2688b18153ed8208d7ac4261bb2de681caf2c96cf8d3ceba2351b36";
+		};
+		65BDDF67F0247523A28F0CC8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HelloMyBLE/Pods-HelloMyBLE-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		95E4232220D0D75596B599B8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HelloMyBLE/Pods-HelloMyBLE-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		99A05368CCF688CBA185DEF5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HelloMyBLE-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BFB8AB1C1E4C0C5E00315B7B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C867EA571F05FA3200B255A9 /* UdpSocket.m in Sources */,
+				BFB8AB281E4C0C5E00315B7B /* AppDelegate.m in Sources */,
+				C8B9AB611EC56004009953A1 /* AVAudioPlayerManager.m in Sources */,
+				BFB8AB451E4C1F4000315B7B /* PeripheralItem.m in Sources */,
+				C8BE56051EA5F8F9000734DC /* GNTCommad.m in Sources */,
+				41FFD1382020450900ADAA69 /* NSData+AES.m in Sources */,
+				C8BE56021EA05F79000734DC /* HomePageViewController.m in Sources */,
+				BFB8AB421E4C0E0C00315B7B /* CentralModeTableViewController.m in Sources */,
+				C8B9AB671EC5A964009953A1 /* LocalNotificationHelper.m in Sources */,
+				BFB8AB251E4C0C5E00315B7B /* main.m in Sources */,
+				C8B9AB6A1EC98F98009953A1 /* BLE_Helper.m in Sources */,
+				C867EA5A1F062F8600B255A9 /* WifiSettingTableViewController.m in Sources */,
+				C867EA561F05FA3200B255A9 /* TcpSocket.m in Sources */,
+				C867EA5D1F0C855600B255A9 /* DeviceItem.m in Sources */,
+				C867EA511F02405600B255A9 /* OptionViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BFB8AB2F1E4C0C5E00315B7B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BFB8AB301E4C0C5E00315B7B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		BFB8AB341E4C0C5E00315B7B /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BFB8AB351E4C0C5E00315B7B /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BFB8AB381E4C0C5E00315B7B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BFB8AB391E4C0C5E00315B7B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BFB8AB3B1E4C0C5E00315B7B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ABA5A3E4B3D6B9A14AD438A6 /* Pods-HelloMyBLE.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = SJGX2HQEE9;
+				INFOPLIST_FILE = DT205/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gigatms.DT205;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BFB8AB3C1E4C0C5E00315B7B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0FB3022985F29875DFFC20D2 /* Pods-HelloMyBLE.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = SJGX2HQEE9;
+				INFOPLIST_FILE = DT205/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gigatms.DT205;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BFB8AB1B1E4C0C5E00315B7B /* Build configuration list for PBXProject "DT205" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFB8AB381E4C0C5E00315B7B /* Debug */,
+				BFB8AB391E4C0C5E00315B7B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BFB8AB3A1E4C0C5E00315B7B /* Build configuration list for PBXNativeTarget "DT205" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFB8AB3B1E4C0C5E00315B7B /* Debug */,
+				BFB8AB3C1E4C0C5E00315B7B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFB8AB181E4C0C5E00315B7B /* Project object */;
+}
