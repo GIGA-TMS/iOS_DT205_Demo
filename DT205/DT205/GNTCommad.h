@@ -16,6 +16,6 @@
 -(NSData*)sendCommed:(char)commend;
 
 -(NSData*)sendCommed:(char)commend Parameter:(char*)parameter;
-
+-(NSData*)creatCommandbyData:(char)commend Parameter:(NSData*)parameter;
 -(void)handleCallbackData:(NSData*) data;
 @end

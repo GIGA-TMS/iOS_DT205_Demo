@@ -122,4 +122,31 @@
     }
 }
 
+-(NSData*)creatCommandbyData:(char)commend Parameter:(NSData*)parameter{
+    
+    
+    NSMutableData* data = [[NSMutableData alloc]init];
+    const char header = (char)DEVICE_COMMAND_HEAD;
+    NSLog(@"%c",header);
+    [data appendBytes:&header length:1];
+    
+    [data appendBytes:&commend length:1];
+    if(parameter!= nil) {
+        NSLog(@"creatCommandbyData commend : %c, parameter : %c",commend,parameter);
+    }else {
+        NSLog(@"creatCommandbyData commend : %c",commend);
+    }
+    
+    if (parameter != '\0' || parameter != NULL) {
+        if ([parameter length] > 0) {
+            [data appendBytes:[parameter bytes] length:[parameter length]];
+        }
+        
+    }
+    const char endValue = (char)DEVICE_COMMAND_END;
+    [data appendBytes:&endValue length:1];
+    
+    
+    return data;
+}
 @end

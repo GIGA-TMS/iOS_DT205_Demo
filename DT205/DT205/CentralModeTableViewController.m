@@ -83,7 +83,7 @@
         line2String = [NSString stringWithFormat:@"Last seen: %.2f seconds ago.",[[NSDate date] timeIntervalSinceDate:item.seenDate]];
     }else{
         PeripheralItem* item = allItems[uuidKey];
-        line1String = [NSString stringWithFormat:@"%@ RSSI: %ld",item.peripheral.name,(long)item.rssi];
+        line1String = [NSString stringWithFormat:@"%@ RSSI: %ld",item.localName,(long)item.rssi];
         line2String = [NSString stringWithFormat:@"Last seen: %.2f seconds ago.",[[NSDate date] timeIntervalSinceDate:item.seenDate]];
     }
     

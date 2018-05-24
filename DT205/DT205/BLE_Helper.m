@@ -140,8 +140,13 @@ static BLE_Helper* _singletonBLE_Helper = nil;
         NSLog(@"Discorver %@,RSSI: %ld,UUID: %@\n,AdvData: %@",peripheral.name,(long)RSSI.integerValue,peripheral.identifier.UUIDString,advertisementData.description);
     }
     
+    NSString *localName = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
+    
+    
+    
     PeripheralItem* newItem = [PeripheralItem new];
     newItem.peripheral = peripheral;
+    newItem.localName = localName;
     newItem.rssi = RSSI.integerValue;
     newItem.seenDate = [NSDate date];
     

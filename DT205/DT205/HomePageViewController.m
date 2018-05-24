@@ -189,6 +189,95 @@
     }
     
 }
+-(void)markCMDtoSendbyData:(NSData*)cmd{
+    
+    NSLog(use_Wifi ? @"use_Wifi = Yes" : @"use_Wifi = No");
+    if (use_Wifi) {
+        [tcpScoket writeData:cmd];
+    }else{
+        if(ble_Helper != nil) {
+            [ble_Helper writeValue:cmd];
+        }
+    }
+    
+}
+-(void)markDT205CMDtoSend:(char)cmd Parameter:(NSData*)parameter{
+    
+    
+    NSData* buffCMD = [command creatCommandbyData:cmd Parameter:parameter];
+    
+    [self markCMDtoSendbyData:buffCMD];
+}
+-(void)cmdSetSetting:(NSString*)Address :(NSString*) Value{
+
+    
+    
+    NSString* cmdBuff = [NSString stringWithFormat:@"%@,%@", Address, Value];
+    
+    NSMutableData* data = [cmdBuff dataUsingEncoding: NSUTF8StringEncoding];
+    
+    [self markDT205CMDtoSend:DT205_SETSETTING Parameter:[self addChecksum:data]];
+}
+
+-(NSMutableData*)addChecksum:(NSMutableData*)data{
+    NSMutableData* cData = [[NSMutableData alloc]init];
+    if (data != nil) {
+        const char cmdSetting = (char)DT205_SETSETTING;
+        [cData appendBytes:&cmdSetting length:1];
+        [cData appendData:data];
+        int iSum=0;
+        [cData increaseLengthBy:2];
+        char *m_bBuffer = (char*)[cData bytes];
+        int iLen = [cData length];
+        for(int i=0; i<iLen ;i++) {
+            iSum=((iSum+m_bBuffer[i]) & 0x0FF);
+        }
+        
+        m_bBuffer[iLen - 2] = (char)((iSum>>4) & 0x0F);
+        m_bBuffer[iLen - 1] = (char)(iSum & 0x0F);
+        for (int i = 0; i<2; i++) {
+            if(m_bBuffer[iLen - 1 - i]<10){
+                m_bBuffer[iLen - 1 - i]|=0x30;
+            }else {
+                m_bBuffer[iLen - 1 - i]+=(0x41-10);
+            }
+        }
+        cData = [NSData dataWithBytes:m_bBuffer length:iLen];
+        data = [cData subdataWithRange:NSMakeRange(1, iLen-1)];
+    }
+    return data;
+}
+
+-(void)cmdSetSensorType:(bool)isNormal{
+    [self cmdSetSetting:@"00" :isNormal?@"00":@"FF"];
+}
+
+-(void)cmdSetSensorEnable:(bool)isEnable{
+    [self cmdSetSetting:@"01" :isEnable?@"00":@"FF"];
+}
+-(void)cmdUpdateSettingChanges{
+    [self markDT205CMDtoSend:DT205_UPDATESETTINGCHANGES Parameter:nil];
+}
+
+- (IBAction)changeBoxSize:(id)sender {
+    if ([sender isOn]) {
+        [self cmdSetSensorType:true];
+        [NSTimer scheduledTimerWithTimeInterval:0.5
+                                         target:self
+                                       selector:@selector(cmdUpdateSettingChanges)
+                                       userInfo:nil
+                                        repeats:NO];
+    }else {
+        [self cmdSetSensorType:false];
+        [NSTimer scheduledTimerWithTimeInterval:0.5
+                                         target:self
+                                       selector:@selector(cmdUpdateSettingChanges)
+                                       userInfo:nil
+                                        repeats:NO];
+    }
+    
+    
+}
 #pragma mark - HandleData Metods
 
 -(void)aaaaaa{

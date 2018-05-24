@@ -25,6 +25,8 @@
 #define DEVICE_OPENCASHDRAWER_PARAMETER         'c' //c
 #define DEVICE_GET_STATUS                       'J' //J
 #define DEVICE_GET_STATUS_PARAMETER             'c' //c
+#define  DT205_SETSETTING               'C' //(0x43)
+#define  DT205_UPDATESETTINGCHANGES     'R' //(0x52)
 // Device Local Setting Key
 #define DEVICE_UUID_KEY @"uuid"
 #define DEVICE_ISCONNECT @"isConnect"
