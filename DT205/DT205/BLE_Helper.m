@@ -71,6 +71,7 @@ static BLE_Helper* _singletonBLE_Helper = nil;
     [manager stopScan];
 }
 -(void)connectPeripheral:(CBPeripheral *)peripheral{
+    
     [manager connectPeripheral:peripheral options:nil];
 }
 -(void)cancelPeripheral{
@@ -101,6 +102,7 @@ static BLE_Helper* _singletonBLE_Helper = nil;
 
 -(void)writeValue:(NSData *)data{
     if (peripheralDT205 != nil && characteristicDT205 != nil) {
+        NSLog(@"writeValue");
         [self Glog:@"writeValue" data:data];
         if (data.length > 20) {
             
@@ -136,8 +138,10 @@ static BLE_Helper* _singletonBLE_Helper = nil;
         _allPeripheralItems = [NSMutableDictionary new];
     });
     PeripheralItem* existItem = _allPeripheralItems[peripheral.identifier.UUIDString];
+    
     if (existItem == nil) {
         NSLog(@"Discorver %@,RSSI: %ld,UUID: %@\n,AdvData: %@",peripheral.name,(long)RSSI.integerValue,peripheral.identifier.UUIDString,advertisementData.description);
+        NSLog(@"Discorver peripheral.identifier.UUIDString:%@",peripheral.identifier.UUIDString);
     }
     
     NSString *localName = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
@@ -149,6 +153,7 @@ static BLE_Helper* _singletonBLE_Helper = nil;
     newItem.localName = localName;
     newItem.rssi = RSSI.integerValue;
     newItem.seenDate = [NSDate date];
+    
     
     [_allPeripheralItems setObject:newItem forKey:peripheral.identifier.UUIDString];
     
@@ -177,6 +182,7 @@ static BLE_Helper* _singletonBLE_Helper = nil;
 }
 #pragma mark - CBPeripheralDelegate Methods
 -(void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error{
+    
     if (error) {
         NSLog(@"didDiscoverServices fail: %@",error);
         [manager cancelPeripheralConnection:peripheral];

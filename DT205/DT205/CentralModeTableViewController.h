@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CentralModeTableViewController : UITableViewController
+@property (weak, nonatomic) IBOutlet UILabel *labAppVer;
 
 @end

@@ -132,7 +132,8 @@
     
     [data appendBytes:&commend length:1];
     if(parameter!= nil) {
-        NSLog(@"creatCommandbyData commend : %c, parameter : %c",commend,parameter);
+        
+        NSLog(@"creatCommandbyData commend : %c, parameter : %@",commend,parameter);
     }else {
         NSLog(@"creatCommandbyData commend : %c",commend);
     }

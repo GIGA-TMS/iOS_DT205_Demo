@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4191F34720FDB90F002EDF08 /* DeviceItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4191F34620FDB90F002EDF08 /* DeviceItemTableViewCell.m */; };
 		41FFD1382020450900ADAA69 /* NSData+AES.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FFD1372020450800ADAA69 /* NSData+AES.m */; };
 		A75E8C74B667FCB3DD2178E4 /* libPods-HelloMyBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA003EC100959CB275A072 /* libPods-HelloMyBLE.a */; };
 		BFB8AB251E4C0C5E00315B7B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB241E4C0C5E00315B7B /* main.m */; };
@@ -35,6 +36,8 @@
 
 /* Begin PBXFileReference section */
 		0FB3022985F29875DFFC20D2 /* Pods-HelloMyBLE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloMyBLE.release.xcconfig"; path = "Pods/Target Support Files/Pods-HelloMyBLE/Pods-HelloMyBLE.release.xcconfig"; sourceTree = "<group>"; };
+		4191F34520FDB90F002EDF08 /* DeviceItemTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceItemTableViewCell.h; sourceTree = "<group>"; };
+		4191F34620FDB90F002EDF08 /* DeviceItemTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceItemTableViewCell.m; sourceTree = "<group>"; };
 		41FFD1362020450800ADAA69 /* NSData+AES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AES.h"; sourceTree = "<group>"; };
 		41FFD1372020450800ADAA69 /* NSData+AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES.m"; sourceTree = "<group>"; };
 		96DA003EC100959CB275A072 /* libPods-HelloMyBLE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HelloMyBLE.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -203,6 +206,8 @@
 				BFB8AB411E4C0E0C00315B7B /* CentralModeTableViewController.m */,
 				C867EA581F062F8600B255A9 /* WifiSettingTableViewController.h */,
 				C867EA591F062F8600B255A9 /* WifiSettingTableViewController.m */,
+				4191F34520FDB90F002EDF08 /* DeviceItemTableViewCell.h */,
+				4191F34620FDB90F002EDF08 /* DeviceItemTableViewCell.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -360,6 +365,7 @@
 				BFB8AB451E4C1F4000315B7B /* PeripheralItem.m in Sources */,
 				C8BE56051EA5F8F9000734DC /* GNTCommad.m in Sources */,
 				41FFD1382020450900ADAA69 /* NSData+AES.m in Sources */,
+				4191F34720FDB90F002EDF08 /* DeviceItemTableViewCell.m in Sources */,
 				C8BE56021EA05F79000734DC /* HomePageViewController.m in Sources */,
 				BFB8AB421E4C0E0C00315B7B /* CentralModeTableViewController.m in Sources */,
 				C8B9AB671EC5A964009953A1 /* LocalNotificationHelper.m in Sources */,

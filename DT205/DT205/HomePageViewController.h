@@ -13,5 +13,8 @@
 @property (nonatomic,strong) NSString* device_Port;
 @property (nonatomic,strong) NSMutableData* callBackDataBuffer;
 
+@property (weak, nonatomic) IBOutlet UILabel *labAppVer;
+@property (weak, nonatomic) IBOutlet UILabel *labFWVer;
+
 
 @end

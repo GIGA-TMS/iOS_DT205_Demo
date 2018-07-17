@@ -48,7 +48,8 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    use_Wifi = [[NSUserDefaults standardUserDefaults]boolForKey:@"Use_Wifi"];
+//    use_Wifi = [[NSUserDefaults standardUserDefaults]boolForKey:@"Use_Wifi"];
+    use_Wifi = false;
     if (use_Wifi) {
         tcpScoket = [[TcpSocket alloc]init];
         udpSocket = [[UdpSocket alloc]init];
@@ -67,29 +68,18 @@
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ROOTVIEWCONTROLLER];
     
-    [self getVersion];
+    [self getAppVersion];
 }
 
 
-- (void)getVersion {
+- (void)getAppVersion {
     //To get the version number
     NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    NSString * versionBuildString = [NSString stringWithFormat:@"Version: %@.%@", appVersionString, appBuildString];
+    NSString * versionBuildString = [NSString stringWithFormat:@"APP v%@.%@, SDK v", appVersionString, appBuildString];
     NSLog(@"Gianni appVersionString: %@ , appBuildString: %@",appVersionString,appBuildString);
-    
-    
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenWidth = screenRect.size.width;
-    CGFloat screenHeight = screenRect.size.height;
-    //    CGRectMake(10,(screenHeight - height - 10),width,height);
-    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(10,(screenHeight - 100 - 10),200,50)];
-    
-    
-    [lbl setText:versionBuildString];
-    [lbl setBackgroundColor:[UIColor clearColor]];
-    [[self view] addSubview:lbl];
-    [lbl sizeToFit];
+    [_labAppVer setText:versionBuildString];
+    [_labAppVer setBackgroundColor:[UIColor clearColor]];
 }
 
 
@@ -106,8 +96,9 @@
     [self handleViewController];
     
     [[self.cashDrawerButton layer] setMasksToBounds:YES];
-    [[self.cashDrawerButton layer] setBorderWidth:6.0f];
-    [[self.cashDrawerButton layer] setCornerRadius:self.cashDrawerButton.frame.size.height/2.0f];
+    [[self.cashDrawerButton layer] setBorderWidth:10.0f];
+//    [[self.cashDrawerButton layer] setCornerRadius:self.cashDrawerButton.frame.size.width/1.0f];
+    [[self.cashDrawerButton layer] setCornerRadius:155];
     [[self.cashDrawerButton layer] setBorderColor:[UIColor whiteColor].CGColor];
 }
 -(void)viewWillDisappear:(BOOL)animated{

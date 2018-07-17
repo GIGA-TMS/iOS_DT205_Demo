@@ -12,6 +12,7 @@
 
 @property (nonatomic,strong) CBPeripheral* peripheral;
 @property (nonatomic,strong) NSString *localName;
+
 @property (nonatomic,strong) NSDate* seenDate;
 //不是物件 所以用assign
 @property (nonatomic,assign) NSInteger rssi;

@@ -14,6 +14,7 @@
 #import "BLE_Helper.h"
 #import "UdpSocket.h"
 #import "DeviceItem.h"
+#import "DeviceItemTableViewCell.h"
 @interface CentralModeTableViewController ()
 {
     //BLE
@@ -44,7 +45,7 @@
     
     
     
-    
+    [self getAppVersion];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -56,6 +57,16 @@
     [super viewDidDisappear:YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DiscorverPeripheral" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DiscoverDevice" object:nil];
+}
+
+- (void)getAppVersion {
+    //To get the version number
+    NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSString * versionBuildString = [NSString stringWithFormat:@"APP v%@.%@, SDK v", appVersionString, appBuildString];
+    NSLog(@"Gianni appVersionString: %@ , appBuildString: %@",appVersionString,appBuildString);
+    [_labAppVer setText:versionBuildString];
+    [_labAppVer setBackgroundColor:[UIColor clearColor]];
 }
 
 #pragma mark - Table view data source
@@ -70,25 +81,32 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    DeviceItemTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ScanCell" forIndexPath:indexPath];
     
     // Configure the cell...
     NSArray* allKeys = allItems.allKeys;
     NSString* uuidKey = allKeys[indexPath.row];
     NSString* line1String = [NSString new];
     NSString* line2String = [NSString new];
+    NSString* line3String = [NSString new];
     if (use_Wifi) {
         DeviceItem* item = allItems[uuidKey];
         line1String = [NSString stringWithFormat:@"%@",item.deviecName];
         line2String = [NSString stringWithFormat:@"Last seen: %.2f seconds ago.",[[NSDate date] timeIntervalSinceDate:item.seenDate]];
+        
     }else{
         PeripheralItem* item = allItems[uuidKey];
-        line1String = [NSString stringWithFormat:@"%@ RSSI: %ld",item.localName,(long)item.rssi];
-        line2String = [NSString stringWithFormat:@"Last seen: %.2f seconds ago.",[[NSDate date] timeIntervalSinceDate:item.seenDate]];
+        
+//        line1String = [NSString stringWithFormat:@"%@ RSSI: %ld",item.localName,(long)item.rssi];
+        line1String = [NSString stringWithFormat:@"%@",item.localName];
+//        line2String = [NSString stringWithFormat:@"Last seen: %.2f seconds ago.",[[NSDate date] timeIntervalSinceDate:item.seenDate]];
+        line2String = [NSString stringWithFormat:@"%@",uuidKey];
+        line3String = [NSString stringWithFormat:@"   RSSI: %ld",(long)item.rssi];
     }
     
-    cell.textLabel.text = line1String;
-    cell.detailTextLabel.text = line2String;
+    cell.labDevName.text = line1String;
+    cell.labDevMacAddr.text = line2String;
+    cell.labDevRSSI.text = line3String;
     
     return cell;
 }
