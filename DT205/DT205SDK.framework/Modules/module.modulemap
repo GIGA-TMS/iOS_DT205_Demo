@@ -1,0 +1,6 @@
+framework module DT205SDK {
+  umbrella header "DT205SDK.h"
+
+  export *
+  module * { export * }
+}

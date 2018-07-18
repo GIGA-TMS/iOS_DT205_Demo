@@ -7,7 +7,7 @@
 //
 
 #import "WifiSettingTableViewController.h"
-#import "TcpSocket.h"
+
 @interface WifiSettingTableViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *wifi_SSIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *wifi_PasswordTextField;

@@ -173,7 +173,7 @@
         <!--Device Scan-->
         <scene sceneID="vQS-wB-YNE">
             <objects>
-                <tableViewController storyboardIdentifier="CentralMode" id="dtH-bv-gGF" customClass="CentralModeTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="CentralMode" id="dtH-bv-gGF" customClass="ScanDeviceTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="A2z-4o-05R">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -237,8 +237,8 @@
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="dtH-bv-gGF" id="37W-qT-rsb"/>
-                            <outlet property="delegate" destination="dtH-bv-gGF" id="Ia0-dd-CH8"/>
+                            <outlet property="dataSource" destination="dtH-bv-gGF" id="0Bq-aj-2a6"/>
+                            <outlet property="delegate" destination="dtH-bv-gGF" id="KBO-hu-iDH"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Device Scan" id="UiG-fd-BiU">
@@ -247,13 +247,13 @@
                                 <rect key="frame" x="308" y="6.5" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
-                                    <action selector="enableScanValueChanged:" destination="dtH-bv-gGF" eventType="valueChanged" id="2Ac-Cw-mfg"/>
+                                    <action selector="scanDevice:" destination="dtH-bv-gGF" eventType="valueChanged" id="Q1w-b9-pxm"/>
                                 </connections>
                             </switch>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="labAppVer" destination="oLL-8F-0db" id="Qfz-mJ-5Nu"/>
+                        <outlet property="labAppVer" destination="oLL-8F-0db" id="EMy-EX-1o5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2TY-Ss-P0F" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -629,7 +629,7 @@
         <!--Navigation Controller-->
         <scene sceneID="uhy-Yq-N93">
             <objects>
-                <navigationController storyboardIdentifier="CentralModeTableViewController" automaticallyAdjustsScrollViewInsets="NO" id="TuQ-3u-lsJ" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ScanDeviceTableViewController" automaticallyAdjustsScrollViewInsets="NO" id="TuQ-3u-lsJ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Slg-bL-YOV">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>

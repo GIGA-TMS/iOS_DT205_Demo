@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "Header.h"
+#import <DT205SDK/Header.h>
 #import "LocalNotificationHelper.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>

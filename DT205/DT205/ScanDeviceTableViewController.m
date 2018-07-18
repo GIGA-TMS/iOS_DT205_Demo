@@ -1,72 +1,107 @@
 //
-//  CentralModeTableViewController.m
-//  
+//  ScanDeviceTableViewController.m
+//  DT205
 //
-//  Created by 陳維成 on 2017/2/9.
-//  Copyright © 2017年 WilsonChen. All rights reserved.
+//  Created by Gianni on 2018/7/18.
+//  Copyright © 2018年 WilsonChen. All rights reserved.
 //
 
-#import "CentralModeTableViewController.h"
-#import <CoreBluetooth/CoreBluetooth.h>
-#import "PeripheralItem.h"
-#import "HomePageViewController.h"
-#import "Header.h"
-#import "BLE_Helper.h"
-#import "UdpSocket.h"
-#import "DeviceItem.h"
+#import "ScanDeviceTableViewController.h"
+#import <DT205SDK/DT205.h>
+#import <DT205SDK/Header.h>
 #import "DeviceItemTableViewCell.h"
-@interface CentralModeTableViewController ()
-{
-    //BLE
-    BLE_Helper* ble_helper;
-    
-    NSMutableDictionary* allItems;
-    NSDate* lastTableViewReloadDate;
-    NSIndexPath* indexPath1;
-    
-    BOOL use_Wifi;
-    UdpSocket* udpSocket;
-}
+#import <DT205SDK/EthernetDevice.h>
+#import <DT205SDK/PeripheralItem.h>
+#import "HomePageViewController.h"
+
+@interface ScanDeviceTableViewController ()
+
 @end
 
-@implementation CentralModeTableViewController
+@implementation ScanDeviceTableViewController
+{
+    NSMutableDictionary* allItems;
+    DT205 *dt205;
+    BOOL use_Wifi;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    use_Wifi = [[NSUserDefaults standardUserDefaults]boolForKey:@"Use_Wifi"];
     allItems = [NSMutableDictionary new];
-    indexPath1 = [NSIndexPath new];
-    
-    if (use_Wifi) {
-        udpSocket = [[UdpSocket alloc]init];
-    }else{
-        ble_helper = [BLE_Helper sharedInstance];
-    }
-    
-    
-    
+    use_Wifi = false;
+    dt205 = [[DT205 alloc]init];
     [self getAppVersion];
-}
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refresh) name:@"DiscorverPeripheral" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refresh) name:@"DiscoverDevice" object:nil];
-}
-
--(void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:YES];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DiscorverPeripheral" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DiscoverDevice" object:nil];
 }
 
 - (void)getAppVersion {
     //To get the version number
     NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    NSString * versionBuildString = [NSString stringWithFormat:@"APP v%@.%@, SDK v", appVersionString, appBuildString];
+    NSString * versionBuildString = [NSString stringWithFormat:@"APP v%@.%@, SDK v%@", appVersionString, appBuildString, [dt205 getSDKVersion]];
     NSLog(@"Gianni appVersionString: %@ , appBuildString: %@",appVersionString,appBuildString);
     [_labAppVer setText:versionBuildString];
     [_labAppVer setBackgroundColor:[UIColor clearColor]];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (use_Wifi) {
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refresh) name:@"DiscorverEtherDev" object:nil];
+    }else{
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refresh) name:@"DiscorverPeripheral" object:nil];
+    }
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DiscorverPeripheral" object:nil];
+}
+
+- (IBAction)scanDevice:(id)sender {
+    
+    if ([sender isOn]) {
+        if (use_Wifi) {
+            [dt205 startToScanEthernetDevice];
+        }else{
+            [dt205 startToScanBLEDevice];
+        }
+    }else{
+        if (use_Wifi) {
+            
+        }else{
+            [dt205 stopScanningBLEDevice];
+        }
+        [allItems removeAllObjects];
+    }
+    
+    [NSTimer scheduledTimerWithTimeInterval:1.0
+                                     target:self
+                                   selector:@selector(refresh)
+                                   userInfo:nil
+                                    repeats:NO];
+}
+
+- (IBAction)isUseWifi:(id)sender {
+    use_Wifi = [sender isOn];
+    dt205 = [dt205 init];
+    [allItems removeAllObjects];
+    [self refresh];
+}
+
+-(void)refresh{
+    if (use_Wifi) {
+        allItems = [dt205 getAllEthernetDevice];
+        NSLog(@"getAllEthernetDevice %lu",(unsigned long)[allItems count]);
+    }else{
+        allItems = [dt205 getAllBLEDevice];
+        NSLog(@"getAllBLEDevice %lu",(unsigned long)[allItems count]);
+    }
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -80,83 +115,57 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     DeviceItemTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ScanCell" forIndexPath:indexPath];
     
-    // Configure the cell...
     NSArray* allKeys = allItems.allKeys;
     NSString* uuidKey = allKeys[indexPath.row];
+    
     NSString* line1String = [NSString new];
     NSString* line2String = [NSString new];
     NSString* line3String = [NSString new];
     if (use_Wifi) {
-        DeviceItem* item = allItems[uuidKey];
+        EthernetDevice* item = allItems[uuidKey];
         line1String = [NSString stringWithFormat:@"%@",item.deviecName];
-        line2String = [NSString stringWithFormat:@"Last seen: %.2f seconds ago.",[[NSDate date] timeIntervalSinceDate:item.seenDate]];
-        
+        line2String = [NSString stringWithFormat:@"%@",item.deviecMacAddr];
     }else{
         PeripheralItem* item = allItems[uuidKey];
-        
-//        line1String = [NSString stringWithFormat:@"%@ RSSI: %ld",item.localName,(long)item.rssi];
         line1String = [NSString stringWithFormat:@"%@",item.localName];
-//        line2String = [NSString stringWithFormat:@"Last seen: %.2f seconds ago.",[[NSDate date] timeIntervalSinceDate:item.seenDate]];
         line2String = [NSString stringWithFormat:@"%@",uuidKey];
         line3String = [NSString stringWithFormat:@"   RSSI: %ld",(long)item.rssi];
     }
-    
     cell.labDevName.text = line1String;
     cell.labDevMacAddr.text = line2String;
     cell.labDevRSSI.text = line3String;
-    
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    indexPath1 = indexPath;
-    [self settingPasswordAlert];
-  
+//    if (use_Wifi) {
+//        NSArray* allKeys = allItems.allKeys;
+//        NSString* macAddrKey = allKeys[indexPath.row];
+//        EthernetDevice* item = allItems[macAddrKey];
+//        [dt205 connectEthernetDevice:item.deviecIP Port:item.deviecPort];
+//    }else{
+//        NSArray* allKeys = allItems.allKeys;
+//        NSString* uuidKey = allKeys[indexPath.row];
+//        PeripheralItem* item = allItems[uuidKey];
+//        [dt205 connectBLEDevice:item.peripheral];
+//    }
+    [self settingPasswordAlert:indexPath];
 }
--(void)refresh{
-    
-    if (use_Wifi) {
-        allItems = udpSocket.allDeviceItems;
-    }else{
-        allItems = ble_helper.allPeripheralItems;
-    }
-    [self.tableView reloadData];
-}
-#pragma mark - Methods
-- (IBAction)enableScanValueChanged:(id)sender {
-    if ([sender isOn]) {
-        if (use_Wifi) {
-            NSString* command = @"Y";
-            NSData* commandData = [command dataUsingEncoding:NSUTF8StringEncoding];
-            [udpSocket sendData:commandData toHost:@"255.255.255.255" port:65535 withTimeout:-1 tag:1];
-        }else{
-            [ble_helper startToScan];
-        }
-        
-    }else{
-        
-        if (!use_Wifi) {
-            [ble_helper stopScanning];
-        }
-        allItems = [NSMutableDictionary new];
-        [self.tableView reloadData];
-    }
-}
+
 -(void) showAlertWithMessage:(NSString*) message{
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [alert addAction:ok];
     [self presentViewController:alert animated:true completion:nil];
 }
--(void)settingPasswordAlert{
-    
+
+-(void)settingPasswordAlert:(NSIndexPath *)indexPath{
     NSArray* allKeys = allItems.allKeys;
-    NSString* uuidKey = allKeys[indexPath1.row];
+    NSString* uuidKey = allKeys[indexPath.row];
     if (use_Wifi) {
-        DeviceItem* item = allItems[uuidKey];
+        EthernetDevice* item = allItems[uuidKey];
         HomePageViewController* pageVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageViewController"];
         [[NSUserDefaults standardUserDefaults] setObject:item.deviecName forKey:@"SelectedDeviceName"];
         pageVC.device_IP = item.deviecIP;
@@ -164,7 +173,7 @@
         [[NSUserDefaults standardUserDefaults]setBool:YES forKey:DEVICE_ISCONNECT];
     }else{
         PeripheralItem* item = allItems[uuidKey];
-        [ble_helper connectPeripheral:item.peripheral];
+        [dt205 connectBLEDevice:item.peripheral];
     }
     
     
@@ -191,7 +200,7 @@
             if ([[NSUserDefaults standardUserDefaults]boolForKey:DEVICE_ISCONNECT]) {
                 if (![[NSUserDefaults standardUserDefaults]boolForKey:ROOTVIEWCONTROLLER]) {
                     HomePageViewController* pageVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageViewController"];
-                   [self presentViewController:pageVC animated:YES completion:nil];
+                    [self presentViewController:pageVC animated:YES completion:nil];
                 }else{
                     [self dismissViewControllerAnimated:YES completion:nil];
                 }
@@ -199,9 +208,9 @@
         }else{
             [self showAlertWithMessage:@"Incorrect bonding PIN code"];
             if (!use_Wifi) {
-                [ble_helper cancelPeripheral];
+                [dt205 disconnectBLEDevice];
             }
-           
+            
         }
     }];
     [alert addAction:cancel];
@@ -209,4 +218,5 @@
     
     [self presentViewController:alert animated:YES completion:nil];
 }
+
 @end
