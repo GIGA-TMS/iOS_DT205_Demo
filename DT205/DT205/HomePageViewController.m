@@ -41,7 +41,7 @@
     [super viewDidLoad];
 //    use_Wifi = [[NSUserDefaults standardUserDefaults]boolForKey:@"Use_Wifi"];
     use_Wifi = false;
-    dt205 = DT205.sharedInstance;
+    dt205 = [DT205 sharedInstance:use_Wifi];
     
     audioPlayerManager = [AVAudioPlayerManager new];
     localNotificationHelper = [LocalNotificationHelper new];

@@ -16,8 +16,8 @@
 
 @property (nonatomic, assign) id<DT205CommandV1CallBack> dt205Listener;
 
-+(instancetype)sharedInstance;
--(instancetype)init;
++(instancetype)sharedInstance:(BOOL)isWiFi;
+-(instancetype)init:(BOOL)isWiFi;
 -(void)setDt205Listener:(id<DT205CommandV1CallBack>)listener;
 
 -(NSString *)getSDKVersion;

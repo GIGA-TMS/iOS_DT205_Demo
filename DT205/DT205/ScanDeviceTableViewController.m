@@ -30,7 +30,7 @@
     
     allItems = [NSMutableDictionary new];
     use_Wifi = false;
-    dt205 = [[DT205 alloc]init];
+    dt205 = [DT205 sharedInstance:use_Wifi];
     [self getAppVersion];
 }
 
