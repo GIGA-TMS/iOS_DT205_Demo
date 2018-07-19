@@ -9,7 +9,6 @@
 #import "DT205CommandV1CallBack.h"
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
-#import "DT205ParseCommandV1CallBack.h"
 #import "BLEAndWiFiDevice.h"
 
 @interface DT205 : BLEAndWiFiDevice

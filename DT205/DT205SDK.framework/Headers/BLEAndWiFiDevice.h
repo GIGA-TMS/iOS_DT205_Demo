@@ -19,7 +19,9 @@
 +(instancetype)sharedInstance;
 -(instancetype)init;
 -(instancetype)initWithChannl:(BOOL) isWiFi;
-
+-(int)readBLERSSI;
+-(NSString*)getDeviceName;
+-(NSString*)getBLEConnectState;
 -(void)connectBLEDevice:(CBPeripheral *)peripheral Recieve:(CBUUID*)RecieveUUID Send:(CBUUID*)SendUUID;
 -(void)disconnectBLEDevice;
 -(void)startToScanBLEDevice;

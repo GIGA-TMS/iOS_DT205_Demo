@@ -99,7 +99,6 @@
         NSLog(@"getAllEthernetDevice %lu",(unsigned long)[allItems count]);
     }else{
         allItems = [dt205 getAllBLEDevice];
-        NSLog(@"getAllBLEDevice %lu",(unsigned long)[allItems count]);
     }
     [self.tableView reloadData];
 }

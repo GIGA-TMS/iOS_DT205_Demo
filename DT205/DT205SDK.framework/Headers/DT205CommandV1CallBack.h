@@ -14,7 +14,7 @@
 @protocol DT205CommandV1CallBack <NSObject>
 
 @optional
-
+-(void)didUpdateBLECentralManagerState:(NSString*) State;
 -(void)didCMD_General_Success:(NSString*) CMDName;
 -(void)didCMD_General_ERROR:(NSString*) CMDName errMassage:(NSString*) errMassage;
 -(void)didCMD_Polling:(NSString*) ProductName LoginState:(NSData*)LoginState Random:(NSData*) Random;
