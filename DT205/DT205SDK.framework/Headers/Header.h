@@ -41,6 +41,8 @@
 //#define DEVICE_GET_STATUS_PARAMETER             'c' //c
 // Device Local Setting Key
 #define DEVICE_UUID_KEY @"uuid"
+#define DEVICE_RecieveUUID_KEY @"RecieveUUID"
+#define DEVICE_SendUUID_KEY @"SendUUID"
 #define DEVICE_ISCONNECT @"isConnect"
 #define ROOTVIEWCONTROLLER @"HomePage"
 #define PASSWORD @"password"

@@ -86,7 +86,7 @@
     //To get the version number
     NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    NSString * versionBuildString = [NSString stringWithFormat:@"APP v%@.%@, SDK v", appVersionString, appBuildString];
+    NSString * versionBuildString = [NSString stringWithFormat:@"APP v%@.%@, SDK v%@", appVersionString, appBuildString, [dt205 getSDKVersion]];
     NSLog(@"Gianni appVersionString: %@ , appBuildString: %@",appVersionString,appBuildString);
     [_labAppVer setText:versionBuildString];
     [_labAppVer setBackgroundColor:[UIColor clearColor]];
@@ -221,6 +221,9 @@
 -(void)handleViewController{
     self.statusView.backgroundColor = [UIColor greenColor];
 //    self.statusLabel.text = @"Connect";
+    
+    
+    
     if (use_Wifi) {
         
         NSString* udpbracoast = @"Y";
@@ -230,7 +233,10 @@
 //        [tcpScoket connectToHost:self.device_IP Port:self.device_Port];
 //        [tcpScoket writeData:[command sendCommed:DEVICE_GET_NAME]];
     }else{
-         [dt205 cmdUpdateSettingChanges];
+        if (dt205 != nil) {
+//            [dt205 startToScanBLEDevice];
+        }
+//         [dt205 cmdUpdateSettingChanges];
 //        [ble_Helper writeValue:[command sendCommed:DEVICE_GET_NAME]];
     }
     
@@ -327,6 +333,16 @@
 - (void)didUpdateBLEConnectionState:(NSString *)State{
     self.statusLabel.text = State;
 }
+
+- (void)didCMD_GetSensorType:(bool)isNormal{
+    NSLog(@"didCMD_GetSensorType isNormal = %@", isNormal);
+}
+
+- (void)didCMD_General_Success:(NSString *)CMDName{
+    NSLog(@"didCMD_General_Success CMDName = %@", CMDName);
+}
+
+
 
 
 @end
