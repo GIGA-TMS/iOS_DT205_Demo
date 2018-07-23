@@ -23,12 +23,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *deviceVersionLabel;
 @property (weak, nonatomic) IBOutlet UISlider *sliderRSSI;
 
+@property (weak, nonatomic) IBOutlet UISwitch *swSensorType;
+
 @end
 
 @implementation HomePageViewController
 {
     DT205* dt205;
-    
+    BOOL isfirst;
     float rssi;
     BOOL isCommandOpenCashDrawer;
     //AVAudioPlayer
@@ -40,7 +42,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    use_Wifi = [[NSUserDefaults standardUserDefaults]boolForKey:@"Use_Wifi"];
+    //    use_Wifi = [[NSUserDefaults standardUserDefaults]boolForKey:@"Use_Wifi"];
     use_Wifi = false;
     dt205 = [DT205 sharedInstance:use_Wifi];
     [dt205 setDt205Listener:self];
@@ -65,14 +67,34 @@
                                    selector:@selector(refreshUI)
                                    userInfo:nil
                                     repeats:NO];
+    
+    
+    isfirst = true;
+    
+}
+
+-(void)refreshFWVerUI{
+    if ([dt205.getBLEConnectState isEqualToString:@"Connected"]) {
+        [dt205 cmdGetFWVersion];
+        
+    }
+    isfirst = false;
 }
 
 -(void)refreshUI{
     if (dt205 != nil) {
-        NSLog(@"dt205.getDeviceName %@", dt205.getDeviceName);
-        NSLog(@"dt205.getBLEConnectState %@", dt205.getBLEConnectState);
         self.deviceNameLabel.text = dt205.getDeviceName;
         self.statusLabel.text = dt205.getBLEConnectState;
+        self.sliderRSSI.value = -1 * [dt205 readBLERSSI];
+        if (isfirst) {
+            
+            [NSTimer scheduledTimerWithTimeInterval:1.5
+                                             target:self
+                                           selector:@selector(refreshFWVerUI)
+                                           userInfo:nil
+                                            repeats:NO];
+        }
+        
     }
     [NSTimer scheduledTimerWithTimeInterval:5.0
                                      target:self
@@ -102,7 +124,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(powerOff_BLE) name:@"BLE_PowerOff" object:nil];
     
     self.statusView.backgroundColor = [UIColor redColor];
-//    self.statusLabel.text = @"Disconnect";
+    //    self.statusLabel.text = @"Disconnect";
     [self handleViewController];
     
     [[self.cashDrawerButton layer] setMasksToBounds:YES];
@@ -123,7 +145,7 @@
 
 -(void)powerOff_BLE{
     self.statusView.backgroundColor = [UIColor redColor];
-//    self.statusLabel.text = @"Disconnect";
+    //    self.statusLabel.text = @"Disconnect";
     [self showAlertWithMessage:@"Please PowerOn Bletooth"];
 }
 -(void) showAlertWithMessage:(NSString*) message{
@@ -164,7 +186,7 @@
 }
 - (void)gotoScanVC {
     if (!use_Wifi) {
-//        [ble_Helper cancelPeripheral];
+        //        [ble_Helper cancelPeripheral];
     }
     ScanDeviceTableViewController* scanVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ScanDeviceTableViewController"];
     
@@ -183,6 +205,7 @@
     }else{
         if (((int)(rssi*-30) < [dt205 readBLERSSI])) {
             [dt205 cmdCtrlTriggerToOpen];
+//            [dt205 cmdCtrlResetTriggerCounter];
         }else{
             [self showAlertWithMessage: @"Distance is too far"];
         }
@@ -220,7 +243,7 @@
 
 -(void)handleViewController{
     self.statusView.backgroundColor = [UIColor greenColor];
-//    self.statusLabel.text = @"Connect";
+    //    self.statusLabel.text = @"Connect";
     
     
     
@@ -228,16 +251,16 @@
         
         NSString* udpbracoast = @"Y";
         NSData* commandData = [udpbracoast dataUsingEncoding:NSUTF8StringEncoding];
-//        [udpSocket sendData:commandData toHost:@"255.255.255.255" port:65535 withTimeout:-1 tag:1];
+        //        [udpSocket sendData:commandData toHost:@"255.255.255.255" port:65535 withTimeout:-1 tag:1];
         
-//        [tcpScoket connectToHost:self.device_IP Port:self.device_Port];
-//        [tcpScoket writeData:[command sendCommed:DEVICE_GET_NAME]];
+        //        [tcpScoket connectToHost:self.device_IP Port:self.device_Port];
+        //        [tcpScoket writeData:[command sendCommed:DEVICE_GET_NAME]];
     }else{
         if (dt205 != nil) {
-//            [dt205 startToScanBLEDevice];
+            //            [dt205 startToScanBLEDevice];
         }
-//         [dt205 cmdUpdateSettingChanges];
-//        [ble_Helper writeValue:[command sendCommed:DEVICE_GET_NAME]];
+        //         [dt205 cmdUpdateSettingChanges];
+        //        [ble_Helper writeValue:[command sendCommed:DEVICE_GET_NAME]];
     }
     
 }
@@ -246,9 +269,9 @@
     NSString* displayLabel;
     
     if (use_Wifi) {
-//        displayLabel = [[NSString alloc]initWithData:command.callBackDataBuffer encoding:NSUTF8StringEncoding];
+        //        displayLabel = [[NSString alloc]initWithData:command.callBackDataBuffer encoding:NSUTF8StringEncoding];
     }else{
-//        displayLabel = [[NSString alloc]initWithData:ble_Helper.callBackDataBuffer encoding:NSUTF8StringEncoding];
+        //        displayLabel = [[NSString alloc]initWithData:ble_Helper.callBackDataBuffer encoding:NSUTF8StringEncoding];
         displayLabel = @"";
     }
     
@@ -293,14 +316,12 @@
         return;
     }else if ([displayLabel isEqualToString:@"*r01"]){
         [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
-        
         [self doAlarmAnimation];
         [localNotificationHelper pushLocalNotificationMessageTitle:@"Notice" Body:@"Cash drawer is opened illegal"];
         
         return;
     }else if ([displayLabel isEqualToString:@"*a01"]){
         [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
-        
         [self doAlarmAnimation];
         [localNotificationHelper pushLocalNotificationMessageTitle:@"Notice" Body:@"Cash drawer is opened illegal"];
         
@@ -332,16 +353,104 @@
 
 - (void)didUpdateBLEConnectionState:(NSString *)State{
     self.statusLabel.text = State;
+    
 }
 
-- (void)didCMD_GetSensorType:(bool)isNormal{
-    NSLog(@"didCMD_GetSensorType isNormal = %@", isNormal);
+-(void)didUpdateBLECentralManagerState:(NSString*) State{
+    
 }
-
-- (void)didCMD_General_Success:(NSString *)CMDName{
+-(void)didCMD_General_Success:(NSString*) CMDName{
     NSLog(@"didCMD_General_Success CMDName = %@", CMDName);
+    if ([CMDName isEqualToString:@"CtrlTriggerToOpen"]) {
+        [dt205 cmdGetCashDrawerStatus];
+    }
+}
+-(void)didCMD_General_ERROR:(NSString*) CMDName errMassage:(NSString*) errMassage{
+    
+}
+-(void)didCMD_Polling:(NSString*) ProductName LoginState:(NSData*)LoginState Random:(NSData*) Random{
+    
+}
+-(void)didCMD_FW_Ver:(NSString*)fwName fwVer:(NSString*)fwVer{
+    NSLog(@"didCMD_FW_Ver fwName = %@", fwName);
+    NSString * versionString = [NSString stringWithFormat:@"FW Ver:%@", fwName];
+    _labFWVer.text = versionString;
+    [dt205 cmdGetSensorType];
+}
+-(void)didCMD_GetCashDrawerStatus:(bool) isOpen{
+    NSLog(@"didCMD_GetCashDrawerStatus isOpen = %@", isOpen?@"Y":@"N");
+    if (isOpen) {
+        [self cashDrawerOpen];
+    }else {
+        [self cashDrawerClose];
+    }
+    
+}
+-(void)didCMD_GetUsageCounter:(NSString*) Count{
+    
 }
 
+
+-(void)didCMD_GetSensorType:(bool) isNormal{
+    NSLog(@"didCMD_GetSensorType isNormal = %@", isNormal?@"Y":@"N");
+    [_swSensorType setOn:isNormal];
+    [dt205 cmdGetCashDrawerStatus];
+}
+-(void)didCMD_GetSensorEnable:(bool) isEnable{
+    
+}
+
+
+
+
+- (void)didEvent_OpenAlert:(bool)isOpen{
+    NSLog(@"didEvent_OpenAlert isOpen = %@", isOpen?@"Y":@"N");
+    if (isOpen) {
+        [self cashDrawerOpen];
+    }else {
+        [self cashDrawerClose];
+    }
+}
+
+- (void)didEvent_OpenReminding:(bool)isOpen{
+    NSLog(@"didEvent_OpenReminding isOpen = %@", isOpen?@"Y":@"N");
+    if (isOpen) {
+        [self cashDrawerOpen];
+    }else {
+        [self cashDrawerClose];
+    }
+}
+- (void)didEvent_StatusChanged:(bool)isOpen{
+    NSLog(@"didEvent_StatusChanged isOpen = %@", isOpen?@"Y":@"N");
+    if (isOpen) {
+        [self cashDrawerOpen];
+    }else {
+        [self cashDrawerClose];
+    }
+
+}
+
+-(void)cashDrawerOpen{
+    [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
+    if (!isCommandOpenCashDrawer) {
+        [self doAlarmAnimation];
+        [localNotificationHelper pushLocalNotificationMessageTitle:@"Notice" Body:@"Cash drawer is opened illegal"];
+    }else{
+        [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
+        [audioPlayerManager playSoundsName:@"CashDrawerOpen.wav" Repeat:1];
+    }
+}
+
+-(void)cashDrawerClose{
+    [self.cashDrawerButton.layer removeAllAnimations];
+    [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Close"] forState:UIControlStateNormal];
+    [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
+    isCommandOpenCashDrawer = false;
+    if (audioPlayerManager != nil) {
+        [audioPlayerManager stop];
+    }
+
+}
 
 
 

@@ -164,6 +164,7 @@
                         <outlet property="sliderRSSI" destination="Bxf-At-vkO" id="SZe-ip-OGj"/>
                         <outlet property="statusLabel" destination="ixh-pV-eny" id="3Jb-vN-c8v"/>
                         <outlet property="statusView" destination="7WN-Db-naX" id="9FU-tb-EMl"/>
+                        <outlet property="swSensorType" destination="3Nv-dS-5oA" id="7v1-4X-ZEe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bdw-SQ-0NB" userLabel="First Responder" sceneMemberID="firstResponder"/>
