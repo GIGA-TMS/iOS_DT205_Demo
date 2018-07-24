@@ -73,6 +73,7 @@
 #define  DT205_SETSETTING               'C' //(0x43)
 #define  DT205_GETSETTING               'B' //(0x42)
 #define  DT205_UPDATESETTINGCHANGES     'R' //(0x52)
+#define  DT205_ACCESSEXTRASETTING       'Q' //(0x51)
 
 
 #define  DT205_EVENT                    '*' //(0x2A)

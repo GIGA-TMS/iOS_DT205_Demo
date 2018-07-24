@@ -14,20 +14,26 @@
 		417B152420FF37C500E59107 /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 417B152220FF37BC00E59107 /* CocoaAsyncSocket.framework */; };
 		417B152520FF37C500E59107 /* CocoaAsyncSocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 417B152220FF37BC00E59107 /* CocoaAsyncSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4191F34720FDB90F002EDF08 /* DeviceItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4191F34620FDB90F002EDF08 /* DeviceItemTableViewCell.m */; };
+		41F898682109766A00FC4F24 /* NSData+AES.h in Headers */ = {isa = PBXBuildFile; fileRef = 41FFD1362020450800ADAA69 /* NSData+AES.h */; };
+		41F898692109766A00FC4F24 /* AppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = BFB8AB261E4C0C5E00315B7B /* AppDelegate.h */; };
+		41F8986A2109766A00FC4F24 /* OptionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C867EA4F1F02405600B255A9 /* OptionViewController.h */; };
+		41F8986B2109766A00FC4F24 /* HomePageViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C8BE56001EA05F79000734DC /* HomePageViewController.h */; };
+		41F8986C2109766A00FC4F24 /* WifiSettingTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C867EA581F062F8600B255A9 /* WifiSettingTableViewController.h */; };
+		41F8986D2109766A00FC4F24 /* DeviceItemTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 4191F34520FDB90F002EDF08 /* DeviceItemTableViewCell.h */; };
+		41F8986E2109766A00FC4F24 /* ScanDeviceTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 417B151C20FF2EA100E59107 /* ScanDeviceTableViewController.h */; };
+		41F8986F2109766A00FC4F24 /* LocalNotificationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = C8B9AB651EC5A964009953A1 /* LocalNotificationHelper.h */; };
+		41F898702109766A00FC4F24 /* AVAudioPlayerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C8B9AB5F1EC56004009953A1 /* AVAudioPlayerManager.h */; };
 		41FFD1382020450900ADAA69 /* NSData+AES.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FFD1372020450800ADAA69 /* NSData+AES.m */; };
-		4F402345F6461B1B59EE554A /* libPods-DT205.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 731F7BB0FB88BF6601110E07 /* libPods-DT205.a */; };
-		A75E8C74B667FCB3DD2178E4 /* libPods-HelloMyBLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DA003EC100959CB275A072 /* libPods-HelloMyBLE.a */; };
+		47421842B9C93111F41D2D70 /* libPods-DT205.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 89B2E8322936F2B0F86BF5AD /* libPods-DT205.a */; };
 		BFB8AB251E4C0C5E00315B7B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB241E4C0C5E00315B7B /* main.m */; };
 		BFB8AB281E4C0C5E00315B7B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB271E4C0C5E00315B7B /* AppDelegate.m */; };
 		BFB8AB311E4C0C5E00315B7B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFB8AB2F1E4C0C5E00315B7B /* Main.storyboard */; };
 		BFB8AB331E4C0C5E00315B7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFB8AB321E4C0C5E00315B7B /* Assets.xcassets */; };
 		BFB8AB361E4C0C5E00315B7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFB8AB341E4C0C5E00315B7B /* LaunchScreen.storyboard */; };
-		BFB8AB451E4C1F4000315B7B /* PeripheralItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */; };
 		C854CE781EBC5CDC00770AF9 /* Alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */; };
 		C854CE7C1EBC6DEC00770AF9 /* CashDrawerOpen.wav in Resources */ = {isa = PBXBuildFile; fileRef = C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */; };
 		C867EA511F02405600B255A9 /* OptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C867EA501F02405600B255A9 /* OptionViewController.m */; };
 		C867EA5A1F062F8600B255A9 /* WifiSettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C867EA591F062F8600B255A9 /* WifiSettingTableViewController.m */; };
-		C867EA5D1F0C855600B255A9 /* DeviceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C867EA5C1F0C855600B255A9 /* DeviceItem.m */; };
 		C8B9AB5E1EC2B884009953A1 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B9AB5D1EC2B884009953A1 /* UserNotifications.framework */; };
 		C8B9AB611EC56004009953A1 /* AVAudioPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B9AB601EC56004009953A1 /* AVAudioPlayerManager.m */; };
 		C8B9AB671EC5A964009953A1 /* LocalNotificationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B9AB661EC5A964009953A1 /* LocalNotificationHelper.m */; };
@@ -52,7 +58,6 @@
 
 /* Begin PBXFileReference section */
 		03760FB81FC008EA9C020E41 /* Pods-DT205.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DT205.release.xcconfig"; path = "Pods/Target Support Files/Pods-DT205/Pods-DT205.release.xcconfig"; sourceTree = "<group>"; };
-		0FB3022985F29875DFFC20D2 /* Pods-HelloMyBLE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloMyBLE.release.xcconfig"; path = "Pods/Target Support Files/Pods-HelloMyBLE/Pods-HelloMyBLE.release.xcconfig"; sourceTree = "<group>"; };
 		4133D7B620FF251600E05FDB /* DT205SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DT205SDK.framework; sourceTree = "<group>"; };
 		417B151C20FF2EA100E59107 /* ScanDeviceTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScanDeviceTableViewController.h; sourceTree = "<group>"; };
 		417B151D20FF2EA100E59107 /* ScanDeviceTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScanDeviceTableViewController.m; sourceTree = "<group>"; };
@@ -62,9 +67,7 @@
 		41FFD1362020450800ADAA69 /* NSData+AES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AES.h"; sourceTree = "<group>"; };
 		41FFD1372020450800ADAA69 /* NSData+AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES.m"; sourceTree = "<group>"; };
 		5BFC9FF58C309D8DAE957705 /* Pods-DT205.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DT205.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DT205/Pods-DT205.debug.xcconfig"; sourceTree = "<group>"; };
-		731F7BB0FB88BF6601110E07 /* libPods-DT205.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DT205.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		96DA003EC100959CB275A072 /* libPods-HelloMyBLE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HelloMyBLE.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		ABA5A3E4B3D6B9A14AD438A6 /* Pods-HelloMyBLE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloMyBLE.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HelloMyBLE/Pods-HelloMyBLE.debug.xcconfig"; sourceTree = "<group>"; };
+		89B2E8322936F2B0F86BF5AD /* libPods-DT205.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DT205.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFB8AB201E4C0C5E00315B7B /* DT205.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DT205.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFB8AB241E4C0C5E00315B7B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BFB8AB261E4C0C5E00315B7B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -73,16 +76,12 @@
 		BFB8AB321E4C0C5E00315B7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BFB8AB351E4C0C5E00315B7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BFB8AB371E4C0C5E00315B7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BFB8AB431E4C1F4000315B7B /* PeripheralItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralItem.h; sourceTree = "<group>"; };
-		BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeripheralItem.m; sourceTree = "<group>"; };
 		C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Alarm.mp3; sourceTree = "<group>"; };
 		C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CashDrawerOpen.wav; sourceTree = "<group>"; };
 		C867EA4F1F02405600B255A9 /* OptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionViewController.h; sourceTree = "<group>"; };
 		C867EA501F02405600B255A9 /* OptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionViewController.m; sourceTree = "<group>"; };
 		C867EA581F062F8600B255A9 /* WifiSettingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiSettingTableViewController.h; sourceTree = "<group>"; };
 		C867EA591F062F8600B255A9 /* WifiSettingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WifiSettingTableViewController.m; sourceTree = "<group>"; };
-		C867EA5B1F0C855600B255A9 /* DeviceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceItem.h; sourceTree = "<group>"; };
-		C867EA5C1F0C855600B255A9 /* DeviceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceItem.m; sourceTree = "<group>"; };
 		C8B9AB5D1EC2B884009953A1 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		C8B9AB5F1EC56004009953A1 /* AVAudioPlayerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAudioPlayerManager.h; sourceTree = "<group>"; };
 		C8B9AB601EC56004009953A1 /* AVAudioPlayerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAudioPlayerManager.m; sourceTree = "<group>"; };
@@ -102,9 +101,8 @@
 				C8B9AB5E1EC2B884009953A1 /* UserNotifications.framework in Frameworks */,
 				C8BE560F1EBB2000000734DC /* AVFoundation.framework in Frameworks */,
 				417B152320FF37BC00E59107 /* CocoaAsyncSocket.framework in Frameworks */,
-				A75E8C74B667FCB3DD2178E4 /* libPods-HelloMyBLE.a in Frameworks */,
 				417B151F20FF370E00E59107 /* DT205SDK.framework in Frameworks */,
-				4F402345F6461B1B59EE554A /* libPods-DT205.a in Frameworks */,
+				47421842B9C93111F41D2D70 /* libPods-DT205.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,8 +112,6 @@
 		5EFA78D92034A547E3B33984 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				ABA5A3E4B3D6B9A14AD438A6 /* Pods-HelloMyBLE.debug.xcconfig */,
-				0FB3022985F29875DFFC20D2 /* Pods-HelloMyBLE.release.xcconfig */,
 				5BFC9FF58C309D8DAE957705 /* Pods-DT205.debug.xcconfig */,
 				03760FB81FC008EA9C020E41 /* Pods-DT205.release.xcconfig */,
 			);
@@ -151,7 +147,6 @@
 				C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */,
 				C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */,
 				C8B9AB641EC59B0F009953A1 /* ViewController */,
-				C8B9AB631EC565A8009953A1 /* Model */,
 				C8B9AB621EC56572009953A1 /* Class */,
 				BFB8AB321E4C0C5E00315B7B /* Assets.xcassets */,
 				BFB8AB341E4C0C5E00315B7B /* LaunchScreen.storyboard */,
@@ -176,8 +171,7 @@
 				4133D7B620FF251600E05FDB /* DT205SDK.framework */,
 				C8B9AB5D1EC2B884009953A1 /* UserNotifications.framework */,
 				C8BE560E1EBB2000000734DC /* AVFoundation.framework */,
-				96DA003EC100959CB275A072 /* libPods-HelloMyBLE.a */,
-				731F7BB0FB88BF6601110E07 /* libPods-DT205.a */,
+				89B2E8322936F2B0F86BF5AD /* libPods-DT205.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -191,17 +185,6 @@
 				C8B9AB601EC56004009953A1 /* AVAudioPlayerManager.m */,
 			);
 			name = Class;
-			sourceTree = "<group>";
-		};
-		C8B9AB631EC565A8009953A1 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				BFB8AB431E4C1F4000315B7B /* PeripheralItem.h */,
-				BFB8AB441E4C1F4000315B7B /* PeripheralItem.m */,
-				C867EA5B1F0C855600B255A9 /* DeviceItem.h */,
-				C867EA5C1F0C855600B255A9 /* DeviceItem.m */,
-			);
-			name = Model;
 			sourceTree = "<group>";
 		};
 		C8B9AB641EC59B0F009953A1 /* ViewController */ = {
@@ -223,6 +206,25 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		41F898672109764E00FC4F24 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41F898682109766A00FC4F24 /* NSData+AES.h in Headers */,
+				41F898692109766A00FC4F24 /* AppDelegate.h in Headers */,
+				41F8986A2109766A00FC4F24 /* OptionViewController.h in Headers */,
+				41F8986B2109766A00FC4F24 /* HomePageViewController.h in Headers */,
+				41F8986C2109766A00FC4F24 /* WifiSettingTableViewController.h in Headers */,
+				41F8986D2109766A00FC4F24 /* DeviceItemTableViewCell.h in Headers */,
+				41F8986E2109766A00FC4F24 /* ScanDeviceTableViewController.h in Headers */,
+				41F8986F2109766A00FC4F24 /* LocalNotificationHelper.h in Headers */,
+				41F898702109766A00FC4F24 /* AVAudioPlayerManager.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		BFB8AB1F1E4C0C5E00315B7B /* DT205 */ = {
 			isa = PBXNativeTarget;
@@ -236,6 +238,7 @@
 				65BDDF67F0247523A28F0CC8 /* [CP] Copy Pods Resources */,
 				415D509D1F56A72C00A655DF /* ShellScript */,
 				417B152120FF370E00E59107 /* Embed Frameworks */,
+				41F898672109764E00FC4F24 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -373,14 +376,12 @@
 				BFB8AB281E4C0C5E00315B7B /* AppDelegate.m in Sources */,
 				C8B9AB611EC56004009953A1 /* AVAudioPlayerManager.m in Sources */,
 				417B151E20FF2EA100E59107 /* ScanDeviceTableViewController.m in Sources */,
-				BFB8AB451E4C1F4000315B7B /* PeripheralItem.m in Sources */,
 				41FFD1382020450900ADAA69 /* NSData+AES.m in Sources */,
 				4191F34720FDB90F002EDF08 /* DeviceItemTableViewCell.m in Sources */,
 				C8BE56021EA05F79000734DC /* HomePageViewController.m in Sources */,
 				C8B9AB671EC5A964009953A1 /* LocalNotificationHelper.m in Sources */,
 				BFB8AB251E4C0C5E00315B7B /* main.m in Sources */,
 				C867EA5A1F062F8600B255A9 /* WifiSettingTableViewController.m in Sources */,
-				C867EA5D1F0C855600B255A9 /* DeviceItem.m in Sources */,
 				C867EA511F02405600B255A9 /* OptionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -502,19 +503,24 @@
 			baseConfigurationReference = 5BFC9FF58C309D8DAE957705 /* Pods-DT205.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = SJGX2HQEE9;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/CocoaAsyncSocket",
 				);
 				INFOPLIST_FILE = DT205/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gigatms.DT205;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -525,18 +531,22 @@
 			baseConfigurationReference = 03760FB81FC008EA9C020E41 /* Pods-DT205.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SJGX2HQEE9;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/CocoaAsyncSocket",
 				);
 				INFOPLIST_FILE = DT205/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gigatms.DT205;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

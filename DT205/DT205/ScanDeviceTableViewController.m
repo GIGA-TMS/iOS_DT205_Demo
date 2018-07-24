@@ -33,9 +33,7 @@
     dt205 = [DT205 sharedInstance:use_Wifi];
     [self getAppVersion];
     
-    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:PASSWORD];
-    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:DEVICE_UUID_KEY];
-    [[NSUserDefaults standardUserDefaults] setObject:false forKey:DEVICE_ISCONNECT];
+    
 }
 
 - (void)getAppVersion {
@@ -80,6 +78,9 @@
         }else{
             [dt205 stopScanningBLEDevice];
         }
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:PASSWORD];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:DEVICE_UUID_KEY];
+        [[NSUserDefaults standardUserDefaults] setObject:false forKey:DEVICE_ISCONNECT];
         [allItems removeAllObjects];
     }
     

@@ -17,7 +17,7 @@
 -(void)didUpdateBLECentralManagerState:(NSString*) State;
 -(void)didCMD_General_Success:(NSString*) CMDName;
 -(void)didCMD_General_ERROR:(NSString*) CMDName errMassage:(NSString*) errMassage;
--(void)didCMD_Polling:(NSString*) ProductName LoginState:(NSData*)LoginState Random:(NSData*) Random;
+-(void)didCMD_Polling:(NSString*) ProductName LoginState:(NSString*)LoginState Random:(NSData*) Random;
 -(void)didCMD_FW_Ver:(NSString*)fwName fwVer:(NSString*)fwVer;
 -(void)didCMD_GetCashDrawerStatus:(bool) isOpen;
 //-(void)didCMD_GetUsageCounterInRawMode(String Usage);
@@ -26,6 +26,11 @@
 
 -(void)didCMD_GetSensorType:(bool) isNormal;
 -(void)didCMD_GetSensorEnable:(bool) isEnable;
+
+
+-(void)didCMD_GetDeviceName:(NSString*) devName;
+
+-(void)didCreateContinuationCode:(NSString*) code;
 
 //Event
 -(void)didEvent_StatusChanged:(bool) isOpen;

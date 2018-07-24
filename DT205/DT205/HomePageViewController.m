@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UISlider *sliderRSSI;
 
 @property (weak, nonatomic) IBOutlet UISwitch *swSensorType;
+@property (weak, nonatomic) IBOutlet UISwitch *swSensorEanble;
 
 @end
 
@@ -214,24 +215,24 @@
 
 
 - (IBAction)changeBoxSize:(id)sender {
-    if ([sender isOn]) {
-        [dt205 cmdSetSensorType:true];
-        [NSTimer scheduledTimerWithTimeInterval:0.5
-                                         target:self
-                                       selector:@selector(cmdUpdateSettingChanges)
-                                       userInfo:nil
-                                        repeats:NO];
-    }else {
-        [dt205 cmdSetSensorType:false];
-        [NSTimer scheduledTimerWithTimeInterval:0.5
-                                         target:self
-                                       selector:@selector(cmdUpdateSettingChanges)
-                                       userInfo:nil
-                                        repeats:NO];
-    }
-    
+    [dt205 cmdSetSensorType:[sender isOn]];
+    [NSTimer scheduledTimerWithTimeInterval:0.5
+                                     target:self
+                                   selector:@selector(cmdUpdateSettingChanges)
+                                   userInfo:nil
+                                    repeats:NO];
+}
+
+- (IBAction)alarmEanble:(id)sender {
+    [dt205 cmdSetSensorEnable:[sender isOn]];
+    [NSTimer scheduledTimerWithTimeInterval:0.5
+                                     target:self
+                                   selector:@selector(cmdUpdateSettingChanges)
+                                   userInfo:nil
+                                    repeats:NO];
     
 }
+
 -(void)cmdUpdateSettingChanges{
     [dt205 cmdUpdateSettingChanges];
 }
@@ -394,10 +395,12 @@
 -(void)didCMD_GetSensorType:(bool) isNormal{
     NSLog(@"didCMD_GetSensorType isNormal = %@", isNormal?@"Y":@"N");
     [_swSensorType setOn:isNormal];
-    [dt205 cmdGetCashDrawerStatus];
+    [dt205 cmdGetSensorEnable];
 }
 -(void)didCMD_GetSensorEnable:(bool) isEnable{
-    
+    NSLog(@"didCMD_GetSensorEnable isNormal = %@", isEnable?@"Y":@"N");
+    [_swSensorEanble setOn:isEnable];
+    [dt205 cmdGetCashDrawerStatus];
 }
 
 

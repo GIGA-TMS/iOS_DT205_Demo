@@ -27,7 +27,10 @@
 
 #pragma mark - Authenticate Command
 -(void)cmdLogin:(NSString*) passward;
--(void)cmdSetPassword:(NSString*) newPassward;
+
+-(void)cmdBinding:(NSString*) newPassward;
+-(void)cmdUubinding;
+
 -(void)cmdLogout;
 -(void)cmdPolling;
 #pragma mark - General Command
@@ -39,12 +42,16 @@
 -(void)cmdGetUsageCounterInRawMode;
 -(void)cmdGetUsageCounter;
 -(void)cmdSetSensorType:(bool)isNormal;
--(void)cmdSetSensorEnable:(bool)isEnable;
+-(void)cmdSetAlarm:(bool)isEnable;
 
 -(void)cmdGetSensorType;
--(void)cmdGetSensorEnable;
+-(void)cmdGetAlarm;
 
 
--(void)cmdUpdateSettingChanges;
+-(void)cmdUpdateSetting;
+
+-(void)cmdGetDeviceName;
+-(void)cmdSetDeviceName:(NSString*)devName;
+-(void)createContinuationCode;
 
 @end
