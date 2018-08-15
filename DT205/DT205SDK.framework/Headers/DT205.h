@@ -29,6 +29,7 @@
 -(void)cmdLogin:(NSString*) passward;
 
 -(void)cmdBinding:(NSString*) newPassward;
+-(void)cmdBindingbyByte:(NSString*) random pwd:(NSString*) PWDBuff;
 -(void)cmdUubinding;
 
 -(void)cmdLogout;

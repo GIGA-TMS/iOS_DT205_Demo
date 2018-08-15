@@ -23,6 +23,12 @@
 		41F8986E2109766A00FC4F24 /* ScanDeviceTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 417B151C20FF2EA100E59107 /* ScanDeviceTableViewController.h */; };
 		41F8986F2109766A00FC4F24 /* LocalNotificationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = C8B9AB651EC5A964009953A1 /* LocalNotificationHelper.h */; };
 		41F898702109766A00FC4F24 /* AVAudioPlayerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C8B9AB5F1EC56004009953A1 /* AVAudioPlayerManager.h */; };
+		41FAE16F212402630005FBB5 /* CustomAlertViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 41FAE16E212402630005FBB5 /* CustomAlertViewDelegate.h */; };
+		41FAE172212402D30005FBB5 /* CustomAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 41FAE170212402D30005FBB5 /* CustomAlertView.h */; };
+		41FAE173212402D30005FBB5 /* CustomAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FAE171212402D30005FBB5 /* CustomAlertView.m */; };
+		41FAE17621241D1B0005FBB5 /* CustomPWDAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 41FAE17421241D1B0005FBB5 /* CustomPWDAlertView.h */; };
+		41FAE17721241D1B0005FBB5 /* CustomPWDAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FAE17521241D1B0005FBB5 /* CustomPWDAlertView.m */; };
+		41FAE17921241D3F0005FBB5 /* CustomPWDAlertViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 41FAE17821241D3F0005FBB5 /* CustomPWDAlertViewDelegate.h */; };
 		41FFD1382020450900ADAA69 /* NSData+AES.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FFD1372020450800ADAA69 /* NSData+AES.m */; };
 		47421842B9C93111F41D2D70 /* libPods-DT205.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 89B2E8322936F2B0F86BF5AD /* libPods-DT205.a */; };
 		BFB8AB251E4C0C5E00315B7B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB8AB241E4C0C5E00315B7B /* main.m */; };
@@ -64,6 +70,12 @@
 		417B152220FF37BC00E59107 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = CocoaAsyncSocket/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
 		4191F34520FDB90F002EDF08 /* DeviceItemTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceItemTableViewCell.h; sourceTree = "<group>"; };
 		4191F34620FDB90F002EDF08 /* DeviceItemTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceItemTableViewCell.m; sourceTree = "<group>"; };
+		41FAE16E212402630005FBB5 /* CustomAlertViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomAlertViewDelegate.h; sourceTree = "<group>"; };
+		41FAE170212402D30005FBB5 /* CustomAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomAlertView.h; sourceTree = "<group>"; };
+		41FAE171212402D30005FBB5 /* CustomAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomAlertView.m; sourceTree = "<group>"; };
+		41FAE17421241D1B0005FBB5 /* CustomPWDAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomPWDAlertView.h; sourceTree = "<group>"; };
+		41FAE17521241D1B0005FBB5 /* CustomPWDAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomPWDAlertView.m; sourceTree = "<group>"; };
+		41FAE17821241D3F0005FBB5 /* CustomPWDAlertViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomPWDAlertViewDelegate.h; sourceTree = "<group>"; };
 		41FFD1362020450800ADAA69 /* NSData+AES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AES.h"; sourceTree = "<group>"; };
 		41FFD1372020450800ADAA69 /* NSData+AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES.m"; sourceTree = "<group>"; };
 		5BFC9FF58C309D8DAE957705 /* Pods-DT205.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DT205.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DT205/Pods-DT205.debug.xcconfig"; sourceTree = "<group>"; };
@@ -109,6 +121,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4142645F2122BA14007F2452 /* CustomAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				41FAE16E212402630005FBB5 /* CustomAlertViewDelegate.h */,
+				41FAE170212402D30005FBB5 /* CustomAlertView.h */,
+				41FAE171212402D30005FBB5 /* CustomAlertView.m */,
+				41FAE17421241D1B0005FBB5 /* CustomPWDAlertView.h */,
+				41FAE17521241D1B0005FBB5 /* CustomPWDAlertView.m */,
+				41FAE17821241D3F0005FBB5 /* CustomPWDAlertViewDelegate.h */,
+			);
+			path = CustomAlertView;
+			sourceTree = "<group>";
+		};
 		5EFA78D92034A547E3B33984 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +171,7 @@
 				BFB8AB2F1E4C0C5E00315B7B /* Main.storyboard */,
 				C854CE771EBC5CDC00770AF9 /* Alarm.mp3 */,
 				C854CE7B1EBC6DEC00770AF9 /* CashDrawerOpen.wav */,
+				4142645F2122BA14007F2452 /* CustomAlertView */,
 				C8B9AB641EC59B0F009953A1 /* ViewController */,
 				C8B9AB621EC56572009953A1 /* Class */,
 				BFB8AB321E4C0C5E00315B7B /* Assets.xcassets */,
@@ -212,14 +238,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				41F898682109766A00FC4F24 /* NSData+AES.h in Headers */,
+				41FAE16F212402630005FBB5 /* CustomAlertViewDelegate.h in Headers */,
 				41F898692109766A00FC4F24 /* AppDelegate.h in Headers */,
+				41FAE17921241D3F0005FBB5 /* CustomPWDAlertViewDelegate.h in Headers */,
 				41F8986A2109766A00FC4F24 /* OptionViewController.h in Headers */,
 				41F8986B2109766A00FC4F24 /* HomePageViewController.h in Headers */,
 				41F8986C2109766A00FC4F24 /* WifiSettingTableViewController.h in Headers */,
 				41F8986D2109766A00FC4F24 /* DeviceItemTableViewCell.h in Headers */,
 				41F8986E2109766A00FC4F24 /* ScanDeviceTableViewController.h in Headers */,
+				41FAE172212402D30005FBB5 /* CustomAlertView.h in Headers */,
 				41F8986F2109766A00FC4F24 /* LocalNotificationHelper.h in Headers */,
 				41F898702109766A00FC4F24 /* AVAudioPlayerManager.h in Headers */,
+				41FAE17621241D1B0005FBB5 /* CustomPWDAlertView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +291,7 @@
 					BFB8AB1F1E4C0C5E00315B7B = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = SJGX2HQEE9;
+						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -373,12 +404,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41FAE17721241D1B0005FBB5 /* CustomPWDAlertView.m in Sources */,
 				BFB8AB281E4C0C5E00315B7B /* AppDelegate.m in Sources */,
 				C8B9AB611EC56004009953A1 /* AVAudioPlayerManager.m in Sources */,
 				417B151E20FF2EA100E59107 /* ScanDeviceTableViewController.m in Sources */,
 				41FFD1382020450900ADAA69 /* NSData+AES.m in Sources */,
 				4191F34720FDB90F002EDF08 /* DeviceItemTableViewCell.m in Sources */,
 				C8BE56021EA05F79000734DC /* HomePageViewController.m in Sources */,
+				41FAE173212402D30005FBB5 /* CustomAlertView.m in Sources */,
 				C8B9AB671EC5A964009953A1 /* LocalNotificationHelper.m in Sources */,
 				BFB8AB251E4C0C5E00315B7B /* main.m in Sources */,
 				C867EA5A1F062F8600B255A9 /* WifiSettingTableViewController.m in Sources */,
@@ -503,6 +536,7 @@
 			baseConfigurationReference = 5BFC9FF58C309D8DAE957705 /* Pods-DT205.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -522,6 +556,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -531,6 +567,7 @@
 			baseConfigurationReference = 03760FB81FC008EA9C020E41 /* Pods-DT205.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -548,6 +585,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

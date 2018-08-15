@@ -14,7 +14,10 @@
 #import <DT205SDK/PeripheralItem.h>
 #import "HomePageViewController.h"
 
-@interface ScanDeviceTableViewController ()
+#import "CustomPWDAlertView.h"
+#import "CustomPWDAlertViewDelegate.h"
+
+@interface ScanDeviceTableViewController () <CustomPWDAlertViewDelegate>
 
 @end
 
@@ -32,7 +35,6 @@
     use_Wifi = false;
     dt205 = [DT205 sharedInstance:use_Wifi];
     [self getAppVersion];
-    
     
 }
 
@@ -166,20 +168,9 @@
 }
 
 -(void)settingPasswordAlert:(NSIndexPath *)indexPath{
-    NSArray* allKeys = allItems.allKeys;
-    NSString* uuidKey = allKeys[indexPath.row];
-    if (use_Wifi) {
-        EthernetDevice* item = allItems[uuidKey];
-        HomePageViewController* pageVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageViewController"];
-        [[NSUserDefaults standardUserDefaults] setObject:item.deviecName forKey:@"SelectedDeviceName"];
-        pageVC.device_IP = item.deviecIP;
-        pageVC.device_Port = item.deviecPort;
-        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:DEVICE_ISCONNECT];
-    }else{
-        PeripheralItem* item = allItems[uuidKey];
-        [dt205 connectBLEDevice:item.peripheral];
-    }
     
+    
+//    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Please enter bonding PIN code" preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Please enter bonding PIN code" preferredStyle:UIAlertControllerStyleAlert];
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull pinPassword) {
@@ -200,6 +191,19 @@
         NSString* checkPassword = checkPasswordTextField.text;
         
         if ([password isEqualToString:checkPassword]) {
+            NSArray* allKeys = allItems.allKeys;
+            NSString* uuidKey = allKeys[indexPath.row];
+            if (use_Wifi) {
+                EthernetDevice* item = allItems[uuidKey];
+                HomePageViewController* pageVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageViewController"];
+                [[NSUserDefaults standardUserDefaults] setObject:item.deviecName forKey:@"SelectedDeviceName"];
+                pageVC.device_IP = item.deviecIP;
+                pageVC.device_Port = item.deviecPort;
+                [[NSUserDefaults standardUserDefaults]setBool:YES forKey:DEVICE_ISCONNECT];
+            }else{
+                PeripheralItem* item = allItems[uuidKey];
+                [dt205 connectBLEDevice:item.peripheral];
+            }
             [[NSUserDefaults standardUserDefaults] setObject:password forKey:PASSWORD];
             if ([[NSUserDefaults standardUserDefaults]boolForKey:DEVICE_ISCONNECT]) {
                 if (![[NSUserDefaults standardUserDefaults]boolForKey:ROOTVIEWCONTROLLER]) {
@@ -221,6 +225,27 @@
     [alert addAction:comfirm];
     
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+
+- (void)showPWDAlertView{
+    CustomPWDAlertView* customAlert = [self.storyboard instantiateViewControllerWithIdentifier:@"CustomPWDAlertID"];
+    customAlert.providesPresentationContextTransitionStyle = true;
+    customAlert.definesPresentationContext = true;
+    customAlert.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    customAlert.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    customAlert.pwdAlertViewDelegate = self;
+    [self presentViewController:customAlert animated:true completion:nil];
+}
+
+
+- (void)okButtonTapped:(NSString *)selectedOption :(NSString *)textPIN :(NSString *)textConfirmPIN :(NSString *)textContinuationCode{
+    NSLog(@"okButtonTapped with %@ option selected", selectedOption);
+    NSLog(@"TextField has value: %@", textPIN);
+}
+
+- (void)cancelButtonTapped{
+    NSLog(@"cancelButtonTapped");
 }
 
 @end

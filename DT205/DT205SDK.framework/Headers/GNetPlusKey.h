@@ -10,7 +10,7 @@
 
 @interface GNetPlusKey : NSObject
 
-
+- (NSData*) getAESKey;
 - (id)initWithRANDOM_KEY:(NSData*)bRandomKey;
 - (NSData*) getClientKey:(NSString*)szMobileUuid :(NSMutableString*) szUserPIN;
 @end

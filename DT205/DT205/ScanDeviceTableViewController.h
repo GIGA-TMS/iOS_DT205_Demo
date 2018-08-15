@@ -10,4 +10,5 @@
 
 @interface ScanDeviceTableViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UILabel *labAppVer;
+
 @end

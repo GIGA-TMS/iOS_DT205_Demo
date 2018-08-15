@@ -12,9 +12,11 @@
 #import "AVAudioPlayerManager.h"
 #import "LocalNotificationHelper.h"
 #import "ScanDeviceTableViewController.h"
+#import "CustomPWDAlertView.h"
+#import "CustomPWDAlertViewDelegate.h"
 
 
-@interface HomePageViewController () <DT205CommandV1CallBack>
+@interface HomePageViewController () <DT205CommandV1CallBack,CustomPWDAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *deviceNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UIView *statusView;
@@ -38,6 +40,8 @@
     AVAudioPlayerManager* audioPlayerManager;
     //Push LocalNotificationMessage
     LocalNotificationHelper* localNotificationHelper;
+    NSString * strFWVersion;
+    NSString * strContinuationCode;
     
     BOOL use_Wifi;
 }
@@ -59,7 +63,6 @@
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ROOTVIEWCONTROLLER];
     
-    [self getAppVersion];
     
     
     
@@ -105,15 +108,6 @@
 }
 
 
-- (void)getAppVersion {
-    //To get the version number
-    NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    NSString * versionBuildString = [NSString stringWithFormat:@"APP v%@.%@, SDK v%@", appVersionString, appBuildString, [dt205 getSDKVersion]];
-    NSLog(@"Gianni appVersionString: %@ , appBuildString: %@",appVersionString,appBuildString);
-    [_labAppVer setText:versionBuildString];
-    [_labAppVer setBackgroundColor:[UIColor clearColor]];
-}
 
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -167,6 +161,7 @@
         pinPassword.secureTextEntry = YES;
         pinPassword.placeholder = @"Please entet bonding PIN code";
     }];
+    
     
     UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style: UIAlertActionStyleCancel handler:nil];
     UIAlertAction* comfirm = [UIAlertAction actionWithTitle:@"Comfirm" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -224,7 +219,7 @@
 }
 
 - (IBAction)alarmEanble:(id)sender {
-    [dt205 cmdSetSensorEnable:[sender isOn]];
+    [dt205 cmdSetAlarm:[sender isOn]];
     [NSTimer scheduledTimerWithTimeInterval:0.5
                                      target:self
                                    selector:@selector(cmdUpdateSettingChanges)
@@ -234,7 +229,7 @@
 }
 
 -(void)cmdUpdateSettingChanges{
-    [dt205 cmdUpdateSettingChanges];
+    [dt205 cmdUpdateSetting];
 }
 #pragma mark - HandleData Metods
 
@@ -374,8 +369,7 @@
 }
 -(void)didCMD_FW_Ver:(NSString*)fwName fwVer:(NSString*)fwVer{
     NSLog(@"didCMD_FW_Ver fwName = %@", fwName);
-    NSString * versionString = [NSString stringWithFormat:@"FW Ver:%@", fwName];
-    _labFWVer.text = versionString;
+    strFWVersion = fwName;
     [dt205 cmdGetSensorType];
 }
 -(void)didCMD_GetCashDrawerStatus:(bool) isOpen{
@@ -395,7 +389,7 @@
 -(void)didCMD_GetSensorType:(bool) isNormal{
     NSLog(@"didCMD_GetSensorType isNormal = %@", isNormal?@"Y":@"N");
     [_swSensorType setOn:isNormal];
-    [dt205 cmdGetSensorEnable];
+    [dt205 cmdGetAlarm];
 }
 -(void)didCMD_GetSensorEnable:(bool) isEnable{
     NSLog(@"didCMD_GetSensorEnable isNormal = %@", isEnable?@"Y":@"N");
@@ -454,7 +448,53 @@
     }
 
 }
+- (void)didCreateContinuationCode:(NSString *)code{
+    strContinuationCode = code;
+}
 
+- (IBAction)btnAbout:(id)sender {
+    [dt205 createContinuationCode];
+
+    NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSString * versionBuildString = [NSString stringWithFormat:@"APP Version: v%@.%@\n\nSDK Version: v%@", appVersionString, appBuildString, [dt205 getSDKVersion]];
+
+    NSString * strFWVer = [NSString stringWithFormat:@"Rom Version:%@", strFWVersion];
+
+    NSString * strConCode = [NSString stringWithFormat:@"ContinuationCode:\n%@", strContinuationCode];
+    NSString * message =  [NSString stringWithFormat:@"\n%@\n\n%@\n\n%@", versionBuildString, strFWVer, strConCode];
+
+
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"About Information" message:message preferredStyle:UIAlertControllerStyleAlert];
+
+
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"BACK" style: UIAlertActionStyleCancel handler:nil];
+
+    [alert addAction:cancel];
+
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+//CustomAlertView example by Gianni 2018/08/15
+//- (IBAction)btnAbout:(id)sender {
+//    CustomPWDAlertView* customAlert = [self.storyboard instantiateViewControllerWithIdentifier:@"CustomPWDAlertID"];
+//    customAlert.providesPresentationContextTransitionStyle = true;
+//    customAlert.definesPresentationContext = true;
+//    customAlert.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+//    customAlert.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//    customAlert.pwdAlertViewDelegate = self;
+//    [self presentViewController:customAlert animated:true completion:nil];
+//}
+//
+//
+//- (void)okButtonTapped:(NSString *)selectedOption :(NSString *)textPIN :(NSString *)textConfirmPIN :(NSString *)textContinuationCode{
+//    NSLog(@"okButtonTapped with %@ option selected", selectedOption);
+//    NSLog(@"TextField has value: %@", textPIN);
+//}
+//
+//- (void)cancelButtonTapped{
+//    NSLog(@"cancelButtonTapped");
+//}
 
 
 @end
