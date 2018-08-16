@@ -7,6 +7,8 @@
 //
 
 #import "CustomPWDAlertView.h"
+#import "HomePageViewController.h"
+#import <DT205SDK/Header.h>
 
 @interface CustomPWDAlertView () <UITextFieldDelegate>
 
@@ -20,7 +22,7 @@
 @end
 
 @implementation CustomPWDAlertView{
-     NSString* selectedOption;
+    NSString* selectedOption;
 }
 
 - (void)viewDidLoad {
@@ -62,7 +64,13 @@
 - (IBAction)btnOK:(id)sender {
     _txtPIN.canResignFirstResponder;
     [_pwdAlertViewDelegate okButtonTapped:selectedOption :_txtPIN.text :_txtConfirmPIN.text :_txtContinuationCode.text];
-    [self dismissViewControllerAnimated:true completion:nil];
+    if ([_txtPIN.text isEqualToString:_txtConfirmPIN.text]) {
+        
+        [[NSUserDefaults standardUserDefaults] setObject:_txtPIN.text forKey:PASSWORD];
+        HomePageViewController* pageVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageViewController"];
+        [self presentViewController:pageVC animated:YES completion:nil];
+//        [self dismissViewControllerAnimated:true completion:nil];
+    }
     
 }
 - (IBAction)onTapSegmentedControl:(id)sender {

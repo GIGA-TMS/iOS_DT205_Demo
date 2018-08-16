@@ -26,6 +26,7 @@
     NSMutableDictionary* allItems;
     DT205 *dt205;
     BOOL use_Wifi;
+    NSIndexPath* index;
 }
 
 - (void)viewDidLoad {
@@ -169,66 +170,21 @@
 
 -(void)settingPasswordAlert:(NSIndexPath *)indexPath{
     
+    index = indexPath;
+    NSArray* allKeys = allItems.allKeys;
+    NSString* uuidKey = allKeys[index.row];
+    if (use_Wifi) {
+        EthernetDevice* item = allItems[uuidKey];
+        HomePageViewController* pageVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageViewController"];
+        [[NSUserDefaults standardUserDefaults] setObject:item.deviecName forKey:@"SelectedDeviceName"];
+        pageVC.device_IP = item.deviecIP;
+        pageVC.device_Port = item.deviecPort;
+        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:DEVICE_ISCONNECT];
+    }else{
+        PeripheralItem* item = allItems[uuidKey];
+        [dt205 connectBLEDevice:item.peripheral];
+    }
     
-//    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Please enter bonding PIN code" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Notice" message:@"Please enter bonding PIN code" preferredStyle:UIAlertControllerStyleAlert];
-    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull pinPassword) {
-        pinPassword.secureTextEntry = YES;
-        pinPassword.placeholder = @"Please enter bonding PIN code";
-    }];
-    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull checkPinPassword) {
-        checkPinPassword.secureTextEntry = YES;
-        checkPinPassword.placeholder = @"Enter bonding PIN code again";
-    }];
-    
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style: UIAlertActionStyleCancel handler:nil];
-    
-    UIAlertAction* comfirm = [UIAlertAction actionWithTitle:@"Comfirm" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        UITextField* passwordTextField = alert.textFields[0];
-        UITextField* checkPasswordTextField = alert.textFields[1];
-        NSString* password = passwordTextField.text;
-        NSString* checkPassword = checkPasswordTextField.text;
-        
-        if ([password isEqualToString:checkPassword]) {
-            NSArray* allKeys = allItems.allKeys;
-            NSString* uuidKey = allKeys[indexPath.row];
-            if (use_Wifi) {
-                EthernetDevice* item = allItems[uuidKey];
-                HomePageViewController* pageVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageViewController"];
-                [[NSUserDefaults standardUserDefaults] setObject:item.deviecName forKey:@"SelectedDeviceName"];
-                pageVC.device_IP = item.deviecIP;
-                pageVC.device_Port = item.deviecPort;
-                [[NSUserDefaults standardUserDefaults]setBool:YES forKey:DEVICE_ISCONNECT];
-            }else{
-                PeripheralItem* item = allItems[uuidKey];
-                [dt205 connectBLEDevice:item.peripheral];
-            }
-            [[NSUserDefaults standardUserDefaults] setObject:password forKey:PASSWORD];
-            if ([[NSUserDefaults standardUserDefaults]boolForKey:DEVICE_ISCONNECT]) {
-                if (![[NSUserDefaults standardUserDefaults]boolForKey:ROOTVIEWCONTROLLER]) {
-                    HomePageViewController* pageVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageViewController"];
-                    [self presentViewController:pageVC animated:YES completion:nil];
-                }else{
-                    [self dismissViewControllerAnimated:YES completion:nil];
-                }
-            }
-        }else{
-            [self showAlertWithMessage:@"Incorrect bonding PIN code"];
-            if (!use_Wifi) {
-                [dt205 disconnectBLEDevice];
-            }
-            
-        }
-    }];
-    [alert addAction:cancel];
-    [alert addAction:comfirm];
-    
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
-
-- (void)showPWDAlertView{
     CustomPWDAlertView* customAlert = [self.storyboard instantiateViewControllerWithIdentifier:@"CustomPWDAlertID"];
     customAlert.providesPresentationContextTransitionStyle = true;
     customAlert.definesPresentationContext = true;
@@ -238,10 +194,24 @@
     [self presentViewController:customAlert animated:true completion:nil];
 }
 
-
 - (void)okButtonTapped:(NSString *)selectedOption :(NSString *)textPIN :(NSString *)textConfirmPIN :(NSString *)textContinuationCode{
     NSLog(@"okButtonTapped with %@ option selected", selectedOption);
     NSLog(@"TextField has value: %@", textPIN);
+    
+    
+    
+    if ([textPIN isEqualToString:textConfirmPIN]) {
+        
+        [[NSUserDefaults standardUserDefaults] setObject:textPIN forKey:PASSWORD];
+        HomePageViewController* pageVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageViewController"];
+        [self presentViewController:pageVC animated:YES completion:nil];
+    }else{
+        [self showAlertWithMessage:@"Incorrect bonding PIN code"];
+        if (!use_Wifi) {
+            [dt205 disconnectBLEDevice];
+        }
+        
+    }
 }
 
 - (void)cancelButtonTapped{

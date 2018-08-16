@@ -168,6 +168,7 @@
         UITextField* passwordTextField = alert.textFields[0];
         NSString* password = passwordTextField.text;
         if ([password isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:PASSWORD]]) {
+            [dt205 disconnectBLEDevice];
             [self gotoScanVC];
         }else{
             [self showAlertWithMessage:@"Wrong bonding PIN code"];
