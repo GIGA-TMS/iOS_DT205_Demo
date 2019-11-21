@@ -14,31 +14,32 @@
 @protocol DT205CommandV1CallBack <NSObject>
 
 @optional
--(void)didUpdateBLECentralManagerState:(NSString*) State;
--(void)didCMD_General_Success:(NSString*) CMDName;
--(void)didCMD_General_ERROR:(NSString*) CMDName errMassage:(NSString*) errMassage;
--(void)didCMD_Polling:(NSString*) ProductName LoginState:(NSString*)LoginState Random:(NSData*) Random;
--(void)didCMD_FW_Ver:(NSString*)fwName fwVer:(NSString*)fwVer;
--(void)didCMD_GetCashDrawerStatus:(bool) isOpen;
-//-(void)didCMD_GetUsageCounterInRawMode(String Usage);
--(void)didCMD_GetUsageCounter:(NSString*) Count;
+-(void)onDidUpdateBLECentralManagerState:(NSString*) State;
+
+-(void)onDidGeneralSuccess:(NSString*) CMDName;
+-(void)onDidGeneralError:(NSString*) CMDName errMassage:(NSString*) errMassage;
+-(void)onDidPolling:(NSString*) ProductName LoginState:(NSString*)LoginState;
+-(void)onDidGetFirmwareVersion:(NSString*)fwName fwVer:(NSString*)fwVer;
+-(void)onDidGetCashDrawerStatus:(bool) isOpen;
+
+-(void)onDidGetTriggerCounter:(NSString*) Count;
 
 
--(void)didCMD_GetSensorType:(bool) isNormal;
--(void)didCMD_GetSensorEnable:(bool) isEnable;
+-(void)onDidGetSensorType:(bool) isNormal;
+-(void)onDidGetAlarm:(bool) isEnable;
 
 
--(void)didCMD_GetDeviceName:(NSString*) devName;
+-(void)onDidGetDeviceName:(NSString*) devName;
 
--(void)didCreateContinuationCode:(NSString*) code;
+-(void)onDidGetContinuationCode:(NSString*) code;
 
 //Event
--(void)didEvent_StatusChanged:(bool) isOpen;
--(void)didEvent_OpenAlert:(bool) isOpen;
--(void)didEvent_OpenReminding:(bool) isOpen;
+-(void)onEventStatusChanged:(bool) isOpen;
+-(void)onEventOpenAlert:(bool) isOpen;
+-(void)onEventOpenReminding:(bool) isOpen;
 
+-(void)onDidGetBleRssi:(int) rssi;
 
-
-
+-(void)onDidGetRemindTimeout:(int) second;
 
 @end

@@ -89,7 +89,7 @@
     if (dt205 != nil) {
         self.deviceNameLabel.text = dt205.getDeviceName;
         self.statusLabel.text = dt205.getBLEConnectState;
-        self.sliderRSSI.value = -1 * [dt205 readBLERSSI];
+//        self.sliderRSSI.value = -1 * [dt205 readBLERSSI];
         if (isfirst) {
             
             [NSTimer scheduledTimerWithTimeInterval:1.5
@@ -113,7 +113,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(recieveUpdateValueFromCharacteristic) name:@"CallbackData" object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(recieveUpdateValueFromCharacteristic) name:@"CallbackData" object:nil];
     //    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(aaaaaa) name:@"CallbackData" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(handleViewController) name:@"NotifyCharacteristic" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(powerOff_BLE) name:@"BLE_PowerOff" object:nil];
@@ -212,7 +212,7 @@
 
 - (IBAction)changeBoxSize:(id)sender {
     [dt205 cmdSetSensorType:[sender isOn]];
-    [NSTimer scheduledTimerWithTimeInterval:0.5
+    [NSTimer scheduledTimerWithTimeInterval:1
                                      target:self
                                    selector:@selector(cmdUpdateSettingChanges)
                                    userInfo:nil
@@ -221,7 +221,7 @@
 
 - (IBAction)alarmEanble:(id)sender {
     [dt205 cmdSetAlarm:[sender isOn]];
-    [NSTimer scheduledTimerWithTimeInterval:0.5
+    [NSTimer scheduledTimerWithTimeInterval:1
                                      target:self
                                    selector:@selector(cmdUpdateSettingChanges)
                                    userInfo:nil
@@ -241,99 +241,8 @@
 -(void)handleViewController{
     self.statusView.backgroundColor = [UIColor greenColor];
     //    self.statusLabel.text = @"Connect";
-    
-    
-    
-    if (use_Wifi) {
-        
-        NSString* udpbracoast = @"Y";
-        NSData* commandData = [udpbracoast dataUsingEncoding:NSUTF8StringEncoding];
-        //        [udpSocket sendData:commandData toHost:@"255.255.255.255" port:65535 withTimeout:-1 tag:1];
-        
-        //        [tcpScoket connectToHost:self.device_IP Port:self.device_Port];
-        //        [tcpScoket writeData:[command sendCommed:DEVICE_GET_NAME]];
-    }else{
-        if (dt205 != nil) {
-            //            [dt205 startToScanBLEDevice];
-        }
-        //         [dt205 cmdUpdateSettingChanges];
-        //        [ble_Helper writeValue:[command sendCommed:DEVICE_GET_NAME]];
-    }
-    
 }
--(void)recieveUpdateValueFromCharacteristic{
-    
-    NSString* displayLabel;
-    
-    if (use_Wifi) {
-        //        displayLabel = [[NSString alloc]initWithData:command.callBackDataBuffer encoding:NSUTF8StringEncoding];
-    }else{
-        //        displayLabel = [[NSString alloc]initWithData:ble_Helper.callBackDataBuffer encoding:NSUTF8StringEncoding];
-        displayLabel = @"";
-    }
-    
-    NSLog(@"Gianni recieveUpdateValueFromCharacteristic displayLabel: %@", displayLabel);
-    if ([displayLabel isEqualToString:@"*c00"]) {
-        [self.cashDrawerButton.layer removeAllAnimations];
-        [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Close"] forState:UIControlStateNormal];
-        [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
-        isCommandOpenCashDrawer = false;
-        if (audioPlayerManager != nil) {
-            [audioPlayerManager stop];
-        }
-        return;
-    }else if ([displayLabel isEqualToString:@"*c01"]){
-        [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
-        if (!isCommandOpenCashDrawer) {
-            [self doAlarmAnimation];
-            [localNotificationHelper pushLocalNotificationMessageTitle:@"Notice" Body:@"Cash drawer is opened illegal"];
-        }else{
-            [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
-            [audioPlayerManager playSoundsName:@"CashDrawerOpen.wav" Repeat:1];
-        }
-        return;
-    }else if ([displayLabel isEqualToString:@"A,00"]){
-        [self.cashDrawerButton.layer removeAllAnimations];
-        [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Close"] forState:UIControlStateNormal];
-        [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
-        isCommandOpenCashDrawer = false;
-        if (audioPlayerManager != nil) {
-            [audioPlayerManager stop];
-        }
-        return;
-    }else if ([displayLabel isEqualToString:@"A,01"]){
-        [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
-        if (!isCommandOpenCashDrawer) {
-            [self doAlarmAnimation];
-            [localNotificationHelper pushLocalNotificationMessageTitle:@"Notice" Body:@"Cash drawer is opened illegal"];
-        }else{
-            [[self.cashDrawerButton layer]setBorderColor:[UIColor greenColor].CGColor];
-            [audioPlayerManager playSoundsName:@"CashDrawerOpen.wav" Repeat:1];
-        }
-        return;
-    }else if ([displayLabel isEqualToString:@"*r01"]){
-        [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
-        [self doAlarmAnimation];
-        [localNotificationHelper pushLocalNotificationMessageTitle:@"Notice" Body:@"Cash drawer is opened illegal"];
-        
-        return;
-    }else if ([displayLabel isEqualToString:@"*a01"]){
-        [self.cashDrawerButton setImage:[UIImage imageNamed:@"CashDrawer Open"] forState:UIControlStateNormal];
-        [self doAlarmAnimation];
-        [localNotificationHelper pushLocalNotificationMessageTitle:@"Notice" Body:@"Cash drawer is opened illegal"];
-        
-        return;
-    }else if ([displayLabel containsString:@"A,ROM"]) {
-        NSString* display = [displayLabel substringFromIndex:2];
-        NSString* version = [NSString stringWithFormat:@"F/W Version:%@",display];
-        self.deviceVersionLabel.text = version;
-        return;
-    }else if ([displayLabel containsString:@"A,DT"]){
-        NSString* name = [displayLabel substringFromIndex:2];
-        self.deviceNameLabel.text = name;
-        return;
-    }
-}
+
 -(void)doAlarmAnimation{
     CABasicAnimation* borderColorAnimation = [CABasicAnimation animationWithKeyPath:@"borderColor"];
     borderColorAnimation.fromValue = (id)[UIColor clearColor].CGColor;
@@ -358,9 +267,9 @@
 }
 -(void)didCMD_General_Success:(NSString*) CMDName{
     NSLog(@"didCMD_General_Success CMDName = %@", CMDName);
-    if ([CMDName isEqualToString:@"CtrlTriggerToOpen"]) {
-        [dt205 cmdGetCashDrawerStatus];
-    }
+//    if ([CMDName isEqualToString:@"CtrlTriggerToOpen"]) {
+//        [dt205 cmdGetCashDrawerStatus];
+//    }
 }
 -(void)didCMD_General_ERROR:(NSString*) CMDName errMassage:(NSString*) errMassage{
     
@@ -371,7 +280,24 @@
 -(void)didCMD_FW_Ver:(NSString*)fwName fwVer:(NSString*)fwVer{
     NSLog(@"didCMD_FW_Ver fwName = %@", fwName);
     strFWVersion = fwName;
+    
+    [NSTimer scheduledTimerWithTimeInterval:1
+                                     target:self
+                                   selector:@selector(cmdGetSensorType)
+                                   userInfo:nil
+                                    repeats:NO];
+}
+
+-(void)cmdGetSensorType{
     [dt205 cmdGetSensorType];
+}
+
+-(void)cmdGetAlarm{
+    [dt205 cmdGetAlarm];
+}
+
+-(void)cmdGetCashDrawerStatus{
+    [dt205 cmdGetCashDrawerStatus];
 }
 -(void)didCMD_GetCashDrawerStatus:(bool) isOpen{
     NSLog(@"didCMD_GetCashDrawerStatus isOpen = %@", isOpen?@"Y":@"N");
@@ -390,12 +316,20 @@
 -(void)didCMD_GetSensorType:(bool) isNormal{
     NSLog(@"didCMD_GetSensorType isNormal = %@", isNormal?@"Y":@"N");
     [_swSensorType setOn:isNormal];
-    [dt205 cmdGetAlarm];
+    [NSTimer scheduledTimerWithTimeInterval:1
+                                     target:self
+                                   selector:@selector(cmdGetAlarm)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 -(void)didCMD_GetSensorEnable:(bool) isEnable{
     NSLog(@"didCMD_GetSensorEnable isNormal = %@", isEnable?@"Y":@"N");
     [_swSensorEanble setOn:isEnable];
-    [dt205 cmdGetCashDrawerStatus];
+    [NSTimer scheduledTimerWithTimeInterval:1
+                                     target:self
+                                   selector:@selector(cmdGetCashDrawerStatus)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
 
@@ -403,6 +337,7 @@
 
 - (void)didEvent_OpenAlert:(bool)isOpen{
     NSLog(@"didEvent_OpenAlert isOpen = %@", isOpen?@"Y":@"N");
+    isCommandOpenCashDrawer = false;
     if (isOpen) {
         [self cashDrawerOpen];
     }else {
@@ -412,6 +347,7 @@
 
 - (void)didEvent_OpenReminding:(bool)isOpen{
     NSLog(@"didEvent_OpenReminding isOpen = %@", isOpen?@"Y":@"N");
+    isCommandOpenCashDrawer = false;
     if (isOpen) {
         [self cashDrawerOpen];
     }else {
@@ -460,7 +396,7 @@
     NSString * appBuildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     NSString * versionBuildString = [NSString stringWithFormat:@"APP Version: v%@.%@\n\nSDK Version: v%@", appVersionString, appBuildString, [dt205 getSDKVersion]];
 
-    NSString * strFWVer = [NSString stringWithFormat:@"Rom Version:%@", strFWVersion];
+    NSString * strFWVer = [NSString stringWithFormat:@"Firmware Version:%@", strFWVersion];
 
     NSString * strConCode = [NSString stringWithFormat:@"ContinuationCode:\n%@", strContinuationCode];
     NSString * message =  [NSString stringWithFormat:@"\n%@\n\n%@\n\n%@", versionBuildString, strFWVer, strConCode];

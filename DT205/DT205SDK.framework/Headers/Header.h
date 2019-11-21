@@ -78,8 +78,8 @@
 
 #define  DT205_EVENT                    '*' //(0x2A)
 #define  DT205_EVENT_CASHDRAWERSTATUS   'c' //(0x63)
-#define  DT205_EVENT_OPENALERT          'r' //(0x72)
-#define  DT205_EVENT_OPENREMINDING      'a' //(0x61)
+#define  DT205_EVENT_OPENALERT          'a' //(0x61)
+#define  DT205_EVENT_OPENREMINDING      'r' //(0x72)
 
 
 

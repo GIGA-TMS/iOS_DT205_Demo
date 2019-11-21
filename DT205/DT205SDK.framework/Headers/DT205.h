@@ -26,33 +26,35 @@
 -(NSMutableDictionary*) getAllBLEDevice;
 
 #pragma mark - Authenticate Command
--(void)cmdLogin:(NSString*) passward;
+-(void)Login:(NSString*) pin;
+-(void)Login:(NSString*) pin :(NSString*) continuationCode;
+-(void)Binding:(NSString*) pin;
+-(void)Unbinding;
 
--(void)cmdBinding:(NSString*) newPassward;
--(void)cmdBindingbyByte:(NSString*) random pwd:(NSString*) PWDBuff;
--(void)cmdUubinding;
-
--(void)cmdLogout;
--(void)cmdPolling;
+-(void)Logout;
+-(void)Polling;
 #pragma mark - General Command
 
--(void)cmdGetFWVersion;
--(void)cmdCtrlTriggerToOpen;
--(void)cmdCtrlResetTriggerCounter;
--(void)cmdGetCashDrawerStatus;
--(void)cmdGetUsageCounterInRawMode;
--(void)cmdGetUsageCounter;
--(void)cmdSetSensorType:(bool)isNormal;
--(void)cmdSetAlarm:(bool)isEnable;
+-(void)GetFirmwareVersion;
+-(void)TriggerToOpenDrawer;
+-(void)ResetTriggerCounter;
+-(void)GetCashDrawerStatus;
+-(void)GetUsageCounterInRawMode;
+-(void)GetTriggerCounter;
+-(void)SetSensorType:(bool)isNormal;
+-(void)SetAlarm:(bool)isEnable;
 
--(void)cmdGetSensorType;
--(void)cmdGetAlarm;
+-(void)GetSensorType;
+-(void)GetAlarm;
+
+-(BOOL)setRemindTimeout:(int) second;
+-(void)getRemindTimeout;
 
 
--(void)cmdUpdateSetting;
+-(void)UpdateSettingChanges;
 
--(void)cmdGetDeviceName;
--(void)cmdSetDeviceName:(NSString*)devName;
--(void)createContinuationCode;
+-(void)GetDeviceName;
+-(void)SetDeviceName:(NSString*)devName;
+-(void)GetContinuationCode;
 
 @end
